@@ -1,6 +1,9 @@
 #include "Conversion.h"
 
+Conversion::Conversion()
+{
 
+}
 
 Conversion::Conversion(float scale, float scaledWidth, float scaledHeight)
 {
@@ -36,6 +39,11 @@ float Conversion::degreesToRadians(float degrees)
 float Conversion::radiansToDegrees(float radians) 
 {
 	return radians * 180 / m_PI;
+}
+
+float Conversion::getPI()
+{
+	return m_PI;
 }
 
 Conversion::~Conversion()
