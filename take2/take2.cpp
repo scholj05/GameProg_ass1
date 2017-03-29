@@ -206,7 +206,7 @@ int main()
 					particleBody->SetUserData(&colour);
 				}
 
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+				if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
 				{
 					b2Vec2 mouse = b2Vec2(convert.canvasXToBox2D(sf::Mouse::getPosition(window).x), convert.canvasYToBox2D(sf::Mouse::getPosition(window).y));
 					b2PolygonShape particle;
