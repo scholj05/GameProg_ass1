@@ -32,13 +32,34 @@ float Conversion::box2DXToCanvas(float x)
 {
 	return (x + (scaledWidth / 2.0f)) / scale;
 }
+
 float Conversion::degreesToRadians(float degrees)
 {
 	return degrees * m_PI / 180;
 }
-float Conversion::radiansToDegrees(float radians) 
+
+float Conversion::radiansToDegrees(float radians)
 {
 	return radians * 180 / m_PI;
+}
+
+int Conversion::getRandomInt(int min, int max)
+{
+	generator = std::mt19937(rd());
+	distributeInt = std::uniform_int_distribution<int>(min, max);
+	return distributeInt(generator);
+}
+
+float Conversion::getRandomFloat(float min, float max)
+{
+	generator = std::mt19937(rd());
+	distributeFloat = std::uniform_real_distribution<float>(min, max);
+	return distributeFloat(generator);
+}
+
+float Conversion::getScale()
+{
+	return scale;
 }
 
 float Conversion::getPI()

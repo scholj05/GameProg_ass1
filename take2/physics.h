@@ -27,21 +27,19 @@ private:
 	b2Vec2 m_square[4];
 	b2Vec2 m_triangle[3];
 
-	bool data = true;
+	bool m_debug;
 
 public:
-	Shape();
+	Shape(bool debug);
 	Shape(b2World & world);
 	void ShapeSetWorld(b2World & world);
 	b2Body* GetBody(); // Get Box2d body
 	sf::Shape & GetShape();
 	void update(); // Get SFML shape
-	void ResetPosition(b2World & world); 
+	void ResetPosition(b2World & world);
 	void jump(float angle);
 	~Shape();
 
-	///redundant
-	Shape(b2World & world, b2BodyType bodyType, b2Vec2 position, float radius, int verticeCount, float Density, float Friction, float Restitution);
 
 	///creates symmetrical by plotting evenly spaces points on a circle's circumference
 	b2PolygonShape calculateShape(b2Vec2 position, float radius, int verticeCount);
@@ -49,14 +47,16 @@ public:
 	///Currently takes canvas inputs rather than converted inputs due to calculations needing to be done before conversion
 	b2PolygonShape calculateRectangle(b2Vec2 position, float width, float height);
 
+	b2PolygonShape calculateRandomShape(b2Vec2 position);
+
 	///returns the correct predefined-length array
 	b2Vec2 * getb2Vec2(int length);
 
 	///adds the 3 parameters to bodyFixture and returns the updated fixture. purely for cleaning up main method
 	b2FixtureDef setFixture(float Density, float Friction, float Restitution);
 
-	///redundant
-	void addToWorld(b2World & world);
+	///for debug printout toggle
+	void setDebug(bool debug);
 
 
 };
