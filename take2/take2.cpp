@@ -34,7 +34,7 @@ int main()
 
 	///Box2D value declaration
 	b2Vec2 gravity(0.0f, -9.8f);///define gravity
-	float TIMESTEP = 1.0f / 96.0f;///step per frame @ 60FPS
+	float TIMESTEP = 1.0f / 60.0f;///step per frame @ 60FPS
 	int VELOCITY = 4;///iterations of velocity update per step
 	int POSITION = 10;///iterations of position update per step
 	b2World * world = new b2World(gravity);///define world
@@ -44,7 +44,7 @@ int main()
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
 	sf::RenderWindow window(sf::VideoMode(1000, 1000), "Take 2: more successful than take 1");
-	window.setFramerateLimit(96); /// control how fast the screen is refreshed (fps)
+	window.setFramerateLimit(60); /// control how fast the screen is refreshed (fps)
 
 
 	sf::Font font;
