@@ -193,7 +193,7 @@ int main()
 					b2PolygonShape particle;
 					particle = shape.calculateRandomShape(mouse);
 
-					b2FixtureDef particleFixture = shape.setFixture(1, 0.3, 0.5);
+					b2FixtureDef particleFixture = shape.setFixture(1, 0.3, 1);
 					particleFixture.shape = &particle;
 
 					b2BodyDef particleBodyDef;
