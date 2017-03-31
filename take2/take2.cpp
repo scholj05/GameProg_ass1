@@ -48,7 +48,7 @@ int main()
 
 
 	sf::Font font;
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile("../resources/arial.ttf"))
 	{
 		std::cout << "Could not load arial.ttf font" << std::endl;
 	}
@@ -56,7 +56,7 @@ int main()
 	float lastTime = 0;
 	sf::Text fpsText;
 	fpsText.setFont(font);
-	fpsText.setCharacterSize(10);
+	fpsText.setCharacterSize(20);
 	fpsText.setColor(sf::Color::White);
 	fpsText.setPosition(12, 0);
 
@@ -193,7 +193,7 @@ int main()
 					b2PolygonShape particle;
 					particle = shape.calculateRandomShape(mouse);
 
-					b2FixtureDef particleFixture = shape.setFixture(1, 0.3, 1);
+					b2FixtureDef particleFixture = shape.setFixture(1, 0.3, 0.75);
 					particleFixture.shape = &particle;
 
 					b2BodyDef particleBodyDef;
