@@ -1,11 +1,14 @@
 #include "physics.h"
+CreateShape::CreateShape()
+{
+}
 
-Shape::Shape(bool debug)
+CreateShape::CreateShape(bool debug)
 {
 	m_debug = debug;
 }
 
-b2PolygonShape Shape::calculateShape(b2Vec2 position, float radius, int verticeCount)
+b2PolygonShape CreateShape::calculateShape(b2Vec2 position, float radius, int verticeCount)
 {
 	b2PolygonShape tempShape;
 
@@ -32,15 +35,15 @@ b2PolygonShape Shape::calculateShape(b2Vec2 position, float radius, int verticeC
 		float tempY = position.y + radius * sin(m_angle);
 
 		verticeArray[i] = b2Vec2(tempX, tempY);
-		if (m_debug)
-			std::cout << verticeArray[i].x << ", " << verticeArray[i].y << std::endl;///debug
+		//if (m_debug)
+			//std::cout << verticeArray[i].x << ", " << verticeArray[i].y << std::endl;///debug
 	}
 	/// set the empty shape to the array of vertices and return it.
 	tempShape.Set(verticeArray, m_verticeCount);
 	return tempShape;
 }
 
-b2PolygonShape Shape::calculateRectangle(b2Vec2 position, float width, float height)
+b2PolygonShape CreateShape::calculateRectangle(b2Vec2 position, float width, float height)
 {
 	b2PolygonShape tempShape;
 	b2Vec2 tempArray[4] =
@@ -61,7 +64,7 @@ b2PolygonShape Shape::calculateRectangle(b2Vec2 position, float width, float hei
 	return tempShape;
 }
 
-b2PolygonShape Shape::calculateRandomShape(b2Vec2 position)
+b2PolygonShape CreateShape::calculateRandomShape(b2Vec2 position)
 {
 	b2PolygonShape tempShape;
 
@@ -75,7 +78,7 @@ b2PolygonShape Shape::calculateRandomShape(b2Vec2 position)
 }
 
 /// returns a b2Vec2 array of length equal to input parameter.
-b2Vec2 * Shape::getb2Vec2(int length)
+b2Vec2 * CreateShape::getb2Vec2(int length)
 {
 	b2Vec2* myVec;
 	if (length == 3)
@@ -98,7 +101,7 @@ b2Vec2 * Shape::getb2Vec2(int length)
 	return myVec;
 }
 
-b2FixtureDef Shape::setFixture(float Density, float Friction, float Restitution)
+b2FixtureDef CreateShape::setFixture(float Density, float Friction, float Restitution)
 {
 	b2FixtureDef m_fixture;
 	m_fixture.density = Density;
@@ -108,11 +111,16 @@ b2FixtureDef Shape::setFixture(float Density, float Friction, float Restitution)
 }
 
 
-void Shape::setDebug(bool debug)
+void CreateShape::setDebug(bool debug)
 {
 	m_debug = debug;
 }
 
-Shape::~Shape()
+void CreateShape::testMethod(b2World * world)
+{
+	std::cout << "debug sleep allowed: " << world->GetAllowSleeping() << std::endl;
+}
+
+CreateShape::~CreateShape()
 {
 }

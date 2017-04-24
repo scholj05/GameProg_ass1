@@ -19,6 +19,7 @@ public:
 	float canvasXToBox2D(float x);
 	float box2DYToCanvas(float y);
 	float box2DXToCanvas(float x);
+	float scaleNumber(float n) { return n * scale; };
 	float degreesToRadians(float degrees);
 	float radiansToDegrees(float radians);
 

@@ -1,3 +1,4 @@
+#pragma once
 #include <list>
 #include <cmath>
 #include <iostream>
@@ -8,7 +9,8 @@
 #include "Conversion.h"
 
 
-class Shape
+
+class CreateShape
 {
 private:
 	b2World * m_world;
@@ -30,15 +32,9 @@ private:
 	bool m_debug;
 
 public:
-	Shape(bool debug);
-	Shape(b2World & world);
-	void ShapeSetWorld(b2World & world);
-	b2Body* GetBody(); // Get Box2d body
-	sf::Shape & GetShape();
-	void update(); // Get SFML shape
-	void ResetPosition(b2World & world);
-	void jump(float angle);
-	~Shape();
+	CreateShape();
+	CreateShape(bool debug);
+	~CreateShape();
 
 
 	///creates symmetrical by plotting evenly spaces points on a circle's circumference
@@ -57,6 +53,8 @@ public:
 
 	///for debug printout toggle
 	void setDebug(bool debug);
+
+	void testMethod(b2World * world);
 
 
 };
