@@ -1,4 +1,5 @@
 #define _USE_MATH_DEFINES
+
 #include <cmath>
 #include <iostream>
 #include <random>
@@ -10,6 +11,7 @@
 #include "Conversion.h"
 #include "physics.h"
 #include "Level.h"
+#include "MyShape.h"
 
 //	Main class runs the game loop and handles events/inputs.
 //
@@ -90,8 +92,23 @@ void Cleanup()
 
 int main()
 {
+	sf::Font font;
+	if (!font.loadFromFile("../resources/arial.ttf"))
+	{
+		std::cout << "Could not load arial.ttf font" << std::endl;
+	}
+	sf::Clock clock;
+	float lastTime = 0;
+	sf::Text fpsText;
+	fpsText.setFont(font);
+	fpsText.setCharacterSize(20);
+	fpsText.setPosition(12, 0);
+
+
 	CreateShape m_shape;
 	Level level;
+	std::list<MyShape*>shapeList;
+
 	///Box2D value declaration
 	b2Vec2 gravity(0.0f, -9.8f);///define gravity
 	float TIMESTEP = 1.0f / 60.0f;///step per frame @ 60FPS
@@ -108,21 +125,11 @@ int main()
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
 	sf::View view(sf::Vector2f(float(window.getSize().x / 2), float(window.getSize().y / 2)), screenSize);
 	sf::View UI(window.getDefaultView());
-	window.setView(view);
+	window.setView(view); //apply the view to the window
 	window.setFramerateLimit(60); // control how fast the screen is refreshed (fps)
 	float zoomAmount = 1.1f; //used for zoom adjustment. 1.1 = 10%
 
-	sf::Font font;
-	if (!font.loadFromFile("../resources/arial.ttf"))
-	{
-		std::cout << "Could not load arial.ttf font" << std::endl;
-	}
-	sf::Clock clock;
-	float lastTime = 0;
-	sf::Text fpsText;
-	fpsText.setFont(font);
-	fpsText.setCharacterSize(20);
-	fpsText.setPosition(12, 0);
+	
 
 	///setup conversion class
 	scaledWidth = scale * (window.getSize().x);
@@ -132,10 +139,11 @@ int main()
 	///Define shapes and add to b2World
 	level.Level1(world, &convert, &m_shape);
 	
-	
+	bool makeNewShape = false;
 	///Game loop
 	while (window.isOpen())
 	{
+		//world->Step(TIMESTEP, VELOCITY, POSITION);
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -143,8 +151,15 @@ int main()
 			{
 				window.close();
 			}
+			if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				makeNewShape = true;
+				
+			}
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+				
+				/*////spawn dynamic object at mouse location (old draw method)
 				sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
 				sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
 				b2Vec2 mouse = b2Vec2(convert.canvasXToBox2D(worldPos.x), convert.canvasYToBox2D(worldPos.y));
@@ -161,11 +176,13 @@ int main()
 				particleBody->CreateFixture(&particleFixture);
 
 				sf::Color colour = sf::Color::Red;//sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));
-				particleBody->SetUserData(&colour);
+				particleBody->SetUserData(&colour);*/
 			}
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
 			{
+				
+				/*/////spawn static object at mouse location (old draw method)
 				sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
 				sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
 				b2Vec2 mouse = b2Vec2(convert.canvasXToBox2D(worldPos.x), convert.canvasYToBox2D(worldPos.y));
@@ -181,8 +198,9 @@ int main()
 				b2Body * particleBody = world->CreateBody(&particleBodyDef);
 				particleBody->CreateFixture(&particleFixture);
 
-				sf::Color colour = sf::Color::Red;//sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));
-				particleBody->SetUserData(&colour);
+				sf::Color * colour = new sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));// sf::Color::Red;//sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));
+				
+				particleBody->SetUserData(&colour);*/
 				
 			}
 
@@ -204,11 +222,24 @@ int main()
 
 		level.updateKinematicObjects();
 
+		if (makeNewShape && !world->IsLocked())
+		{
+			MyShape *newShape = new MyShape(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y, 0, b2BodyType::b2_dynamicBody, 50, sf::Color::White, world);
+			b2Body* m_tempB2Body = newShape->GetBody();
+			b2FixtureDef m_tempB2FixtureDef = newShape->GetFixtureDef();
+			m_tempB2Body = world->CreateBody(newShape->GetBodyDef());
+			m_tempB2Body->CreateFixture(&m_tempB2FixtureDef);
+			shapeList.push_back(newShape);
+			makeNewShape = false;
+		}
+
 		world->Step(TIMESTEP, VELOCITY, POSITION);
 
 		///clear bodies scheduled for deletion
 		//std::cout << "graveyard count: " << graveyard.size() << std::endl;
 		Cleanup();
+
+		
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			m_shape.testMethod(world);
@@ -228,7 +259,7 @@ int main()
 				{
 					b2PolygonShape* poly = (b2PolygonShape*)fixture->GetShape();
 
-					if (body->GetType() == b2BodyType::b2_dynamicBody) // draw shape using a sprite
+					/*if (body->GetType() == b2BodyType::b2_dynamicBody) // draw shape using a sprite
 					{
 						//if (!(level.getworldBoundary().contains(sf::Vector2f(convert.box2DXToCanvas(body->GetPosition().x), convert.box2DYToCanvas(body->GetPosition().y)))))
 						int buffer = 1000;
@@ -253,13 +284,13 @@ int main()
 
 						else
 						{
-							sf::ConvexShape dynamic;
+							sf::ConvexShape * dynamic = new sf::ConvexShape;
 							//dynamic.setOutlineColor(sf::Color::White);
 							sf::Color * tempColour = new sf::Color;
 							tempColour = (sf::Color*)body->GetUserData();
-							dynamic.setFillColor(*tempColour);
-							dynamic.setOutlineThickness(1.0f);
-							dynamic.setPointCount(poly->GetVertexCount());
+							dynamic->setFillColor(*tempColour);
+							dynamic->setOutlineThickness(1.0f);
+							dynamic->setPointCount(poly->GetVertexCount());
 
 							for (int32 i = 0; i < poly->GetVertexCount(); i++)
 							{
@@ -269,14 +300,15 @@ int main()
 								float x = convert.box2DXToCanvas(world.x);
 								float y = convert.box2DYToCanvas(world.y);
 
-								dynamic.setPoint(i, sf::Vector2f(x, y));
+								dynamic->setPoint(i, sf::Vector2f(x, y));
 							}
-							window.draw(dynamic);
+							window.draw(*dynamic);
+							delete dynamic;
 						}
 
 
 					}
-					else // draw shape using a vertexes
+					else // draw shape using a vertexes*/if (body->GetType() == b2BodyType::b2_staticBody)
 					{
 						sf::ConvexShape convex;
 						convex.setOutlineColor(sf::Color::White);
@@ -302,6 +334,11 @@ int main()
 				fixture = fixture->GetNext();
 			}
 			body = body->GetNext();
+		}
+		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
+		{
+			(*it)->Update();
+			(*it)->Draw(window);
 		}
 
 		float currentTime = clock.restart().asSeconds();
