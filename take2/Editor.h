@@ -14,9 +14,11 @@ class Editor{
 	private:
 
 
+
 	public:
 		void Editor::editor();
-
+		pugi::xml_document m_doc;
+		void save();
 
 	};
 

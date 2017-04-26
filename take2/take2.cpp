@@ -12,6 +12,7 @@
 #include "physics.h"
 #include "Level.h"
 #include "MyShape.h"
+#include "Editor.h"
 
 //	Main class runs the game loop and handles events/inputs.
 //
@@ -21,7 +22,8 @@
 //	Conversion class converts SFML world coordinates and degrees 
 //	to Box2D world coordinates and radians.
 
-
+Editor editor;
+bool checkKeyPressed = false;
 bool m_debug = false;
 float scale = 0.01;
 float scaledWidth;
@@ -135,7 +137,7 @@ int main()
 	window.setView(view); //apply the view to the window
 	window.setFramerateLimit(60); // control how fast the screen is refreshed (fps)
 	float zoomAmount = 1.1f; //used for zoom adjustment. 1.1 = 10%
-
+	window.setKeyRepeatEnabled(false);
 	sf::RectangleShape UIBox = CreateUIElements(window);
 
 	///setup conversion class
@@ -163,6 +165,16 @@ int main()
 				makeNewShape = true;
 				
 			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::F11)
+				{
+					std::cout << "Test" << std::endl;
+
+				}
+			}
+			
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				
