@@ -169,7 +169,8 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::F11)
 				{
-					std::cout << "Test" << std::endl;
+					std::cout << "Open Save Menu" << std::endl;
+					editor.save();
 
 				}
 			}

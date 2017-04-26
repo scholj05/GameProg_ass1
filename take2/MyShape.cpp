@@ -86,7 +86,7 @@ void MyShape::Update()
 void MyShape::Draw(sf::RenderWindow & window)
 {
 	b2Vec2 b2Pos(m_b2body->GetPosition());
-	std::cout <<"ball pos: " << b2Pos.x << ", " << b2Pos.y << std::endl;
+	//std::cout <<"ball pos: " << b2Pos.x << ", " << b2Pos.y << std::endl;
 	m_sfcircleShape.setPosition(m_convert->box2DXToCanvas(b2Pos.x), m_convert->box2DYToCanvas(b2Pos.y));
 	window.draw(m_sfcircleShape);
 	/*if (m_isCircle)
