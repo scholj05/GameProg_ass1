@@ -7,8 +7,13 @@
 class MyShape
 {
 private:
+	float m_radius;
+	b2BodyType m_bodyType;
+	float m_posX, m_posY;
+	sf::Color m_colour;
+	
 	CreateShape m_createShape;
-	Conversion m_convert;
+	Conversion * m_convert;
 
 	//b2World * m_world;
 	b2Body * m_b2body;
@@ -17,13 +22,12 @@ private:
 	b2PolygonShape m_b2polyShape;
 	b2CircleShape m_b2circleShape;
 
-	sf::ConvexShape * m_sfconvexShape;
-	sf::CircleShape * m_sfcircleShape;
+	sf::CircleShape m_sfcircleShape;
 
 	bool m_isCircle;
 
 public:
-	MyShape(float posX, float posY, int sides, b2BodyType bodyType, int size, sf::Color colour, b2World * m_world);
+	MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Color colour, b2World * m_world, Conversion &convert);
 	
 //	b2Body GetBody() { return *m_b2body; };
 //	b2BodyDef GetBodyDef() { return *m_b2bodyDef; };

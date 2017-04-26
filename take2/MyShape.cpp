@@ -2,19 +2,38 @@
 
 
 
-MyShape::MyShape(float posX, float posY, int sides, b2BodyType bodyType, int size, sf::Color colour, b2World* m_world)
+MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Color colour, b2World* world, Conversion &convert)
 {
-	//get converted numbers for the b2 objects
-	b2Vec2 b2Position(m_convert.canvasXToBox2D(posX), m_convert.canvasYToBox2D(posY));
-	float b2Size(m_convert.scaleNumber(size));
-	//default values, can be changed by setFixture method afterwards.
-	m_b2fixtureDef.density = 1;
-	m_b2fixtureDef.friction = 1;
-	m_b2fixtureDef.restitution = 1;
+	m_b2body = NULL;
+	m_radius = size;
+	m_bodyType = bodyType;
+	m_posX = posX, m_posY = posY;
+	m_colour = colour;
+	m_convert = &convert;
 
-	m_b2bodyDef->type = bodyType;
-	m_b2bodyDef->position.Set(posX, posY);
 
+	//set up dynamic body, store in class variable
+	b2BodyDef myBodyDef;
+	myBodyDef.type = b2_dynamicBody;
+	myBodyDef.position.Set(m_convert->canvasXToBox2D(posX), m_convert->canvasYToBox2D(posY));
+	m_b2body = world->CreateBody(&myBodyDef);
+
+	//add circle fixture
+	b2CircleShape circleShape;
+	circleShape.m_p.Set(0, 0);
+	circleShape.m_radius = m_convert->scaleNumber(m_radius); //use class variable
+	b2FixtureDef myFixtureDef;
+	myFixtureDef.shape = &circleShape;
+	myFixtureDef.density = 1;
+	m_b2body->CreateFixture(&myFixtureDef);
+
+	//set up sf circle to match the box2d circleShape
+	m_sfcircleShape.setPosition(m_posX, m_posY);
+	m_sfcircleShape.setFillColor(m_colour);
+	m_sfcircleShape.setRadius(m_radius);
+	m_sfcircleShape.setOrigin(m_radius / 2, m_radius / 2);
+
+	/*
 	if (sides == 0)
 	{
 		m_isCircle = true;
@@ -41,7 +60,7 @@ MyShape::MyShape(float posX, float posY, int sides, b2BodyType bodyType, int siz
 		}
 		m_sfconvexShape->setOrigin(size / 2, size / 2);
 		m_sfconvexShape->setFillColor(colour);
-	}
+	}*/
 }
 
 
@@ -49,7 +68,8 @@ MyShape::MyShape(float posX, float posY, int sides, b2BodyType bodyType, int siz
 
 void MyShape::Update()
 {
-	if (m_isCircle)
+	
+	/*if (m_isCircle)
 	{
 		m_sfcircleShape->setPosition(m_b2body->GetPosition().x, m_b2body->GetPosition().y);
 	}
@@ -59,16 +79,20 @@ void MyShape::Update()
 		{
 			m_sfconvexShape->setPoint(i, sf::Vector2f(m_convert.box2DXToCanvas(m_b2polyShape.GetVertex(float(i)).x), m_convert.box2DYToCanvas(m_b2polyShape.GetVertex(float(i)).y)));
 		}
-	}
+	}*/
 	
 }
 
 void MyShape::Draw(sf::RenderWindow & window)
 {
-	if (m_isCircle)
+	b2Vec2 b2Pos(m_b2body->GetPosition());
+	std::cout <<"ball pos: " << b2Pos.x << ", " << b2Pos.y << std::endl;
+	m_sfcircleShape.setPosition(m_convert->box2DXToCanvas(b2Pos.x), m_convert->box2DYToCanvas(b2Pos.y));
+	window.draw(m_sfcircleShape);
+	/*if (m_isCircle)
 		window.draw(*m_sfcircleShape);
 	else
-		window.draw(*m_sfconvexShape);
+		window.draw(*m_sfconvexShape);*/
 }
 
 
