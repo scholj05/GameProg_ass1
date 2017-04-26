@@ -89,7 +89,14 @@ void Cleanup()
 	}
 	graveyard.clear();
 }
-
+//std::list<void*> UIList;
+sf::RectangleShape CreateUIElements(sf::RenderWindow &window)
+{
+	sf::RectangleShape topBar(sf::Vector2f(window.getSize().x, window.getSize().y / 10));
+	topBar.setPosition(0.f, 0.f);
+	topBar.setFillColor(sf::Color::White);
+	return topBar;
+}
 int main()
 {
 	sf::Font font;
@@ -129,7 +136,7 @@ int main()
 	window.setFramerateLimit(60); // control how fast the screen is refreshed (fps)
 	float zoomAmount = 1.1f; //used for zoom adjustment. 1.1 = 10%
 
-	
+	sf::RectangleShape UIBox = CreateUIElements(window);
 
 	///setup conversion class
 	scaledWidth = scale * (window.getSize().x);
@@ -351,6 +358,7 @@ int main()
 		fpsText.setPosition(textPos);
 		sf::View currentView = window.getView();
 		window.setView(window.getDefaultView());
+		window.draw(UIBox);
 		window.draw(fpsText);
 		window.setView(currentView);
 		window.display();
