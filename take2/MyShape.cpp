@@ -11,12 +11,13 @@ MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Colo
 	m_colour = colour;
 	m_convert = &convert;
 
-
 	//set up dynamic body, store in class variable
 	b2BodyDef myBodyDef;
 	myBodyDef.type = b2_dynamicBody;
 	myBodyDef.position.Set(m_convert->canvasXToBox2D(posX), m_convert->canvasYToBox2D(posY));
+	m_previousPosition = myBodyDef.position;
 	m_b2body = world->CreateBody(&myBodyDef);
+
 
 	//add circle fixture
 	b2CircleShape circleShape;
@@ -24,14 +25,17 @@ MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Colo
 	circleShape.m_radius = m_convert->scaleNumber(m_radius); //use class variable
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.shape = &circleShape;
-	myFixtureDef.density = 1;
+	myFixtureDef.density = 2;
+	myFixtureDef.friction = 1;
+	myFixtureDef.restitution = 0.1;
+	//myFixtureDef.
 	m_b2body->CreateFixture(&myFixtureDef);
 
 	//set up sf circle to match the box2d circleShape
 	m_sfcircleShape.setPosition(m_posX, m_posY);
 	m_sfcircleShape.setFillColor(m_colour);
 	m_sfcircleShape.setRadius(m_radius);
-	m_sfcircleShape.setOrigin(m_radius / 2, m_radius / 2);
+	m_sfcircleShape.setOrigin(m_radius, m_radius);
 
 	/*
 	if (sides == 0)
@@ -63,36 +67,52 @@ MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Colo
 	}*/
 }
 
+void MyShape::Putt(int force)
+{
+	m_b2body->ApplyLinearImpulseToCenter(b2Vec2(force, 0), true);
+}
 
+void MyShape::Jump(int force)
+{
+	m_b2body->ApplyLinearImpulseToCenter(b2Vec2(0, force), true);
+}
+
+///not working atm due to calls being in same state as the reset of m_previousPosition
+bool MyShape::isMoving()
+{
+	if (m_b2body->GetPosition() != m_previousPosition)
+	{
+		m_previousPosition = m_b2body->GetPosition();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 
 void MyShape::Update()
 {
+	b2Vec2 b2BallPos(m_b2body->GetPosition());
+	//std::cout << "ball pos: " << b2BallPos.x << ", " << b2BallPos.y << std::endl;
+
+	sf::Vector2f sfBallPos(m_convert->box2DXToCanvas(b2BallPos.x), m_convert->box2DYToCanvas(b2BallPos.y));
+	m_sfcircleShape.setPosition(sfBallPos);
+	//std::cout << "ball pos: " << sfBallPos.x << ", " << sfBallPos.y << std::endl;
 	
-	/*if (m_isCircle)
-	{
-		m_sfcircleShape->setPosition(m_b2body->GetPosition().x, m_b2body->GetPosition().y);
-	}
-	else
-	{
-		for (int i = 0; i < m_b2polyShape.GetVertexCount(); i++)
-		{
-			m_sfconvexShape->setPoint(i, sf::Vector2f(m_convert.box2DXToCanvas(m_b2polyShape.GetVertex(float(i)).x), m_convert.box2DYToCanvas(m_b2polyShape.GetVertex(float(i)).y)));
-		}
-	}*/
-	
+	//m_previousPosition = b2BallPos;
 }
 
 void MyShape::Draw(sf::RenderWindow & window)
 {
-	b2Vec2 b2Pos(m_b2body->GetPosition());
-	std::cout <<"ball pos: " << b2Pos.x << ", " << b2Pos.y << std::endl;
-	m_sfcircleShape.setPosition(m_convert->box2DXToCanvas(b2Pos.x), m_convert->box2DYToCanvas(b2Pos.y));
+	
 	window.draw(m_sfcircleShape);
-	/*if (m_isCircle)
-		window.draw(*m_sfcircleShape);
-	else
-		window.draw(*m_sfconvexShape);*/
+}
+
+b2Vec2 MyShape::GetBodyPosition()
+{
+	return m_b2body->GetPosition();
 }
 
 

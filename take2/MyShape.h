@@ -22,12 +22,18 @@ private:
 	b2PolygonShape m_b2polyShape;
 	b2CircleShape m_b2circleShape;
 
-	sf::CircleShape m_sfcircleShape;
+	b2Vec2 m_previousPosition;
 
-	bool m_isCircle;
+	sf::CircleShape m_sfcircleShape;
 
 public:
 	MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Color colour, b2World * m_world, Conversion &convert);
+
+	void Putt(int force);
+
+	void Jump(int force);
+
+	bool isMoving();
 	
 //	b2Body GetBody() { return *m_b2body; };
 //	b2BodyDef GetBodyDef() { return *m_b2bodyDef; };
@@ -35,6 +41,7 @@ public:
 	
 	void Update();
 	void Draw(sf::RenderWindow & window);
+	b2Vec2 GetBodyPosition();
 	~MyShape();
 };
 

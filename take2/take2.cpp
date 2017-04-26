@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <random>
-#include <sstream>
+
 
 #pragma once
 #include <SFML/Graphics.hpp>
@@ -12,6 +12,7 @@
 #include "physics.h"
 #include "Level.h"
 #include "MyShape.h"
+#include "UI.h"
 
 //	Main class runs the game loop and handles events/inputs.
 //
@@ -23,7 +24,7 @@
 
 
 bool m_debug = false;
-float scale = 0.01;
+float scale = 0.01f;
 float scaledWidth;
 float scaledHeight;
 
@@ -57,25 +58,25 @@ void checkView(sf::RenderWindow &window, sf::Vector2i mousePos)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		int amount = int(viewSize.x / 100 * scale);
-		view.move(amount, 0.0);
+		view.move(amount, 0.0f);
 	}
 	if (mousePos.x <  window.getPosition().x + movementPadding
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		int amount = int(viewSize.x / 100 * scale);
-		view.move(-amount, 0.0);
+		view.move(-amount, 0.0f);
 	}
 	if (mousePos.y > window.getSize().y + window.getPosition().y - movementPadding
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		int amount = int(viewSize.y / 100 * scale);
-		view.move(0.0, amount);
+		view.move(0.0f, amount);
 	}
 	if (mousePos.y < window.getPosition().y + movementPadding
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		int amount = int(viewSize.y / 100 * scale);
-		view.move(0.0, -amount);
+		view.move(0.0f, -amount);
 	}
 	
 	window.setView(view);
@@ -91,22 +92,29 @@ void Cleanup()
 }
 sf::RectangleShape CreateUIElements(sf::RenderWindow &window)
 {
-	sf::RectangleShape topBar(sf::Vector2f(window.getSize().x, window.getSize().y / 10));
+	sf::RectangleShape topBar(sf::Vector2f(window.getSize().x / 10, window.getSize().y));
 	topBar.setPosition(0.f, 0.f);
-	topBar.setFillColor(sf::Color(150, 150, 150));
+	topBar.setFillColor(sf::Color(150, 150, 150, 150));
 	return topBar;
 }
+
+sf::Text CreateUIText(std::string text, sf::Font font, float posX, float posY, int fontSize)
+{
+	sf::Text tempText;
+	tempText.setFont(font);
+	tempText.setCharacterSize(fontSize);
+	tempText.setPosition(posX, posY);
+	tempText.setString(text);
+
+	return tempText;
+}
+
 int main()
 {
-	sf::Font font;
-	if (!font.loadFromFile("../resources/arial.ttf"))
-	{
-		std::cout << "Could not load arial.ttf font" << std::endl;
-	}
-	sf::Clock clock;
+	sf::Clock fpsClock, updateUIClock;
 	float lastTime = 0;
 	sf::Text fpsText;
-	fpsText.setFont(font);
+	//fpsText.setFont(font);
 	fpsText.setCharacterSize(20);
 	fpsText.setPosition(12, 0);
 
@@ -121,31 +129,33 @@ int main()
 	int VELOCITY = 2;///iterations of velocity update per step
 	int POSITION = 2;///iterations of position update per step
 	b2World * world = new b2World(gravity);///define world
-	world->SetAllowSleeping(false);///don't allow objects in box2D world to paus
+	world->SetAllowSleeping(true);///don't allow objects in box2D world to paus
 								   
 	///SFML window
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1");
+
+	//SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
-	sf::View view(sf::Vector2f(float(window.getSize().x / 2), float(window.getSize().y / 2)), screenSize);
-	sf::View UI(window.getDefaultView());
-	window.setView(view); //apply the view to the window
+	sf::View worldView(sf::Vector2f(float(window.getSize().x / 2), float(window.getSize().y / 2)), screenSize);
+	sf::View UIView(window.getDefaultView());
+	window.setView(worldView); //apply the view to the window
 	window.setFramerateLimit(60); // control how fast the screen is refreshed (fps)
 	float zoomAmount = 1.1f; //used for zoom adjustment. 1.1 = 10%
 
-	sf::RectangleShape UIBox = CreateUIElements(window);
 
 	///setup conversion class
 	scaledWidth = scale * (window.getSize().x);
 	scaledHeight = scale * (window.getSize().y);
 	Conversion convert(scale, scaledWidth, scaledHeight);
 
+	UI gameUI(window, &convert);
+	
 	///Define shapes and add to b2World
 	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
 	MyShape * myBall = new MyShape(200.f, 200.f, b2BodyType::b2_dynamicBody, 20, sf::Color::Red, world, convert);
-	bool makeNewShape = false;
+	bool isBallMoving;
 	///Game loop
 	while (window.isOpen())
 	{
@@ -157,58 +167,15 @@ int main()
 			{
 				window.close();
 			}
-			if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				makeNewShape = true;
-				
-			}
+
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				
-				/*////spawn dynamic object at mouse location (old draw method)
-				sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-				sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
-				b2Vec2 mouse = b2Vec2(convert.canvasXToBox2D(worldPos.x), convert.canvasYToBox2D(worldPos.y));
-				b2PolygonShape particle;
-				particle = m_shape.calculateRandomShape(mouse);
-				
-				b2FixtureDef particleFixture = m_shape.setFixture(1, 0.3, 0.5);
-				particleFixture.shape = &particle;
-
-				b2BodyDef particleBodyDef;
-				particleBodyDef.type = b2BodyType::b2_dynamicBody;
-
-				b2Body * particleBody = world->CreateBody(&particleBodyDef);
-				particleBody->CreateFixture(&particleFixture);
-
-				sf::Color colour = sf::Color::Red;//sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));
-				particleBody->SetUserData(&colour);*/
+				myBall->Putt(1);
 			}
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
 			{
-				
-				
-				/*/////spawn static object at mouse location (old draw method)
-				sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-				sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
-				b2Vec2 mouse = b2Vec2(convert.canvasXToBox2D(worldPos.x), convert.canvasYToBox2D(worldPos.y));
-				b2PolygonShape particle;
-				particle = m_shape.calculateRandomShape(mouse);
-
-				b2FixtureDef particleFixture = m_shape.setFixture(1, 0.3, 0.5);
-				particleFixture.shape = &particle;
-
-				b2BodyDef particleBodyDef;
-				particleBodyDef.type = b2BodyType::b2_staticBody;
-
-				b2Body * particleBody = world->CreateBody(&particleBodyDef);
-				particleBody->CreateFixture(&particleFixture);
-
-				sf::Color * colour = new sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));// sf::Color::Red;//sf::Color(convert.getRandomInt(0, 255), convert.getRandomInt(0, 255), convert.getRandomInt(0, 255));
-				
-				particleBody->SetUserData(&colour);*/
-				
+				myBall->Jump(1);
 			}
 
 			if (event.type == sf::Event::MouseWheelScrolled)
@@ -228,30 +195,23 @@ int main()
 		}
 
 		level.updateKinematicObjects();
-/*
-		if (makeNewShape && !world->IsLocked())
-		{
-			MyShape *newShape = new MyShape(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y, 0, b2BodyType::b2_dynamicBody, 50, sf::Color::White, world);
-			b2Body* m_tempB2Body = newShape->GetBody();
-			b2FixtureDef m_tempB2FixtureDef = newShape->GetFixtureDef();
-			m_tempB2Body = world->CreateBody(newShape->GetBodyDef());
-			m_tempB2Body->CreateFixture(&m_tempB2FixtureDef);
-			shapeList.push_back(newShape);
-			makeNewShape = false;
-		}*/
 
+		///call isMoving before the worldStep to check the ball location 
+		///before it gets updated and previous location reset
+		isBallMoving = myBall->isMoving();
+
+		///update the box2d world
 		world->Step(TIMESTEP, VELOCITY, POSITION);
 
 		///clear bodies scheduled for deletion
-		//std::cout << "graveyard count: " << graveyard.size() << std::endl;
 		Cleanup();
 
 		
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-			m_shape.testMethod(world);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		//	m_shape.testMethod(world);
 
-
+		/*
 		b2Body *body = world->GetBodyList();
 		while (body != NULL)
 		{
@@ -266,56 +226,7 @@ int main()
 				{
 					b2PolygonShape* poly = (b2PolygonShape*)fixture->GetShape();
 
-					/*if (body->GetType() == b2BodyType::b2_dynamicBody) // draw shape using a sprite
-					{
-						//if (!(level.getworldBoundary().contains(sf::Vector2f(convert.box2DXToCanvas(body->GetPosition().x), convert.box2DYToCanvas(body->GetPosition().y)))))
-						int buffer = 1000;
-						sf::Vector2f bodyPos(convert.box2DXToCanvas(body->GetPosition().x), convert.box2DYToCanvas(body->GetPosition().y));
-						sf::FloatRect levelBoundary = level.getworldBoundary();
-						if (bodyPos.x > levelBoundary.left + levelBoundary.width + buffer ||
-							bodyPos.x < levelBoundary.left - buffer ||
-							bodyPos.y > levelBoundary.top + levelBoundary.height + buffer ||
-							bodyPos.y < levelBoundary.top - buffer)
-						{
-							std::cout << "pos for death: " << bodyPos.x << ", " << bodyPos.y << std::endl;
-							graveyard.push_back(body);
-							
-							//get the visible area of world from the view as a float rect
-							//sf::FloatRect visibleScreen(window.mapPixelToCoords(sf::Vector2i(0, 0)), window.getView().getSize());
-							//if the visible screen rect does not contain the body, add it to the graveyard
-							//if (!visibleScreen.contains(sf::Vector2f(convert.box2DYToCanvas(body->GetPosition().x), convert.box2DYToCanvas(body->GetPosition().y))))
-							//{
-							//	graveyard.push_back(body);
-							//}
-						}
-
-						else
-						{
-							sf::ConvexShape * dynamic = new sf::ConvexShape;
-							//dynamic.setOutlineColor(sf::Color::White);
-							sf::Color * tempColour = new sf::Color;
-							tempColour = (sf::Color*)body->GetUserData();
-							dynamic->setFillColor(*tempColour);
-							dynamic->setOutlineThickness(1.0f);
-							dynamic->setPointCount(poly->GetVertexCount());
-
-							for (int32 i = 0; i < poly->GetVertexCount(); i++)
-							{
-								const b2Vec2 src = poly->GetVertex(i); // local vertex around 0,0
-								const b2Vec2 world = body->GetWorldPoint(src); // convert to a global world point
-
-								float x = convert.box2DXToCanvas(world.x);
-								float y = convert.box2DYToCanvas(world.y);
-
-								dynamic->setPoint(i, sf::Vector2f(x, y));
-							}
-							window.draw(*dynamic);
-							delete dynamic;
-						}
-
-
-					}
-					else // draw shape using a vertexes*/if (body->GetType() == b2BodyType::b2_staticBody)
+					if (body->GetType() == b2BodyType::b2_staticBody)
 					{
 						sf::ConvexShape convex;
 						convex.setOutlineColor(sf::Color::White);
@@ -341,28 +252,36 @@ int main()
 				fixture = fixture->GetNext();
 			}
 			body = body->GetNext();
-		}
+		}*/
 		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
 		{
 			(*it)->Update();
 			(*it)->Draw(window);
 		}
 
-		float currentTime = clock.restart().asSeconds();
-		int fps = 1.f / currentTime;
-		std::ostringstream buff;
-		buff << fps;
-		fpsText.setString((sf::String(buff.str())));
-		
+		myBall->Update();
 		myBall->Draw(window);
+		
+		float currentTime = fpsClock.restart().asSeconds();
+		int fps = 1.f / currentTime;
 
-		sf::Vector2f textPos = sf::Vector2f(10, 10);//window.mapPixelToCoords(sf::Vector2i(10, 10));
-		fpsText.setPosition(textPos);
-		sf::View currentView = window.getView();
-		window.setView(window.getDefaultView());
-		window.draw(UIBox);
-		window.draw(fpsText);
-		window.setView(currentView);
+		///only update the UI 8 times a second instead of 60
+		if (updateUIClock.getElapsedTime().asMilliseconds() > 125)
+		{
+			updateUIClock.restart();
+			gameUI.Update(myBall->GetBodyPosition(), myBall->isMoving(), fps);
+		}
+
+		///update world view to current view, then switch to UI view
+		worldView = window.getView();
+		window.setView(UIView);
+
+		///draw UI elements
+		//window.draw(fpsText);
+		
+		gameUI.Draw(window);
+		///switch back to the world view and display the draws
+		window.setView(worldView);
 		window.display();
 	}
 
