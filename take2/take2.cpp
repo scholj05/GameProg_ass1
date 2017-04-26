@@ -91,12 +91,11 @@ void Cleanup()
 	}
 	graveyard.clear();
 }
-//std::list<void*> UIList;
 sf::RectangleShape CreateUIElements(sf::RenderWindow &window)
 {
 	sf::RectangleShape topBar(sf::Vector2f(window.getSize().x, window.getSize().y / 10));
 	topBar.setPosition(0.f, 0.f);
-	topBar.setFillColor(sf::Color::White);
+	topBar.setFillColor(sf::Color(150, 150, 150));
 	return topBar;
 }
 int main()
@@ -147,7 +146,7 @@ int main()
 
 	///Define shapes and add to b2World
 	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
-	
+	MyShape * myBall = new MyShape(200.f, 200.f, b2BodyType::b2_dynamicBody, 20, sf::Color::Red, world, convert);
 	bool makeNewShape = false;
 	///Game loop
 	while (window.isOpen())
@@ -200,6 +199,7 @@ int main()
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
 			{
+				
 				
 				/*/////spawn static object at mouse location (old draw method)
 				sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
@@ -366,6 +366,8 @@ int main()
 		buff << fps;
 		fpsText.setString((sf::String(buff.str())));
 		
+		myBall->Draw(window);
+
 		sf::Vector2f textPos = sf::Vector2f(10, 10);//window.mapPixelToCoords(sf::Vector2i(10, 10));
 		fpsText.setPosition(textPos);
 		sf::View currentView = window.getView();
