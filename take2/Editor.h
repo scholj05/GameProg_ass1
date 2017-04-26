@@ -19,6 +19,7 @@ class Editor{
 		void Editor::editor();
 		pugi::xml_document m_doc;
 		void save();
+		void load();
 
 	};
 

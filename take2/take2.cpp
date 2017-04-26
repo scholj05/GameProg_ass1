@@ -169,12 +169,22 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::F11)
 				{
-					std::cout << "Open Save Menu" << std::endl;
+					std::cout << "File Saved" << std::endl;
 					editor.save();
 
 				}
 			}
-			
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::F12)
+				{
+					std::cout << "File Loaded" << std::endl;
+					editor.load();
+
+				}
+			}
+
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				
