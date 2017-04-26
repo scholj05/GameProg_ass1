@@ -10,7 +10,7 @@ void Editor::save() {
 
 	// get a test document
 	pugi::xml_document doc;
-	doc.load_string("<foo bar='baz'>hey</foo>");
+	doc.load_string("<mainelement><subelement>derp</subelement></mainelement>");
 
 	// tag::code[]
 	// save document to file
@@ -26,6 +26,8 @@ void Editor::load() {
 
 	pugi::xml_parse_result result = doc.load_file("save_file.xml");
 
-	std::cout << "Load result: " << result.description() << ", mesh name: " << doc.child("mesh").attribute("name").value() << std::endl;
+	pugi::xml_node subelementnode = doc.child("mainelement").child("subelement");
+
+	std::cout << "Load result: " << doc.child("mainelement").child("subelement").child_value() << std::endl;
 	// end::code[]
 }
