@@ -26,7 +26,7 @@ private:
 	bool leftPusherMoveLeft, rightPusherMoveRight;
 
 public:
-	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape);
+	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY);
 	void updateKinematicObjects();
 	sf::FloatRect Level::getworldBoundary() { return level1WorldBoundary; };
 

@@ -137,7 +137,7 @@ int main()
 	Conversion convert(scale, scaledWidth, scaledHeight);
 
 	///Define shapes and add to b2World
-	level.Level1(world, &convert, &m_shape);
+	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
 	
 	bool makeNewShape = false;
 	///Game loop
@@ -221,7 +221,7 @@ int main()
 		}
 
 		level.updateKinematicObjects();
-
+/*
 		if (makeNewShape && !world->IsLocked())
 		{
 			MyShape *newShape = new MyShape(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y, 0, b2BodyType::b2_dynamicBody, 50, sf::Color::White, world);
@@ -231,7 +231,7 @@ int main()
 			m_tempB2Body->CreateFixture(&m_tempB2FixtureDef);
 			shapeList.push_back(newShape);
 			makeNewShape = false;
-		}
+		}*/
 
 		world->Step(TIMESTEP, VELOCITY, POSITION);
 

@@ -25,9 +25,9 @@ private:
 public:
 	MyShape(float posX, float posY, int sides, b2BodyType bodyType, int size, sf::Color colour, b2World * m_world);
 	
-	b2Body GetBody() { return *m_b2body; };
-	b2BodyDef GetBodyDef() { return *m_b2bodyDef; };
-	b2FixtureDef GetFixtureDef() { return m_b2fixtureDef; };
+//	b2Body GetBody() { return *m_b2body; };
+//	b2BodyDef GetBodyDef() { return *m_b2bodyDef; };
+//	b2FixtureDef GetFixtureDef() { return m_b2fixtureDef; };
 	
 	void Update();
 	void Draw(sf::RenderWindow & window);

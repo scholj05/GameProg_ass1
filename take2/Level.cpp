@@ -2,10 +2,10 @@
 
 
 
-void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape)
+void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY)
 {
 	m_convert = convert;
-	level1WorldBoundary = sf::FloatRect(0.0f, 0.0f, 2000.0f, 2000.0f);
+	level1WorldBoundary = sf::FloatRect(0.0f, 0.0f, boundaryX, boundaryY);
 	int borderThickness = 10;
 	
 	// Boundary Walls
