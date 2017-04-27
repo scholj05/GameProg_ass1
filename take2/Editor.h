@@ -21,6 +21,7 @@ class Editor{
 		pugi::xml_document m_doc;
 		void save(b2Body* bodyList);
 		void load();
+		//std::string node_to_string(pugi::xml_node node);
 
 };
 
@@ -34,6 +35,7 @@ class Parameters {
 		Parameters::Parameters();
 		Parameters::Parameters(std::string posX, std::string posY, std::string width, std::string height,
 			std::string density, std::string friction, std::string restitution, std::string angle);
+
 
 		std::string m_posX;
 		std::string m_posY;
