@@ -1,7 +1,7 @@
 #include "Editor.h"
 
-void Editor::editor() {
-
+Editor::Editor(Conversion * convert) {
+	m_convert = convert;
 }
 
 
@@ -11,7 +11,10 @@ void Editor::save(b2Body* bodyList) {
 	// get a test document
 	pugi::xml_document doc;
 	doc.load_string("<mainelement><subelement>derp</subelement></mainelement>");
+	while (bodyList != NULL)
+	{
 
+	}
 	// tag::code[]
 	// save document to file
 	std::cout << "Saving result: " << doc.save_file("save_file.xml") << std::endl;

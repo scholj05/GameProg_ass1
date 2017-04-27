@@ -14,11 +14,11 @@
 
 class Editor{
 	private:
-
+		Conversion * m_convert;
 
 
 	public:
-		void Editor::editor();
+		Editor(Conversion * convert);
 		pugi::xml_document m_doc;
 		void save(b2Body* bodyList);
 		void load();

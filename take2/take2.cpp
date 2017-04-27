@@ -122,7 +122,7 @@ int main()
 
 	CreateShape m_shape;
 	Level level;
-	Editor editor;
+	
 	std::list<MyShape*>shapeList;
 
 	///Box2D value declaration
@@ -152,7 +152,9 @@ int main()
 	scaledHeight = scale * (window.getSize().y);
 	Conversion convert(scale, scaledWidth, scaledHeight);
 
+	///initialise classes that require info from window and other classes first
 	UI gameUI(window, &convert);
+	Editor editor(&convert);
 	
 	///Define shapes and add to b2World
 	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
