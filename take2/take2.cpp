@@ -22,7 +22,11 @@
 //
 //	Conversion class converts SFML world coordinates and degrees 
 //	to Box2D world coordinates and radians.
-
+enum GameState {
+	design = 0,
+	play = 1,
+	loadsave = 2
+};
 
 bool m_debug = false;
 float scale = 0.01f;
@@ -112,17 +116,17 @@ sf::Text CreateUIText(std::string text, sf::Font font, float posX, float posY, i
 
 int main()
 {
+	GameState game_state = GameState::play;
+
+	///timers and timer-related variables
 	sf::Clock fpsClock, updateUIClock;
 	float lastTime = 0;
-	sf::Text fpsText;
-	//fpsText.setFont(font);
-	fpsText.setCharacterSize(20);
-	fpsText.setPosition(12, 0);
 
-
+	///variables of other classes
 	CreateShape m_shape;
 	Level level;
 	
+	///list for ball class objects
 	std::list<MyShape*>shapeList;
 
 	///Box2D value declaration
@@ -138,13 +142,13 @@ int main()
 	settings.antialiasingLevel = 8;
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1");
 
-	//SFML Views
+	///SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
 	sf::View worldView(sf::Vector2f(float(window.getSize().x / 2), float(window.getSize().y / 2)), screenSize);
 	sf::View UIView(window.getDefaultView());
-	window.setView(worldView); //apply the view to the window
-	window.setFramerateLimit(60); // control how fast the screen is refreshed (fps)
-	float zoomAmount = 1.1f; //used for zoom adjustment. 1.1 = 10%
+	window.setView(worldView);      ///apply the view to the window
+	window.setFramerateLimit(60);   /// control how fast the screen is refreshed (fps)
+	float zoomAmount = 1.1f;        ///used for zoom adjustment. 1.1 = 10%
 
 
 	///setup conversion class
@@ -160,10 +164,10 @@ int main()
 	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
 	MyShape * myBall = new MyShape(200.f, 200.f, b2BodyType::b2_dynamicBody, 20, sf::Color::Red, world, convert);
 	bool isBallMoving;
+
 	///Game loop
 	while (window.isOpen())
 	{
-		//world->Step(TIMESTEP, VELOCITY, POSITION);
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -174,7 +178,14 @@ int main()
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				myBall->Putt(1);
+				if (game_state == GameState::design)
+				{
+					//gameUI.IsItemSelected()
+				}
+				else if (game_state == GameState::play)
+				{
+					myBall->Putt(1);
+				}
 			}
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
@@ -184,14 +195,17 @@ int main()
 
 			if (event.type == sf::Event::KeyPressed)
 			{
+				if (event.key.code == sf::Keyboard::F8)
+				{
+					game_state = GameState::design;
+					gameUI.DrawDesignerUI();
+				}
 				if (event.key.code == sf::Keyboard::F11)
 				{
 					//run save here
 					editor.save(world->GetBodyList());
 				}
 			}
-
-			
 
 			if (event.type == sf::Event::MouseWheelScrolled)
 			{
@@ -201,15 +215,13 @@ int main()
 					zoomViewAt({ event.mouseWheelScroll.x, event.mouseWheelScroll.y }, window, zoomAmount);
 			}
 		}
+		
 		window.clear();
 
+		///update view
 		checkView(window, sf::Mouse::getPosition());
 
-		if (m_debug)
-		{
-		}
-
-		level.updateKinematicObjects();
+		level.UpdateKinematicObjects();
 
 		///call isMoving before the worldStep to check the ball location 
 		///before it gets updated and previous location reset

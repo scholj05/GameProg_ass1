@@ -5,38 +5,10 @@
 void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY)
 {
 	m_convert = convert;
-	level1WorldBoundary = sf::FloatRect(0.0f, 0.0f, boundaryX, boundaryY);
-	int borderThickness = 10;
+	
 	
 	// Boundary Walls
-	topWall = shape->calculateRectangle(b2Vec2(convert->canvasXToBox2D(level1WorldBoundary.width / 2), convert->canvasYToBox2D(borderThickness / 2)), convert->scaleNumber(level1WorldBoundary.width), convert->scaleNumber(borderThickness));
-	b2FixtureDef topWallFixture = shape->setFixture(1, 1, 0);
-	topWallFixture.shape = &topWall;
-	b2BodyDef wallBodyDef;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
-	wallBody->CreateFixture(&topWallFixture);
-	
-	leftWall = shape->calculateRectangle(b2Vec2(convert->canvasXToBox2D(borderThickness / 2), convert->canvasYToBox2D(level1WorldBoundary.height / 2)), convert->scaleNumber(borderThickness), convert->scaleNumber(level1WorldBoundary.height));
-	b2FixtureDef leftWallFixture = shape->setFixture(1, 1, 0);
-	leftWallFixture.shape = &leftWall;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
-	wallBody->CreateFixture(&leftWallFixture);
-	
-	bottomWall = shape->calculateRectangle(b2Vec2(convert->canvasXToBox2D(level1WorldBoundary.width / 2), convert->canvasYToBox2D(level1WorldBoundary.height - (borderThickness / 2))), convert->scaleNumber(level1WorldBoundary.width), convert->scaleNumber(borderThickness));
-	b2FixtureDef bottomWallFixture = shape->setFixture(1, 1, 0);
-	bottomWallFixture.shape = &bottomWall;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
-	wallBody->CreateFixture(&bottomWallFixture);
-
-	rightWall = shape->calculateRectangle(b2Vec2(convert->canvasXToBox2D(level1WorldBoundary.width - (borderThickness / 2)), convert->canvasYToBox2D(level1WorldBoundary.height / 2)), convert->scaleNumber(borderThickness), convert->scaleNumber(level1WorldBoundary.height));
-	b2FixtureDef rightWallFixture = shape->setFixture(1, 1, 0);
-	rightWallFixture.shape = &rightWall;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
-	wallBody->CreateFixture(&rightWallFixture);
+	CreateWalls(world, boundaryX, boundaryY);
 	
 	/*
 	b2PolygonShape leftRamp;
@@ -108,7 +80,68 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 	windmillBody->SetAngularVelocity(-0.5);
 }
 
-void Level::updateKinematicObjects()
+void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
+{
+	level1WorldBoundary = sf::FloatRect(0.0f, 0.0f, boundaryX, boundaryY);
+	int borderThickness = 25;
+
+	topWall = m_shape->calculateRectangle(b2Vec2(m_convert->canvasXToBox2D(level1WorldBoundary.width / 2), m_convert->canvasYToBox2D(borderThickness / 2)), m_convert->scaleNumber(level1WorldBoundary.width), m_convert->scaleNumber(borderThickness));
+	b2FixtureDef topWallFixture = m_shape->setFixture(1, 1, 0);
+	topWallFixture.shape = &topWall;
+	b2BodyDef wallBodyDef;
+	wallBodyDef.type = b2BodyType::b2_staticBody;
+	wallBody = world->CreateBody(&wallBodyDef);
+	wallBody->CreateFixture(&topWallFixture);
+	
+
+	leftWall = m_shape->calculateRectangle(
+		b2Vec2(m_convert->canvasXToBox2D(borderThickness / 2), 
+			m_convert->canvasYToBox2D(level1WorldBoundary.height / 2)), 
+			m_convert->scaleNumber(borderThickness), 
+			m_convert->scaleNumber(level1WorldBoundary.height));
+	b2FixtureDef leftWallFixture = m_shape->setFixture(1, 1, 0);
+	leftWallFixture.shape = &leftWall;
+	wallBodyDef.type = b2BodyType::b2_staticBody;
+	wallBody = world->CreateBody(&wallBodyDef);
+	wallBody->CreateFixture(&leftWallFixture);
+
+	bottomWall = m_shape->calculateRectangle(
+		b2Vec2(m_convert->canvasXToBox2D(level1WorldBoundary.width / 2), 
+			m_convert->canvasYToBox2D(level1WorldBoundary.height - (borderThickness / 2))),
+			m_convert->scaleNumber(level1WorldBoundary.width), 
+			m_convert->scaleNumber(borderThickness));
+	b2FixtureDef bottomWallFixture = m_shape->setFixture(1, 1, 0);
+	bottomWallFixture.shape = &bottomWall;
+	wallBodyDef.type = b2BodyType::b2_staticBody;
+	wallBody = world->CreateBody(&wallBodyDef);
+	wallBody->CreateFixture(&bottomWallFixture);
+
+	rightWall = m_shape->calculateRectangle(
+		b2Vec2(m_convert->canvasXToBox2D(level1WorldBoundary.width - (borderThickness / 2)), 
+			m_convert->canvasYToBox2D(level1WorldBoundary.height / 2)), 
+			m_convert->scaleNumber(borderThickness), 
+			m_convert->scaleNumber(level1WorldBoundary.height));
+	b2FixtureDef rightWallFixture = m_shape->setFixture(1, 1, 0);
+	rightWallFixture.shape = &rightWall;
+	wallBodyDef.type = b2BodyType::b2_staticBody;
+	wallBody = world->CreateBody(&wallBodyDef);
+	wallBody->CreateFixture(&rightWallFixture);
+
+	staticList.push_back(wallBody);
+}
+
+//void Level::CreateShape()
+//{
+	//b2PolygonShape tempShape = m_shape->calculateRectangle(b2Vec2(m_convert->canvasXToBox2D(level1WorldBoundary.width / 2), m_convert->canvasYToBox2D(borderThickness / 2)), m_convert->scaleNumber(level1WorldBoundary.width), m_convert->scaleNumber(borderThickness));
+	//b2FixtureDef topWallFixture = m_shape->setFixture(1, 1, 0);
+	//topWallFixture.shape = &topWall;
+	//b2BodyDef wallBodyDef;
+	//wallBodyDef.type = b2BodyType::b2_staticBody;
+	//wallBody = world->CreateBody(&wallBodyDef);
+	//wallBody->CreateFixture(&topWallFixture);
+//}
+
+void Level::UpdateKinematicObjects()
 {
 	///update kinematic objects
 	b2Vec2 leftPusherPosition = leftPusherBody->GetPosition();

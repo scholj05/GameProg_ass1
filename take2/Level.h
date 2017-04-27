@@ -14,6 +14,7 @@ class Level
 private:
 	CreateShape * m_shape;
 	Conversion * m_convert;
+	b2World * m_world;
 
 	int m_scale = 0;
 	sf::FloatRect level1WorldBoundary;
@@ -25,9 +26,12 @@ private:
 
 	bool leftPusherMoveLeft, rightPusherMoveRight;
 
+	std::list<b2Body*>staticList;
+
 public:
 	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY);
-	void updateKinematicObjects();
+	void Level::CreateWalls(b2World * world, float boundaryX, float boundaryY);
+	void Level::UpdateKinematicObjects();
 	sf::FloatRect Level::getworldBoundary() { return level1WorldBoundary; };
 
 };

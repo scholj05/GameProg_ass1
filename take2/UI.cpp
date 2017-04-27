@@ -78,12 +78,31 @@ UI::UI(sf::RenderWindow &window, Conversion * convert)
 	m_StateValue.setString(sf::String(""));
 	m_StateValue.setFont(m_font);
 
-
-
-
-
 	//m_PowerBarBackground.setPosition(m_UIBox.getSize().y / 2)
 
+	m_designerUIBox.setSize(sf::Vector2f(float(window.getSize().x / 10), float(window.getSize().y)));
+	m_designerUIBox.setOrigin(m_designerUIBox.getSize().x / 2, m_designerUIBox.getSize().y / 2);
+	m_designerUIBox.setPosition(window.getSize().x - (window.getSize().x / 20), window.getSize().y / 2);
+	m_designerUIBox.setFillColor(sf::Color(150, 150, 150, 100));
+	m_designerUIBox.setOutlineColor(sf::Color::Black);
+	m_designerUIBox.setOutlineThickness(5.f);
+	///shapes for use when designing a level and an semi-transparent shape is overlayed
+	m_designerBar.setPosition(m_designerUIBox.getPosition().x, m_designerUIBox.getSize().y / 2);
+	m_designerBar.setSize(sf::Vector2f(10.f, 100.f));
+	m_designerBar.setOrigin(m_designerBar.getSize().x / 2, m_designerBar.getSize().y / 2);
+	m_designerBar.setFillColor(sf::Color(0, 255, 0, 100));
+
+	m_designerBox.setPosition(m_designerBar.getPosition().x, m_designerBar.getPosition().y - m_designerUIBox.getSize().y / 3);//not a used value yet
+	m_designerBox.setSize(sf::Vector2f(50.f, 50.f));
+	m_designerBox.setOrigin(m_designerBox.getSize().x / 2, m_designerBox.getSize().y / 2);
+	m_designerBox.setFillColor(sf::Color(0, 255, 0, 100));
+
+	m_designerRamp.setPosition(m_designerBar.getPosition().x, m_designerBar.getPosition().y + m_designerUIBox.getSize().y / 3);//not a used value yet
+	m_designerRamp.setPointCount(3);
+	m_designerRamp.setPoint(0, sf::Vector2f(25, -25));// m_designerRamp.getPosition().x + 25, m_designerRamp.getPosition().y - 25));
+	m_designerRamp.setPoint(1, sf::Vector2f(25, 25));// m_designerRamp.getPosition().x + 25, m_designerRamp.getPosition().y + 25));
+	m_designerRamp.setPoint(2, sf::Vector2f(-25, 25));// m_designerRamp.getPosition().x - 25, m_designerRamp.getPosition().y + 25));
+	m_designerRamp.setFillColor(sf::Color(0, 255, 0, 100));
 }
 
 void UI::Update(b2Vec2 position, bool isMoving, int FPS)
@@ -104,8 +123,6 @@ void UI::Update(b2Vec2 position, bool isMoving, int FPS)
 		m_StateValue.setString("Moving");
 	else if (!isMoving)
 		m_StateValue.setString("Stopped");
-	else
-		m_StateValue.setString("Eh b0ss, this is broken");
 }
 
 void UI::UpdateScreenPosition(sf::RenderWindow &window)
@@ -113,8 +130,59 @@ void UI::UpdateScreenPosition(sf::RenderWindow &window)
 
 }
 
+void UI::SetVisibleDesignerShape(int shapeNum, bool visible)
+{
+	if (shapeNum == 0)
+		m_drawRamp = visible;
+	if (shapeNum == 1)
+		m_drawBox = visible;
+	if (shapeNum == 2)
+		m_drawBar = visible;
+}
+
+void UI::DrawDesignerUI()
+{
+	if (m_drawDesignerUI)
+		m_drawDesignerUI = false;
+	else
+		m_drawDesignerUI = true;
+	m_drawBox = m_drawDesignerUI;
+	m_drawBar = m_drawDesignerUI;
+	m_drawRamp = m_drawDesignerUI;
+}
+
+void UI::UpdateDesignerShape(int shapeNum, float posX, float posY, float scale)
+{
+	if (shapeNum == 0)
+	{
+		m_designerRamp.setPosition(posX, posY);
+		m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
+	}
+
+	if (shapeNum == 1)
+	{
+		m_designerBox.setPosition(posX, posY);
+		m_designerBox.setScale(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale);
+	}
+
+	if (shapeNum == 2)
+	{
+		m_designerBar.setPosition(posX, posY);
+		m_designerBar.setScale(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale);
+	}
+}
+
 void UI::Draw(sf::RenderWindow & window)
 {
+	if (m_drawDesignerUI)
+		window.draw(m_designerUIBox);
+	if (m_drawBox)
+		window.draw(m_designerBox);
+	if (m_drawBar)
+		window.draw(m_designerBar);
+	if (m_drawRamp)
+		window.draw(m_designerRamp);
+
 	window.draw(m_UIBox);
 	window.draw(m_FPSTitle);
 	window.draw(m_FPSValue);

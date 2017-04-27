@@ -32,6 +32,14 @@ private:
 	bool m_debug;
 
 public:
+	enum ShapeType
+	{
+		Ramp = 0,
+		Box = 1,
+		Bar = 2,
+		//more to add later
+
+	};
 	CreateShape();
 	CreateShape(bool debug);
 	~CreateShape();
@@ -44,6 +52,8 @@ public:
 	b2PolygonShape calculateRectangle(b2Vec2 position, float width, float height);
 
 	b2PolygonShape calculateRandomShape(b2Vec2 position);
+
+	b2PolygonShape calculatePreDefinedShape(ShapeType shapetype, int size, float x, float y, float angle);
 
 	///returns the correct predefined-length array
 	b2Vec2 * getb2Vec2(int length);
