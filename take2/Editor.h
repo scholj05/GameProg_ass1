@@ -16,7 +16,6 @@ class Editor{
 	private:
 		Conversion * m_convert;
 
-
 	public:
 		Editor(Conversion * convert);
 		pugi::xml_document m_doc;
@@ -27,24 +26,22 @@ class Editor{
 
 class Parameters {
 	private:
-		std::string m_b2BodyDef;
-		std::string m_b2BodyDefType;
-		std::string m_calculateRectangle;
-		std::string m_recPosition;
-		std::string m_recWidth;
-		std::string m_recHeight;
-		std::string m_rotation;
-		std::string m_b2FixtureDef;
-		std::string m_density;
-		std::string m_friction;
-		std::string m_restitution;
+
 
 
 	public:
 
 		Parameters::Parameters();
-		Parameters::Parameters(std::string b2bodydef, std::string b2bodydeftype, std::string calcrec, std::string recpos,
-			std::string recwid, std::string rechei, std::string rot, std::string fixdef, std::string density, std::string friction, std::string restitution);
-		std::string getb2BodyDef();
-		void setb2BodyDef(std::string b2BodyDef);
+		Parameters::Parameters(std::string posX, std::string posY, std::string width, std::string height,
+			std::string density, std::string friction, std::string restitution, std::string angle);
+
+		std::string m_posX;
+		std::string m_posY;
+		std::string m_width;
+		std::string m_height;
+		std::string m_density;
+		std::string m_friction;
+		std::string m_restitution;
+		std::string m_angle;
+
 };
