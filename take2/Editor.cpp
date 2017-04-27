@@ -6,7 +6,7 @@ void Editor::editor() {
 
 
 
-void Editor::save() {
+void Editor::save(b2Body* bodyList) {
 
 	// get a test document
 	pugi::xml_document doc;

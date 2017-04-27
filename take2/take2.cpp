@@ -13,6 +13,7 @@
 #include "Level.h"
 #include "MyShape.h"
 #include "UI.h"
+#include "Editor.h"
 
 //	Main class runs the game loop and handles events/inputs.
 //
@@ -121,6 +122,7 @@ int main()
 
 	CreateShape m_shape;
 	Level level;
+	Editor editor;
 	std::list<MyShape*>shapeList;
 
 	///Box2D value declaration
@@ -178,6 +180,17 @@ int main()
 				myBall->Jump(1);
 			}
 
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::F11)
+				{
+					//run save here
+					editor.save(world->GetBodyList());
+				}
+			}
+
+			
+
 			if (event.type == sf::Event::MouseWheelScrolled)
 			{
 				if (event.mouseWheelScroll.delta > 0)
@@ -211,7 +224,7 @@ int main()
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		//	m_shape.testMethod(world);
 
-		/*
+		
 		b2Body *body = world->GetBodyList();
 		while (body != NULL)
 		{
@@ -226,7 +239,7 @@ int main()
 				{
 					b2PolygonShape* poly = (b2PolygonShape*)fixture->GetShape();
 
-					if (body->GetType() == b2BodyType::b2_staticBody)
+					if (body->GetType() == b2BodyType::b2_staticBody || body->GetType() == b2BodyType::b2_kinematicBody)
 					{
 						sf::ConvexShape convex;
 						convex.setOutlineColor(sf::Color::White);
@@ -252,12 +265,12 @@ int main()
 				fixture = fixture->GetNext();
 			}
 			body = body->GetNext();
-		}*/
+		}/*
 		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
 		{
 			(*it)->Update();
 			(*it)->Draw(window);
-		}
+		}*/
 
 		myBall->Update();
 		myBall->Draw(window);
