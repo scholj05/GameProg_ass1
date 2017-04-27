@@ -22,6 +22,8 @@
 //
 //	Conversion class converts SFML world coordinates and degrees 
 //	to Box2D world coordinates and radians.
+
+
 enum GameState {
 	design = 0,
 	play = 1,
@@ -157,7 +159,7 @@ int main()
 	Conversion convert(scale, scaledWidth, scaledHeight);
 
 	///initialise classes that require info from window and other classes first
-	UI gameUI(window, &convert);
+	UI gameUI(window, &convert, &m_shape, world);
 	Editor editor(&convert);
 	
 	///Define shapes and add to b2World
@@ -173,14 +175,21 @@ int main()
 		{
 			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
-				window.close();
+				if (game_state == GameState::design)
+				{
+					
+				}
+				else if (game_state == GameState::play)
+				{
+					window.close();
+				}
 			}
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				if (game_state == GameState::design)
 				{
-					//gameUI.IsItemSelected()
+					gameUI.SelectUIShape(sf::Mouse::getPosition(window));
 				}
 				else if (game_state == GameState::play)
 				{
@@ -190,15 +199,31 @@ int main()
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
 			{
-				myBall->Jump(1);
+				if (game_state == GameState::design)
+				{
+					gameUI.DeselectUIShape();
+				}
+				else if (game_state == GameState::play)
+				{
+					myBall->Jump(1);
+				}
 			}
 
 			if (event.type == sf::Event::KeyPressed)
 			{
 				if (event.key.code == sf::Keyboard::F8)
 				{
-					game_state = GameState::design;
-					gameUI.DrawDesignerUI();
+					if (game_state == GameState::design)
+					{
+						game_state = GameState::play;
+						gameUI.ToggleDrawDesignerUI();
+					}
+					else if (game_state == GameState::play)
+					{
+						game_state = GameState::design;
+						gameUI.ToggleDrawDesignerUI();
+					}
+						
 				}
 				if (event.key.code == sf::Keyboard::F11)
 				{
@@ -209,10 +234,21 @@ int main()
 
 			if (event.type == sf::Event::MouseWheelScrolled)
 			{
-				if (event.mouseWheelScroll.delta > 0)
-					zoomViewAt({ event.mouseWheelScroll.x, event.mouseWheelScroll.y }, window, (1.f / zoomAmount));
-				else if (event.mouseWheelScroll.delta < 0)
-					zoomViewAt({ event.mouseWheelScroll.x, event.mouseWheelScroll.y }, window, zoomAmount);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
+				{
+					if (event.mouseWheelScroll.delta > 0)
+						gameUI.UpdateDesignerShapeScale(1);
+					else if (event.mouseWheelScroll.delta < 0)
+						gameUI.UpdateDesignerShapeScale(-1);
+				}
+				else
+				{
+					if (event.mouseWheelScroll.delta > 0)
+						zoomViewAt({ event.mouseWheelScroll.x, event.mouseWheelScroll.y }, window, (1.f / zoomAmount));
+					else if (event.mouseWheelScroll.delta < 0)
+						zoomViewAt({ event.mouseWheelScroll.x, event.mouseWheelScroll.y }, window, zoomAmount);
+				}
+				
 			}
 		}
 		
@@ -288,7 +324,9 @@ int main()
 
 		myBall->Update();
 		myBall->Draw(window);
-		
+
+		gameUI.UpdateDesignerShape(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+
 		float currentTime = fpsClock.restart().asSeconds();
 		int fps = 1.f / currentTime;
 

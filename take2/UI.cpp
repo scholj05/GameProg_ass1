@@ -2,9 +2,12 @@
 
 
 
-UI::UI(sf::RenderWindow &window, Conversion * convert)
+UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world)
 {
 	m_convert = convert;
+	m_shape = shape;
+	m_world = world;
+
 	if (!m_font.loadFromFile("../resources/arial.ttf"))
 	{
 		std::cout << "Could not load arial.ttf font" << std::endl;
@@ -127,7 +130,7 @@ void UI::Update(b2Vec2 position, bool isMoving, int FPS)
 
 void UI::UpdateScreenPosition(sf::RenderWindow &window)
 {
-
+	///to change the position of the UI if/when the window is changed (fix visual errors)
 }
 
 void UI::SetVisibleDesignerShape(int shapeNum, bool visible)
@@ -140,7 +143,30 @@ void UI::SetVisibleDesignerShape(int shapeNum, bool visible)
 		m_drawBar = visible;
 }
 
-void UI::DrawDesignerUI()
+void UI::SelectUIShape(sf::Vector2i mousePos)
+{
+	if (m_designerBar.getGlobalBounds().contains(mousePos.x, mousePos.y))
+	{
+		m_barSelected = true;
+	}
+	else if (m_designerBox.getGlobalBounds().contains(mousePos.x, mousePos.y))
+	{
+		m_boxSelected = true;
+	}
+	else if (m_designerRamp.getGlobalBounds().contains(mousePos.x, mousePos.y))
+	{
+		m_rampSelected = true;
+	}
+}
+
+void UI::DeselectUIShape()
+{
+	m_barSelected = false;
+	m_boxSelected = false;
+	m_rampSelected = false;
+}
+
+void UI::ToggleDrawDesignerUI()
 {
 	if (m_drawDesignerUI)
 		m_drawDesignerUI = false;
@@ -151,24 +177,31 @@ void UI::DrawDesignerUI()
 	m_drawRamp = m_drawDesignerUI;
 }
 
-void UI::UpdateDesignerShape(int shapeNum, float posX, float posY, float scale)
+void UI::UpdateDesignerShapeScale(float scale)
 {
-	if (shapeNum == 0)
+	if (m_barSelected)
+		m_designerBar.setScale(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale);
+	if (m_boxSelected)
+		m_designerBox.setScale(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale);
+	if (m_rampSelected)
+		m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
+}
+
+void UI::UpdateDesignerShape(float posX, float posY)
+{
+	if (m_rampSelected)
 	{
 		m_designerRamp.setPosition(posX, posY);
-		m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
 	}
 
-	if (shapeNum == 1)
+	if (m_boxSelected)
 	{
 		m_designerBox.setPosition(posX, posY);
-		m_designerBox.setScale(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale);
 	}
 
-	if (shapeNum == 2)
+	if (m_barSelected)
 	{
 		m_designerBar.setPosition(posX, posY);
-		m_designerBar.setScale(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale);
 	}
 }
 

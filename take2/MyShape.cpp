@@ -101,7 +101,7 @@ void MyShape::Update()
 	m_sfcircleShape.setPosition(sfBallPos);
 	//std::cout << "ball pos: " << sfBallPos.x << ", " << sfBallPos.y << std::endl;
 	
-	//m_previousPosition = b2BallPos;
+	m_sfcircleShape.setRotation(m_convert->radiansToDegrees(m_b2body->GetAngle()));
 }
 
 void MyShape::Draw(sf::RenderWindow & window)
