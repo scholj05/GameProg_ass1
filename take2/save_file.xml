@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
-<mainelement>
-	<subelement>derp</subelement>
-</mainelement>
+<root>
+	<bodyList>
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+		<posX test1="" />
+		<posX test2="" />
+	</bodyList>
+</root>

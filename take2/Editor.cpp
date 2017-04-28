@@ -14,7 +14,7 @@ void Editor::save(b2Body* a_bodyList) {
 	doc.load_string("<root><bodyList></bodyList></root>");
 
 	b2Body *bodyList = a_bodyList;
-	while (a_bodyList != NULL)
+	while (bodyList != NULL)
 	{
 		b2Vec2 position = bodyList->GetPosition();
 		b2Fixture *fixture = bodyList->GetFixtureList();
@@ -22,29 +22,21 @@ void Editor::save(b2Body* a_bodyList) {
 
 		while (fixture != NULL)
 		{
-			//std::ostringstream posXBuffer;
-			//posXBuffer << int(m_convert->box2DXToCanvas(position.x));
-			//parameters.m_posX = (posXBuffer.str());
 
-			//doc.child("root").child("bodyList").append_child("posX").set_value("test");
+			std::ostringstream posXBuffer;
+			posXBuffer << int(m_convert->box2DXToCanvas(position.x));
+			parameters.m_posX = (posXBuffer.str());
 
-			//std::ostringstream posYBuffer;
-			//posYBuffer << int(m_convert->box2DYToCanvas(position.y));
-			//parameters.m_posY = (posYBuffer.str());
+			doc.child("root").child("bodyList").append_child("posX").append_attribute("test1");
 
-			//doc.child("root").child("bodyList").append_child("posX").set_value("test2");
+			std::ostringstream posYBuffer;
+			posYBuffer << int(m_convert->box2DYToCanvas(position.y));
+			parameters.m_posY = (posYBuffer.str());
 
-			std::cout << "Test1" << std::endl;
+			doc.child("root").child("bodyList").append_child("posX").append_attribute("test2");
 
-			//if (fixture->GetNext() == NULL) {
-			//	break;
-			//}
-			//else {
 			fixture = fixture->GetNext();
-			//}
 		}
-		std::cout << "Test2" << std::endl;
-
 		bodyList = bodyList->GetNext();
 	}
 
