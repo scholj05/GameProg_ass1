@@ -27,13 +27,13 @@ void Editor::save(b2Body* a_bodyList) {
 			posXBuffer << int(m_convert->box2DXToCanvas(position.x));
 			parameters.m_posX = (posXBuffer.str());
 
-			doc.child("root").child("bodyList").append_child("posX").append_attribute("test1");
+			doc.child("root").child("bodyList").append_child("posX").text().set("1");
 
 			std::ostringstream posYBuffer;
 			posYBuffer << int(m_convert->box2DYToCanvas(position.y));
 			parameters.m_posY = (posYBuffer.str());
 
-			doc.child("root").child("bodyList").append_child("posX").append_attribute("test2");
+			doc.child("root").child("bodyList").append_child("posY").text().set("2");
 
 			fixture = fixture->GetNext();
 		}

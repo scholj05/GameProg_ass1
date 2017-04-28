@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <root>
 	<bodyList>
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
-		<posX test1="" />
-		<posX test2="" />
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
 	</bodyList>
 </root>
