@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
-<mainelement>
-	<subelement>derp</subelement>
-</mainelement>
+<root>
+	<bodyList>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+		<posX>1</posX>
+		<posY>2</posY>
+	</bodyList>
+</root>
