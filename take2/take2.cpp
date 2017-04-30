@@ -201,7 +201,7 @@ int main()
 			{
 				if (game_state == GameState::design)
 				{
-					gameUI.DeselectUIShape();
+					gameUI.DeselectUIShape(true);
 				}
 				else if (game_state == GameState::play)
 				{
@@ -237,9 +237,9 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
 				{
 					if (event.mouseWheelScroll.delta > 0)
-						gameUI.UpdateDesignerShapeScale(1);
+						gameUI.UpdateDesignerShapeScale(0.5);
 					else if (event.mouseWheelScroll.delta < 0)
-						gameUI.UpdateDesignerShapeScale(-1);
+						gameUI.UpdateDesignerShapeScale(-0.5);
 				}
 				else
 				{
@@ -276,8 +276,10 @@ int main()
 
 		
 		b2Body *body = world->GetBodyList();
+		int bodyCount = 0;
 		while (body != NULL)
 		{
+			bodyCount++;
 			b2Vec2 position = body->GetPosition();
 			b2Fixture *fixture = body->GetFixtureList();
 
@@ -292,9 +294,9 @@ int main()
 					if (body->GetType() == b2BodyType::b2_staticBody || body->GetType() == b2BodyType::b2_kinematicBody)
 					{
 						sf::ConvexShape convex;
-						convex.setOutlineColor(sf::Color::White);
+						//convex.setOutlineColor(sf::Color::White);
 						convex.setFillColor(sf::Color::Green);
-						convex.setOutlineThickness(1.0f);
+						//convex.setOutlineThickness(1.0f);
 						convex.setPointCount(poly->GetVertexCount());
 
 						for (int32 i = 0; i < poly->GetVertexCount(); i++)
@@ -315,7 +317,10 @@ int main()
 				fixture = fixture->GetNext();
 			}
 			body = body->GetNext();
-		}/*
+		}
+		std::cout << "body count: " << bodyCount << std::endl;
+		bodyCount = 0;
+		/*
 		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
 		{
 			(*it)->Update();

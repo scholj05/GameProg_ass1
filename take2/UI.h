@@ -23,8 +23,10 @@ private:
 
 	sf::RectangleShape m_designerBox, m_designerBar;
 	sf::ConvexShape m_designerRamp;
-	bool m_drawDesignerUI = false, m_drawBox = false, m_drawBar = false, m_drawRamp = false,
-		m_boxSelected = false, m_barSelected = false, m_rampSelected = false;
+	sf::Vector2f m_designerBoxDefaultPosition, m_designerBarDefaultPosition, m_designerRampDefaultPosition;
+
+	bool m_drawDesignerUI = false, m_drawBox = false, m_drawBar = false, m_drawRamp = false;
+	CreateShape::ShapeType m_selectedShape;
 
 public:
 	///constructor with references to other classes initialised by main
@@ -49,7 +51,10 @@ public:
 	void SelectUIShape(sf::Vector2i);
 
 	///undo shape selections
-	void DeselectUIShape();
+	void DeselectUIShape(bool createShape);
+
+	///Set the defined shape back to its original position (position set at creation)
+	void ResetShapePos(CreateShape::ShapeType shape);
 
 	///updates the location of the shape
 	void UpdateDesignerShape(float posX, float posY);

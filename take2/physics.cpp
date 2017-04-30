@@ -80,7 +80,7 @@ b2PolygonShape CreateShape::calculateRandomShape(b2Vec2 position)
 b2PolygonShape CreateShape::calculatePreDefinedShape(ShapeType shapetype, int size, float x, float y, float angle)
 {
 	b2PolygonShape tempShape;
-	if (shapetype == ShapeType::Ramp)
+	/*if (shapetype == ShapeType::Ramp)
 	{
 		b2Vec2 * tempVec = m_triangle;
 		tempVec[0] = b2Vec2(x, y - size);
@@ -95,7 +95,7 @@ b2PolygonShape CreateShape::calculatePreDefinedShape(ShapeType shapetype, int si
 		tempVec[1] = b2Vec2(x, y);
 		tempVec[2] = b2Vec2(x - size, y);
 		tempShape.Set(tempVec, 3);
-	}
+	}*/
 	return tempShape;
 }
 

@@ -34,9 +34,10 @@ private:
 public:
 	enum ShapeType
 	{
-		Ramp = 0,
-		Box = 1,
-		Bar = 2,
+		None = NULL,
+		Ramp = 1,
+		Box = 2,
+		Bar = 3,
 		//more to add later
 
 	};

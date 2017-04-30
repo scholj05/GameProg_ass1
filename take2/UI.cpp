@@ -94,11 +94,13 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_designerBar.setSize(sf::Vector2f(10.f, 100.f));
 	m_designerBar.setOrigin(m_designerBar.getSize().x / 2, m_designerBar.getSize().y / 2);
 	m_designerBar.setFillColor(sf::Color(0, 255, 0, 100));
+	m_designerBarDefaultPosition = m_designerBar.getPosition();
 
 	m_designerBox.setPosition(m_designerBar.getPosition().x, m_designerBar.getPosition().y - m_designerUIBox.getSize().y / 3);//not a used value yet
 	m_designerBox.setSize(sf::Vector2f(50.f, 50.f));
 	m_designerBox.setOrigin(m_designerBox.getSize().x / 2, m_designerBox.getSize().y / 2);
 	m_designerBox.setFillColor(sf::Color(0, 255, 0, 100));
+	m_designerBoxDefaultPosition = m_designerBox.getPosition();
 
 	m_designerRamp.setPosition(m_designerBar.getPosition().x, m_designerBar.getPosition().y + m_designerUIBox.getSize().y / 3);//not a used value yet
 	m_designerRamp.setPointCount(3);
@@ -106,6 +108,7 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_designerRamp.setPoint(1, sf::Vector2f(25, 25));// m_designerRamp.getPosition().x + 25, m_designerRamp.getPosition().y + 25));
 	m_designerRamp.setPoint(2, sf::Vector2f(-25, 25));// m_designerRamp.getPosition().x - 25, m_designerRamp.getPosition().y + 25));
 	m_designerRamp.setFillColor(sf::Color(0, 255, 0, 100));
+	m_designerRampDefaultPosition = m_designerRamp.getPosition();
 }
 
 void UI::Update(b2Vec2 position, bool isMoving, int FPS)
@@ -147,23 +150,107 @@ void UI::SelectUIShape(sf::Vector2i mousePos)
 {
 	if (m_designerBar.getGlobalBounds().contains(mousePos.x, mousePos.y))
 	{
-		m_barSelected = true;
+		m_selectedShape = CreateShape::ShapeType::Bar;
 	}
 	else if (m_designerBox.getGlobalBounds().contains(mousePos.x, mousePos.y))
 	{
-		m_boxSelected = true;
+		m_selectedShape = CreateShape::ShapeType::Box;
 	}
 	else if (m_designerRamp.getGlobalBounds().contains(mousePos.x, mousePos.y))
 	{
-		m_rampSelected = true;
+		m_selectedShape = CreateShape::ShapeType::Ramp;
 	}
 }
 
-void UI::DeselectUIShape()
+void UI::DeselectUIShape(bool createShape)
 {
-	m_barSelected = false;
-	m_boxSelected = false;
-	m_rampSelected = false;
+	if (createShape)
+	{
+		if (m_selectedShape == CreateShape::ShapeType::Bar)
+		{ 
+			b2PolygonShape tempShape;
+			b2Vec2 * barPoints = new b2Vec2[4];
+			sf::Transform tempTransform = m_designerBar.getTransform();
+			for (int i = 0; i < m_designerBar.getPointCount(); i++)
+			{
+				sf::Vector2f tempVec = tempTransform.transformPoint(m_designerBar.getPoint(i));
+				barPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x), 
+					m_convert->canvasYToBox2D(tempVec.y));
+			}
+			tempShape.Set(barPoints, 4);
+			b2FixtureDef tempFixDef = m_shape->setFixture(1, 1, 0);
+			tempFixDef.shape = &tempShape;
+			b2BodyDef tempBodyDef;
+			tempBodyDef.type = b2BodyType::b2_staticBody;
+			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
+			tempBody->CreateFixture(&tempFixDef);
+			ResetShapePos(CreateShape::ShapeType::Bar);
+
+		}
+		else if (m_selectedShape == CreateShape::ShapeType::Box)
+		{
+			b2PolygonShape tempShape;
+			b2Vec2 * boxPoints = new b2Vec2[4];
+			sf::Transform tempTransform = m_designerBox.getTransform();
+			for (int i = 0; i < m_designerBox.getPointCount(); i++)
+			{
+				sf::Vector2f tempVec = tempTransform.transformPoint(m_designerBox.getPoint(i));
+				boxPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
+					m_convert->canvasYToBox2D(tempVec.y));
+			}
+			tempShape.Set(boxPoints, 4);
+			b2FixtureDef tempFixDef = m_shape->setFixture(1, 1, 0);
+			tempFixDef.shape = &tempShape;
+			b2BodyDef tempBodyDef;
+			tempBodyDef.type = b2BodyType::b2_staticBody;
+			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
+			tempBody->CreateFixture(&tempFixDef);
+			ResetShapePos(CreateShape::ShapeType::Box);
+		}
+		else if (m_selectedShape == CreateShape::ShapeType::Ramp)
+		{
+			b2PolygonShape tempShape;
+			b2Vec2 * rampPoints = new b2Vec2[3];
+			sf::Transform tempTransform = m_designerRamp.getTransform();
+			for (int i = 0; i < m_designerBox.getPointCount(); i++)
+			{
+				sf::Vector2f tempVec = tempTransform.transformPoint(m_designerBox.getPoint(i));
+				rampPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
+					m_convert->canvasYToBox2D(tempVec.y));
+			}
+			tempShape.Set(rampPoints, 3);
+			b2FixtureDef tempFixDef = m_shape->setFixture(1, 1, 0);
+			tempFixDef.shape = &tempShape;
+			b2BodyDef tempBodyDef;
+			tempBodyDef.type = b2BodyType::b2_staticBody;
+			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
+			tempBody->CreateFixture(&tempFixDef);
+			ResetShapePos(CreateShape::ShapeType::Ramp);
+		}
+	}
+	m_selectedShape = CreateShape::ShapeType::None;
+}
+
+void UI::ResetShapePos(CreateShape::ShapeType shape)
+{
+	if (shape == CreateShape::ShapeType::Bar)
+	{
+		m_designerBar.setPosition(m_designerBarDefaultPosition);
+		m_designerBar.setScale(1, 1);
+		m_designerBar.setRotation(0);
+	}
+	else if (shape == CreateShape::ShapeType::Box)
+	{
+		m_designerBox.setPosition(m_designerBoxDefaultPosition);
+		m_designerBox.setScale(1, 1);
+		m_designerBox.setRotation(0);
+	}
+	else if (shape == CreateShape::ShapeType::Ramp)
+	{
+		m_designerRamp.setPosition(m_designerRampDefaultPosition);
+		m_designerRamp.setScale(1, 1);
+		m_designerRamp.setRotation(0);
+	}
 }
 
 void UI::ToggleDrawDesignerUI()
@@ -179,27 +266,27 @@ void UI::ToggleDrawDesignerUI()
 
 void UI::UpdateDesignerShapeScale(float scale)
 {
-	if (m_barSelected)
+	if (m_selectedShape == CreateShape::ShapeType::Bar)
 		m_designerBar.setScale(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale);
-	if (m_boxSelected)
+	if (m_selectedShape == CreateShape::ShapeType::Box)
 		m_designerBox.setScale(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale);
-	if (m_rampSelected)
+	if (m_selectedShape == CreateShape::ShapeType::Ramp)
 		m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
 }
 
 void UI::UpdateDesignerShape(float posX, float posY)
 {
-	if (m_rampSelected)
+	if (m_selectedShape == CreateShape::ShapeType::Ramp)
 	{
 		m_designerRamp.setPosition(posX, posY);
 	}
 
-	if (m_boxSelected)
+	if (m_selectedShape == CreateShape::ShapeType::Box)
 	{
 		m_designerBox.setPosition(posX, posY);
 	}
 
-	if (m_barSelected)
+	if (m_selectedShape == CreateShape::ShapeType::Bar)
 	{
 		m_designerBar.setPosition(posX, posY);
 	}
