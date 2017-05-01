@@ -44,34 +44,36 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 
 
 	///pushers
-	leftPusher = shape->calculateRectangle(b2Vec2(convert->canvasXToBox2D(100), convert->canvasYToBox2D(957.5)), convert->scaleNumber(400), convert->scaleNumber(65));
+	leftPusher = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(400), convert->scaleNumber(20));
 	b2FixtureDef leftPusherFixture = shape->setFixture(1, 1, 0);
 	leftPusherFixture.shape = &leftPusher;
 	b2BodyDef leftPusherBodyDef;
 	leftPusherBodyDef.type = b2BodyType::b2_kinematicBody;
+	leftPusherBodyDef.position.Set(convert->canvasXToBox2D(1600), convert->canvasYToBox2D(1970));
 	leftPusherBody = world->CreateBody(&leftPusherBodyDef);
 	leftPusherBody->CreateFixture(&leftPusherFixture);
 	leftPusherMoveLeft = true;
 
-	rightPusher = shape->calculateRectangle(b2Vec2(convert->canvasXToBox2D(900), convert->canvasYToBox2D(957.5)), convert->scaleNumber(400), convert->scaleNumber(65));
+	rightPusher = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(20), convert->scaleNumber(400));
 	b2FixtureDef rightPusherFixture = shape->setFixture(1, 1, 0);
 	rightPusherFixture.shape = &rightPusher;
 	b2BodyDef rightPusherBodyDef;
 	rightPusherBodyDef.type = b2BodyType::b2_kinematicBody;
+	rightPusherBodyDef.position.Set(convert->canvasXToBox2D(400), convert->canvasYToBox2D(1960));
 	rightPusherBody = world->CreateBody(&rightPusherBodyDef);
 	rightPusherBody->CreateFixture(&rightPusherFixture);
 	rightPusherMoveRight = true;
 
 	///spinner
-	windmillH = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(300), convert->scaleNumber(5));
-	windmillV = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(5), convert->scaleNumber(300));
+	windmillH = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(500), convert->scaleNumber(10));
+	windmillV = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(10), convert->scaleNumber(500));
 	b2FixtureDef windmillHFixture = shape->setFixture(1, 1, 0), windmillVFixture = shape->setFixture(1, 1, 0);
 	windmillHFixture.shape = &windmillH;
 	windmillVFixture.shape = &windmillV;
 
 	b2BodyDef windmillBodyDef;
 	windmillBodyDef.type = b2BodyType::b2_kinematicBody;
-	windmillBodyDef.position.Set(convert->canvasXToBox2D(500), convert->canvasYToBox2D(500));
+	windmillBodyDef.position.Set(convert->canvasXToBox2D(1000), convert->canvasYToBox2D(1725));
 	windmillBody = world->CreateBody(&windmillBodyDef);
 	windmillBody->CreateFixture(&windmillHFixture);
 	windmillBody->CreateFixture(&windmillVFixture);
@@ -130,42 +132,31 @@ void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
 	staticList.push_back(wallBody);
 }
 
-//void Level::CreateShape()
-//{
-	//b2PolygonShape tempShape = m_shape->calculateRectangle(b2Vec2(m_convert->canvasXToBox2D(level1WorldBoundary.width / 2), m_convert->canvasYToBox2D(borderThickness / 2)), m_convert->scaleNumber(level1WorldBoundary.width), m_convert->scaleNumber(borderThickness));
-	//b2FixtureDef topWallFixture = m_shape->setFixture(1, 1, 0);
-	//topWallFixture.shape = &topWall;
-	//b2BodyDef wallBodyDef;
-	//wallBodyDef.type = b2BodyType::b2_staticBody;
-	//wallBody = world->CreateBody(&wallBodyDef);
-	//wallBody->CreateFixture(&topWallFixture);
-//}
-
 void Level::UpdateKinematicObjects()
 {
 	///update kinematic objects
-	b2Vec2 leftPusherPosition = leftPusherBody->GetPosition();
-	//std::cout << "leftPusherPosition.x: " << convert.box2DXToCanvas(leftPusherPosition.x) << std::endl << "moveLeft: " << leftPusherMoveLeft << std::endl;
-	//std::cout << "windmill center: " << windmillBody->GetPosition().x << ", " << windmillBody->GetPosition().y << std::endl;
-	if (leftPusherPosition.x <= m_convert->canvasXToBox2D(449))
-		leftPusherMoveLeft = false;
-	else if (leftPusherPosition.x >= m_convert->canvasXToBox2D(600))
-		leftPusherMoveLeft = true;
-
-	if (leftPusherMoveLeft == true)
-		leftPusherBody->SetTransform(b2Vec2(leftPusherPosition.x - m_convert->scaleNumber(2), leftPusherPosition.y), 0);
-	else
-		leftPusherBody->SetTransform(b2Vec2(leftPusherPosition.x + m_convert->scaleNumber(2), leftPusherPosition.y), 0);
-
-
 	b2Vec2 rightPusherPosition = rightPusherBody->GetPosition();
-	if (rightPusherPosition.x >= m_convert->canvasXToBox2D(551))
+
+	if (rightPusherPosition.y <= m_convert->canvasXToBox2D(1200))
 		rightPusherMoveRight = false;
-	else if (rightPusherPosition.x <= m_convert->canvasXToBox2D(400))
+	else if (rightPusherPosition.y >= m_convert->canvasXToBox2D(1775))
 		rightPusherMoveRight = true;
 
-	if (rightPusherMoveRight)
-		rightPusherBody->SetTransform(b2Vec2(rightPusherPosition.x + m_convert->scaleNumber(2), rightPusherPosition.y), 0);
+	if (rightPusherMoveRight == true)
+		rightPusherBody->SetTransform(b2Vec2(rightPusherPosition.x, rightPusherPosition.y - m_convert->scaleNumber(5)), 0);
 	else
-		rightPusherBody->SetTransform(b2Vec2(rightPusherPosition.x - m_convert->scaleNumber(2), rightPusherPosition.y), 0);
+		rightPusherBody->SetTransform(b2Vec2(rightPusherPosition.x, rightPusherPosition.y + m_convert->scaleNumber(5)), 0);
+
+
+	b2Vec2 leftPusherPosition = leftPusherBody->GetPosition();
+
+	if (leftPusherPosition.x >= m_convert->canvasXToBox2D(1775))
+		leftPusherMoveLeft = false;
+	else if (leftPusherPosition.x <= m_convert->canvasXToBox2D(1500))
+		leftPusherMoveLeft = true;
+
+	if (leftPusherMoveLeft)
+		leftPusherBody->SetTransform(b2Vec2(leftPusherPosition.x + m_convert->scaleNumber(2), leftPusherPosition.y), 0);
+	else
+		leftPusherBody->SetTransform(b2Vec2(leftPusherPosition.x - m_convert->scaleNumber(2), leftPusherPosition.y), 0);
 }

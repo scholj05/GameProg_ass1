@@ -12,6 +12,7 @@ private:
 	Conversion * m_convert;
 	CreateShape * m_shape;
 	b2World * m_world;
+	sf::RenderWindow * m_window;
 
 	sf::Font m_font;
 	sf::RectangleShape m_UIBox, m_PowerBarBackground, m_PowerBarLevel, m_designerUIBox;

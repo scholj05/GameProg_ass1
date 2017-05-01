@@ -7,6 +7,7 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_convert = convert;
 	m_shape = shape;
 	m_world = world;
+	m_window = &window;
 
 	if (!m_font.loadFromFile("../resources/arial.ttf"))
 	{
@@ -173,7 +174,7 @@ void UI::DeselectUIShape(bool createShape)
 			sf::Transform tempTransform = m_designerBar.getTransform();
 			for (int i = 0; i < m_designerBar.getPointCount(); i++)
 			{
-				sf::Vector2f tempVec = tempTransform.transformPoint(m_designerBar.getPoint(i));
+				sf::Vector2f tempVec = m_window->mapPixelToCoords(sf::Vector2i(tempTransform.transformPoint(m_designerBar.getPoint(i))));
 				barPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x), 
 					m_convert->canvasYToBox2D(tempVec.y));
 			}
@@ -194,10 +195,11 @@ void UI::DeselectUIShape(bool createShape)
 			sf::Transform tempTransform = m_designerBox.getTransform();
 			for (int i = 0; i < m_designerBox.getPointCount(); i++)
 			{
-				sf::Vector2f tempVec = tempTransform.transformPoint(m_designerBox.getPoint(i));
+				sf::Vector2f tempVec = m_window->mapPixelToCoords(sf::Vector2i(tempTransform.transformPoint(m_designerBox.getPoint(i))));
 				boxPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
 					m_convert->canvasYToBox2D(tempVec.y));
 			}
+			
 			tempShape.Set(boxPoints, 4);
 			b2FixtureDef tempFixDef = m_shape->setFixture(1, 1, 0);
 			tempFixDef.shape = &tempShape;
@@ -214,7 +216,7 @@ void UI::DeselectUIShape(bool createShape)
 			sf::Transform tempTransform = m_designerRamp.getTransform();
 			for (int i = 0; i < m_designerBox.getPointCount(); i++)
 			{
-				sf::Vector2f tempVec = tempTransform.transformPoint(m_designerBox.getPoint(i));
+				sf::Vector2f tempVec = m_window->mapPixelToCoords(sf::Vector2i(tempTransform.transformPoint(m_designerRamp.getPoint(i))));
 				rampPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
 					m_convert->canvasYToBox2D(tempVec.y));
 			}
