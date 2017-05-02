@@ -318,7 +318,7 @@ int main()
 			}
 			body = body->GetNext();
 		}
-		std::cout << "body count: " << bodyCount << std::endl;
+		//std::cout << "body count: " << bodyCount << std::endl;
 		bodyCount = 0;
 		/*
 		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)

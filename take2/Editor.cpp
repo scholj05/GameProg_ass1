@@ -12,7 +12,9 @@ void Editor::save(b2Body* a_bodyList) {
 	// get a base document
 	pugi::xml_document doc;
 	doc.load_string("<root><bodyList></bodyList></root>");
-
+	char bodyname[32] = "Body ";
+	char intbuffer[16];
+	int i = 0;
 	b2Body *bodyList = a_bodyList;
 	while (bodyList != NULL)
 	{
@@ -20,23 +22,31 @@ void Editor::save(b2Body* a_bodyList) {
 		b2Fixture *fixture = bodyList->GetFixtureList();
 		Parameters parameters = Parameters();
 
+		sprintf(intbuffer, "%d", i);
+		strcat(bodyname, intbuffer);
+
 		while (fixture != NULL)
 		{
 
-			std::ostringstream posXBuffer;
-			posXBuffer << int(m_convert->box2DXToCanvas(position.x));
-			parameters.m_posX = (posXBuffer.str());
+			//std::ostringstream posXBuffer;
+			//posXBuffer << int(m_convert->box2DXToCanvas(position.x));
+			parameters.m_posX = char(m_convert->box2DXToCanvas(position.x));
+			char tempposX = parameters.m_posX;
+			std::cout << tempposX << std::endl;
+			doc.child("root").child("bodyList").append_child(bodyname).append_child("posX").text().set(tempposX);
 
-			doc.child("root").child("bodyList").append_child("posX").text().set("1");
+			//std::ostringstream posYBuffer;
+			//posYBuffer << int(m_convert->box2DYToCanvas(position.y));
+			parameters.m_posY = char(m_convert->box2DXToCanvas(position.y));
+			char tempposY = parameters.m_posY;
+			std::cout << tempposY << std::endl;
+			doc.child("root").child("bodyList").child(bodyname).append_child("posY").text().set(tempposY);
 
-			std::ostringstream posYBuffer;
-			posYBuffer << int(m_convert->box2DYToCanvas(position.y));
-			parameters.m_posY = (posYBuffer.str());
-
-			doc.child("root").child("bodyList").append_child("posY").text().set("2");
-
+			
 			fixture = fixture->GetNext();
 		}
+		i += 1;
+		bodyname[5] = NULL;
 		bodyList = bodyList->GetNext();
 	}
 

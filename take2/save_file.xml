@@ -1,29 +1,41 @@
 <?xml version="1.0"?>
 <root>
 	<bodyList>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
-		<posX>1</posX>
-		<posY>2</posY>
+		<Body 0>
+			<posX>-54</posX>
+			<posY>12</posY>
+		</Body 0>
+		<Body 1>
+			<posX>-24</posX>
+			<posY>31</posY>
+			<posY>31</posY>
+		</Body 1>
+		<Body 1>
+			<posX>-24</posX>
+		</Body 1>
+		<Body 2>
+			<posX>-112</posX>
+			<posY>-84</posY>
+		</Body 2>
+		<Body 3>
+			<posX>-43</posX>
+			<posY>42</posY>
+		</Body 3>
+		<Body 4>
+			<posX>-65</posX>
+			<posY>-65</posY>
+		</Body 4>
+		<Body 5>
+			<posX>-65</posX>
+			<posY>-65</posY>
+		</Body 5>
+		<Body 6>
+			<posX>-65</posX>
+			<posY>-65</posY>
+		</Body 6>
+		<Body 7>
+			<posX>-65</posX>
+			<posY>-65</posY>
+		</Body 7>
 	</bodyList>
 </root>

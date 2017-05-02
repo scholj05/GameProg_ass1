@@ -37,13 +37,13 @@ class Parameters {
 			std::string density, std::string friction, std::string restitution, std::string angle);
 
 
-		std::string m_posX;
-		std::string m_posY;
-		std::string m_width;
-		std::string m_height;
-		std::string m_density;
-		std::string m_friction;
-		std::string m_restitution;
-		std::string m_angle;
+		char m_posX;
+		char m_posY;
+		char m_width;
+		char m_height;
+		char m_density;
+		char m_friction;
+		char m_restitution;
+		char m_angle;
 
 };
