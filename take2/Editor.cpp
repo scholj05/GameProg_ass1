@@ -25,24 +25,59 @@ void Editor::save(b2Body* a_bodyList) {
 		sprintf(intbuffer, "%d", i);
 		strcat(bodyname, intbuffer);
 
+		//std::ostringstream posXBuffer;
+		//posXBuffer << int(m_convert->box2DXToCanvas(position.x));
+		parameters.m_posX = char(m_convert->box2DXToCanvas(position.x));
+		char tempposX = parameters.m_posX;
+		std::cout << tempposX << std::endl;
+		doc.child("root").child("bodyList").append_child(bodyname).append_child("posX").text().set(tempposX);
+
+		//std::ostringstream posYBuffer;
+		//posYBuffer << int(m_convert->box2DYToCanvas(position.y));
+		parameters.m_posY = char(m_convert->box2DXToCanvas(position.y));
+		char tempposY = parameters.m_posY;
+		std::cout << tempposY << std::endl;
+		doc.child("root").child("bodyList").child(bodyname).append_child("posY").text().set(tempposY);
+
+		parameters.m_angle = char(bodyList->GetAngle());
+		char tempangle = parameters.m_angle;
+		std::cout << tempangle << std::endl;
+		doc.child("root").child("bodyList").child(bodyname).append_child("angle").text().set(tempangle);
+
+		//parameters.m_width = char(bodyList->);
+		//char tempwidth = parameters.m_width;
+		//std::cout << tempwidth << std::endl;
+		//doc.child("root").child("bodyList").child(bodyname).append_child("width").text().set(tempwidth);
+
+		//parameters.m_height = char(bodyList->);
+		//char tempheight = parameters.m_height;
+		//std::cout << tempheight << std::endl;
+		//doc.child("root").child("bodyList").child(bodyname).append_child("height").text().set(tempangle);
+
+
 		while (fixture != NULL)
 		{
 
-			//std::ostringstream posXBuffer;
-			//posXBuffer << int(m_convert->box2DXToCanvas(position.x));
-			parameters.m_posX = char(m_convert->box2DXToCanvas(position.x));
-			char tempposX = parameters.m_posX;
-			std::cout << tempposX << std::endl;
-			doc.child("root").child("bodyList").append_child(bodyname).append_child("posX").text().set(tempposX);
+			//parameters.m_width = NULL;
 
-			//std::ostringstream posYBuffer;
-			//posYBuffer << int(m_convert->box2DYToCanvas(position.y));
-			parameters.m_posY = char(m_convert->box2DXToCanvas(position.y));
-			char tempposY = parameters.m_posY;
+			//parameters.m_height = NULL;
+
+			parameters.m_density = char(fixture->GetDensity());
+			char tempdensity = parameters.m_density;
 			std::cout << tempposY << std::endl;
-			doc.child("root").child("bodyList").child(bodyname).append_child("posY").text().set(tempposY);
+			doc.child("root").child("bodyList").child(bodyname).append_child("density").text().set(tempdensity);
 
-			
+			parameters.m_friction = char(fixture->GetFriction());
+			char tempfriction = parameters.m_friction;
+			std::cout << tempposY << std::endl;
+			doc.child("root").child("bodyList").child(bodyname).append_child("friction").text().set(tempfriction);
+
+			parameters.m_restitution = char(fixture->GetRestitution());
+			char temprestitution = parameters.m_restitution;
+			std::cout << tempposY << std::endl;
+			doc.child("root").child("bodyList").child(bodyname).append_child("restitution").text().set(temprestitution);
+
+
 			fixture = fixture->GetNext();
 		}
 		i += 1;
