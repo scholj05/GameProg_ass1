@@ -39,8 +39,8 @@ class Parameters {
 
 		char m_posX;
 		char m_posY;
-		char m_width;
-		char m_height;
+		char m_vertexcount;
+		char m_vertexvalue;
 		char m_density;
 		char m_friction;
 		char m_restitution;
