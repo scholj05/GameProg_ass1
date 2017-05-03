@@ -170,7 +170,7 @@ void UI::DeselectUIShape(bool createShape)
 		if (m_selectedShape == CreateShape::ShapeType::Bar)
 		{ 
 			b2PolygonShape tempShape;
-			b2Vec2 * barPoints = new b2Vec2[4];
+			b2Vec2 * barPoints = new b2Vec2[m_designerBar.getPointCount()];
 			sf::Transform tempTransform = m_designerBar.getTransform();
 			for (int i = 0; i < m_designerBar.getPointCount(); i++)
 			{
@@ -191,7 +191,7 @@ void UI::DeselectUIShape(bool createShape)
 		else if (m_selectedShape == CreateShape::ShapeType::Box)
 		{
 			b2PolygonShape tempShape;
-			b2Vec2 * boxPoints = new b2Vec2[4];
+			b2Vec2 * boxPoints = new b2Vec2[m_designerBox.getPointCount()];
 			sf::Transform tempTransform = m_designerBox.getTransform();
 			for (int i = 0; i < m_designerBox.getPointCount(); i++)
 			{
@@ -212,9 +212,9 @@ void UI::DeselectUIShape(bool createShape)
 		else if (m_selectedShape == CreateShape::ShapeType::Ramp)
 		{
 			b2PolygonShape tempShape;
-			b2Vec2 * rampPoints = new b2Vec2[3];
+			b2Vec2 * rampPoints = new b2Vec2[m_designerRamp.getPointCount()];
 			sf::Transform tempTransform = m_designerRamp.getTransform();
-			for (int i = 0; i < m_designerBox.getPointCount(); i++)
+			for (int i = 0; i < m_designerRamp.getPointCount(); i++)
 			{
 				sf::Vector2f tempVec = m_window->mapPixelToCoords(sf::Vector2i(tempTransform.transformPoint(m_designerRamp.getPoint(i))));
 				rampPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
