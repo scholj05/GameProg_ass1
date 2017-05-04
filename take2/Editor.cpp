@@ -86,8 +86,9 @@ void Editor::save(b2Body* a_bodyList) {
 				//strcat(posname, thirdbuffer);
 
 				doc.child("root").child("bodyList").child(bodyname).append_child(vertexname).append_child("x").text().set(vposX);
-				doc.child("root").child("bodyList").child(bodyname).append_child(vertexname).append_child("y").text().set(vposY);
+				doc.child("root").child("bodyList").child(bodyname).child(vertexname).append_child("y").text().set(vposY);
 
+				delete[] vertexname;
 
 			}
 
@@ -130,9 +131,15 @@ void Editor::load() {
 
 	pugi::xml_parse_result result = doc.load_file("save_file.xml");
 
-	pugi::xml_node subelementnode = doc.child("root").child("bodyList");
+	pugi::xml_node bodylistnode = doc.child("root").child("bodyList");
 
-	std::cout << "Load result: " << doc.child("root").child("bodyList").child_value() << std::endl;
+	for (pugi::xml_node body = bodylistnode.first_child(); body != NULL; body = body.next_sibling())
+	{
+		std::cout << "body:" << body.name() << std::endl;
+
+		std::cout << std::endl;
+	}
+	//std::cout << "Load result: " << doc.child("root").child("bodyList").child_value() << std::endl;
 }
 
 //struct xml_string_writer : pugi::xml_writer

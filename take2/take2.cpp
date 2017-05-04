@@ -230,6 +230,11 @@ int main()
 					//run save here
 					editor.save(world->GetBodyList());
 				}
+				if (event.key.code == sf::Keyboard::F12)
+				{
+					//run load here
+					editor.load();
+				}
 			}
 
 			if (event.type == sf::Event::MouseWheelScrolled)
