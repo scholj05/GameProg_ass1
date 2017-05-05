@@ -146,7 +146,7 @@ int main()
 
 	///SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
-	sf::View worldView(sf::Vector2f(float(window.getSize().x / 2), float(window.getSize().y / 2)), screenSize);
+	sf::View worldView(sf::Vector2f(1000.f, 1000.f)/*float(window.getSize().x / 2), float(window.getSize().y / 2))*/, screenSize);
 	sf::View UIView(window.getDefaultView());
 	window.setView(worldView);      ///apply the view to the window
 	window.setFramerateLimit(60);   /// control how fast the screen is refreshed (fps)

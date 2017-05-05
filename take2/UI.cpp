@@ -8,7 +8,7 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_shape = shape;
 	m_world = world;
 	m_window = &window;
-
+	std::cout << "tst" << std::endl;
 	if (!m_font.loadFromFile("../resources/arial.ttf"))
 	{
 		std::cout << "Could not load arial.ttf font" << std::endl;
@@ -82,7 +82,16 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_StateValue.setString(sf::String(""));
 	m_StateValue.setFont(m_font);
 
-	//m_PowerBarBackground.setPosition(m_UIBox.getSize().y / 2)
+	m_PowerBarBackground.setSize(sf::Vector2f(m_UIBox.getSize().x / 2, m_UIBox.getSize().y / 2));
+	m_PowerBarBackground.setOrigin(m_PowerBarBackground.getSize().x / 2, m_PowerBarBackground.getSize().y / 2);
+	m_PowerBarBackground.setPosition(500, 500);//m_UIBox.getPosition().x, m_UIBox.getPosition().y + m_UIBox.getSize().y / 4);
+	m_PowerBarBackground.setFillColor(sf::Color::White);
+	m_PowerBarBackground.setOutlineThickness(3);
+	m_PowerBarBackground.setOutlineColor(sf::Color::Black);
+	std::cout << m_PowerBarBackground.getPosition().x << ", " << m_PowerBarBackground.getPosition().y << std::endl;
+
+
+
 
 	m_designerUIBox.setSize(sf::Vector2f(float(window.getSize().x / 10), float(window.getSize().y)));
 	m_designerUIBox.setOrigin(m_designerUIBox.getSize().x / 2, m_designerUIBox.getSize().y / 2);
@@ -315,6 +324,7 @@ void UI::Draw(sf::RenderWindow & window)
 	window.draw(m_BallPositionValueY);
 	window.draw(m_StateTitle);
 	window.draw(m_StateValue);
+	window.draw(m_PowerBarBackground);
 }
 
 
