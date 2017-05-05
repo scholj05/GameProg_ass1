@@ -21,7 +21,6 @@ class Editor{
 		pugi::xml_document m_doc;
 		void save(b2Body* bodyList);
 		void load();
-		//std::string node_to_string(pugi::xml_node node);
 
 };
 
