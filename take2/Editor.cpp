@@ -37,14 +37,22 @@ void Editor::save(b2Body* a_bodyList) {
 		char tempangle = parameters.m_angle;
 		doc.child("root").child("bodyList").child(bodyname).append_child("angle").text().set(tempangle);
 
+		int tempfixturecount = 0;
+
 		while (fixture != NULL)
 		{
-
 
 			b2PolygonShape* poly = (b2PolygonShape*)fixture->GetShape();
 			parameters.m_vertexcount = char(poly->GetVertexCount());
 			char tempvertexcount = parameters.m_vertexcount;
+
 			doc.child("root").child("bodyList").child(bodyname).append_child("vertexcount").text().set(tempvertexcount);
+			char fixturename[32] = "fixture ";
+			char fintbuffer[16];
+			sprintf(fintbuffer, "%d", tempfixturecount);
+			strcat(fixturename, fintbuffer);
+
+			doc.child("root").child("bodyList").child(bodyname).append_child(fixturename);
 
 			for (int j = 0; j < (poly->GetVertexCount()); j++) {
 				char vertexname[32] = "vertex ";
@@ -55,10 +63,10 @@ void Editor::save(b2Body* a_bodyList) {
 				char vposX = char(poly->GetVertex(j).x);
 				char vposY = char(poly->GetVertex(j).y);
 
-				doc.child("root").child("bodyList").child(bodyname).append_child(vertexname).append_child("x").text().set(vposX);
-				doc.child("root").child("bodyList").child(bodyname).child(vertexname).append_child("y").text().set(vposY);
+				doc.child("root").child("bodyList").child(bodyname).child(fixturename).append_child(vertexname).append_child("x").text().set(vposX);
+				doc.child("root").child("bodyList").child(bodyname).child(fixturename).child(vertexname).append_child("y").text().set(vposY);
 
-				delete[] vertexname;
+				//delete[] vertexname;
 
 			}
 
@@ -76,6 +84,7 @@ void Editor::save(b2Body* a_bodyList) {
 
 
 			fixture = fixture->GetNext();
+			tempfixturecount += 1;
 		}
 		i += 1;
 		bodyname[5] = NULL;

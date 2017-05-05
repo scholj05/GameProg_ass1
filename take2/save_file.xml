@@ -2,269 +2,222 @@
 <root>
 	<bodyList>
 		<body 0>
-			<posX>-56</posX>
-			<posY>62</posY>
-			<angle>0</angle>
+			<posX>45</posX>
+			<posY>58</posY>
+			<angle>36</angle>
 			<vertexcount>-51</vertexcount>
+			<fixture 0 />
 			<density>2</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 0>
 		<body 1>
 			<posX>-24</posX>
-			<posY>18</posY>
+			<posY>31</posY>
 			<angle>-1</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>0</x>
-			</vertex 0>
-			<vertex 0>
-				<y>-2</y>
-			</vertex 0>
-			<vertex 1>
-				<x>0</x>
-			</vertex 1>
-			<vertex 1>
-				<y>2</y>
-			</vertex 1>
-			<vertex 2>
-				<x>0</x>
-			</vertex 2>
-			<vertex 2>
-				<y>2</y>
-			</vertex 2>
-			<vertex 3>
-				<x>0</x>
-			</vertex 3>
-			<vertex 3>
-				<y>-2</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>0</x>
+					<y>-2</y>
+				</vertex 0>
+				<vertex 1>
+					<x>0</x>
+					<y>2</y>
+				</vertex 1>
+				<vertex 2>
+					<x>0</x>
+					<y>2</y>
+				</vertex 2>
+				<vertex 3>
+					<x>0</x>
+					<y>-2</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>2</x>
-			</vertex 0>
-			<vertex 0>
-				<y>0</y>
-			</vertex 0>
-			<vertex 1>
-				<x>2</x>
-			</vertex 1>
-			<vertex 1>
-				<y>0</y>
-			</vertex 1>
-			<vertex 2>
-				<x>-2</x>
-			</vertex 2>
-			<vertex 2>
-				<y>0</y>
-			</vertex 2>
-			<vertex 3>
-				<x>-2</x>
-			</vertex 3>
-			<vertex 3>
-				<y>0</y>
-			</vertex 3>
+			<fixture 1>
+				<vertex 0>
+					<x>2</x>
+					<y>0</y>
+				</vertex 0>
+				<vertex 1>
+					<x>2</x>
+					<y>0</y>
+				</vertex 1>
+				<vertex 2>
+					<x>-2</x>
+					<y>0</y>
+				</vertex 2>
+				<vertex 3>
+					<x>-2</x>
+					<y>0</y>
+				</vertex 3>
+			</fixture 1>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 1>
 		<body 2>
 			<posX>-112</posX>
-			<posY>-118</posY>
+			<posY>108</posY>
 			<angle>0</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>0</x>
-			</vertex 0>
-			<vertex 0>
-				<y>-2</y>
-			</vertex 0>
-			<vertex 1>
-				<x>0</x>
-			</vertex 1>
-			<vertex 1>
-				<y>2</y>
-			</vertex 1>
-			<vertex 2>
-				<x>0</x>
-			</vertex 2>
-			<vertex 2>
-				<y>2</y>
-			</vertex 2>
-			<vertex 3>
-				<x>0</x>
-			</vertex 3>
-			<vertex 3>
-				<y>-2</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>0</x>
+					<y>-2</y>
+				</vertex 0>
+				<vertex 1>
+					<x>0</x>
+					<y>2</y>
+				</vertex 1>
+				<vertex 2>
+					<x>0</x>
+					<y>2</y>
+				</vertex 2>
+				<vertex 3>
+					<x>0</x>
+					<y>-2</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 2>
 		<body 3>
-			<posX>-85</posX>
-			<posY>30</posY>
+			<posX>-16</posX>
+			<posY>42</posY>
 			<angle>0</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>2</x>
-			</vertex 0>
-			<vertex 0>
-				<y>0</y>
-			</vertex 0>
-			<vertex 1>
-				<x>2</x>
-			</vertex 1>
-			<vertex 1>
-				<y>0</y>
-			</vertex 1>
-			<vertex 2>
-				<x>-2</x>
-			</vertex 2>
-			<vertex 2>
-				<y>0</y>
-			</vertex 2>
-			<vertex 3>
-				<x>-2</x>
-			</vertex 3>
-			<vertex 3>
-				<y>0</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>2</x>
+					<y>0</y>
+				</vertex 0>
+				<vertex 1>
+					<x>2</x>
+					<y>0</y>
+				</vertex 1>
+				<vertex 2>
+					<x>-2</x>
+					<y>0</y>
+				</vertex 2>
+				<vertex 3>
+					<x>-2</x>
+					<y>0</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 3>
 		<body 4>
-			<posX>0</posX>
-			<posY>0</posY>
+			<posX>-65</posX>
+			<posY>-65</posY>
 			<angle>0</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>7</x>
-			</vertex 0>
-			<vertex 0>
-				<y>-12</y>
-			</vertex 0>
-			<vertex 1>
-				<x>7</x>
-			</vertex 1>
-			<vertex 1>
-				<y>7</y>
-			</vertex 1>
-			<vertex 2>
-				<x>6</x>
-			</vertex 2>
-			<vertex 2>
-				<y>7</y>
-			</vertex 2>
-			<vertex 3>
-				<x>6</x>
-			</vertex 3>
-			<vertex 3>
-				<y>-12</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>10</x>
+					<y>-14</y>
+				</vertex 0>
+				<vertex 1>
+					<x>10</x>
+					<y>5</y>
+				</vertex 1>
+				<vertex 2>
+					<x>10</x>
+					<y>5</y>
+				</vertex 2>
+				<vertex 3>
+					<x>10</x>
+					<y>-14</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 4>
 		<body 5>
-			<posX>0</posX>
-			<posY>0</posY>
+			<posX>-65</posX>
+			<posY>-65</posY>
 			<angle>0</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>7</x>
-			</vertex 0>
-			<vertex 0>
-				<y>-12</y>
-			</vertex 0>
-			<vertex 1>
-				<x>7</x>
-			</vertex 1>
-			<vertex 1>
-				<y>-12</y>
-			</vertex 1>
-			<vertex 2>
-				<x>-12</x>
-			</vertex 2>
-			<vertex 2>
-				<y>-12</y>
-			</vertex 2>
-			<vertex 3>
-				<x>-12</x>
-			</vertex 3>
-			<vertex 3>
-				<y>-12</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>10</x>
+					<y>-14</y>
+				</vertex 0>
+				<vertex 1>
+					<x>10</x>
+					<y>-14</y>
+				</vertex 1>
+				<vertex 2>
+					<x>-9</x>
+					<y>-14</y>
+				</vertex 2>
+				<vertex 3>
+					<x>-9</x>
+					<y>-14</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 5>
 		<body 6>
-			<posX>0</posX>
-			<posY>0</posY>
+			<posX>-65</posX>
+			<posY>-65</posY>
 			<angle>0</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>-12</x>
-			</vertex 0>
-			<vertex 0>
-				<y>-12</y>
-			</vertex 0>
-			<vertex 1>
-				<x>-12</x>
-			</vertex 1>
-			<vertex 1>
-				<y>7</y>
-			</vertex 1>
-			<vertex 2>
-				<x>-12</x>
-			</vertex 2>
-			<vertex 2>
-				<y>7</y>
-			</vertex 2>
-			<vertex 3>
-				<x>-12</x>
-			</vertex 3>
-			<vertex 3>
-				<y>-12</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>-9</x>
+					<y>-14</y>
+				</vertex 0>
+				<vertex 1>
+					<x>-9</x>
+					<y>5</y>
+				</vertex 1>
+				<vertex 2>
+					<x>-9</x>
+					<y>5</y>
+				</vertex 2>
+				<vertex 3>
+					<x>-9</x>
+					<y>-14</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
 		</body 6>
 		<body 7>
-			<posX>0</posX>
-			<posY>0</posY>
+			<posX>-65</posX>
+			<posY>-65</posY>
 			<angle>0</angle>
 			<vertexcount>4</vertexcount>
-			<vertex 0>
-				<x>7</x>
-			</vertex 0>
-			<vertex 0>
-				<y>6</y>
-			</vertex 0>
-			<vertex 1>
-				<x>7</x>
-			</vertex 1>
-			<vertex 1>
-				<y>7</y>
-			</vertex 1>
-			<vertex 2>
-				<x>-12</x>
-			</vertex 2>
-			<vertex 2>
-				<y>7</y>
-			</vertex 2>
-			<vertex 3>
-				<x>-12</x>
-			</vertex 3>
-			<vertex 3>
-				<y>6</y>
-			</vertex 3>
+			<fixture 0>
+				<vertex 0>
+					<x>10</x>
+					<y>5</y>
+				</vertex 0>
+				<vertex 1>
+					<x>10</x>
+					<y>5</y>
+				</vertex 1>
+				<vertex 2>
+					<x>-9</x>
+					<y>5</y>
+				</vertex 2>
+				<vertex 3>
+					<x>-9</x>
+					<y>5</y>
+				</vertex 3>
+			</fixture 0>
 			<density>1</density>
 			<friction>1</friction>
 			<restitution>0</restitution>
