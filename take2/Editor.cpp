@@ -12,30 +12,22 @@ void Editor::save(b2Body* a_bodyList) {
 	// get a base document
 	pugi::xml_document doc;
 	doc.load_string("<root><bodyList></bodyList></root>");
-	char bodyname[32] = "body ";
-	char intbuffer[16];
+	char bodyname[32] = "body";
 	int i = 0;
+
 	b2Body *bodyList = a_bodyList;
+
 	while (bodyList != NULL)
 	{
 		b2Vec2 position = bodyList->GetPosition();
 		b2Fixture *fixture = bodyList->GetFixtureList();
-		Parameters parameters = Parameters();
 
-		sprintf(intbuffer, "%d", i);
-		strcat(bodyname, intbuffer);
+		pugi::xml_node currentnode = doc.child("root").child("bodyList").append_child(bodyname);
 
-		parameters.m_posX = char(m_convert->box2DXToCanvas(position.x));
-		char tempposX = parameters.m_posX;
-		doc.child("root").child("bodyList").append_child(bodyname).append_child("posX").text().set(tempposX);
+		currentnode.append_attribute("posX").set_value(m_convert->box2DXToCanvas(position.x));
+		currentnode.append_attribute("posY").set_value(m_convert->box2DXToCanvas(position.y));
+		currentnode.append_attribute("angle").set_value(bodyList->GetAngle());
 
-		parameters.m_posY = char(m_convert->box2DXToCanvas(position.y));
-		char tempposY = parameters.m_posY;
-		doc.child("root").child("bodyList").child(bodyname).append_child("posY").text().set(tempposY);
-
-		parameters.m_angle = char(bodyList->GetAngle());
-		char tempangle = parameters.m_angle;
-		doc.child("root").child("bodyList").child(bodyname).append_child("angle").text().set(tempangle);
 
 		int tempfixturecount = 0;
 
@@ -43,51 +35,31 @@ void Editor::save(b2Body* a_bodyList) {
 		{
 
 			b2PolygonShape* poly = (b2PolygonShape*)fixture->GetShape();
-			parameters.m_vertexcount = char(poly->GetVertexCount());
-			char tempvertexcount = parameters.m_vertexcount;
 
-			doc.child("root").child("bodyList").child(bodyname).append_child("vertexcount").text().set(tempvertexcount);
-			char fixturename[32] = "fixture ";
+			pugi::xml_node fixturenode = currentnode.append_child("fixture");
+
+			char fixturename[32] = "fixture";
 			char fintbuffer[16];
-			sprintf(fintbuffer, "%d", tempfixturecount);
-			strcat(fixturename, fintbuffer);
 
 			doc.child("root").child("bodyList").child(bodyname).append_child(fixturename);
 
 			for (int j = 0; j < (poly->GetVertexCount()); j++) {
-				char vertexname[32] = "vertex ";
-				char aintbuffer[16];
-				sprintf(aintbuffer, "%d", j);
-				strcat(vertexname, aintbuffer);
+				char vertexname[32] = "vertex";
 
-				char vposX = char(poly->GetVertex(j).x);
-				char vposY = char(poly->GetVertex(j).y);
+				pugi::xml_node vertexnode = fixturenode.append_child("vertex");
 
-				doc.child("root").child("bodyList").child(bodyname).child(fixturename).append_child(vertexname).append_child("x").text().set(vposX);
-				doc.child("root").child("bodyList").child(bodyname).child(fixturename).child(vertexname).append_child("y").text().set(vposY);
-
-				//delete[] vertexname;
+				vertexnode.append_attribute("posX").set_value(poly->GetVertex(j).x);
+				vertexnode.append_attribute("posY").set_value(poly->GetVertex(j).y);
 
 			}
 
-			parameters.m_density = char(fixture->GetDensity());
-			char tempdensity = parameters.m_density;
-			doc.child("root").child("bodyList").child(bodyname).append_child("density").text().set(tempdensity);
-
-			parameters.m_friction = char(fixture->GetFriction());
-			char tempfriction = parameters.m_friction;
-			doc.child("root").child("bodyList").child(bodyname).append_child("friction").text().set(tempfriction);
-
-			parameters.m_restitution = char(fixture->GetRestitution());
-			char temprestitution = parameters.m_restitution;
-			doc.child("root").child("bodyList").child(bodyname).append_child("restitution").text().set(temprestitution);
+			fixturenode.append_attribute("density").set_value(fixture->GetDensity());
+			fixturenode.append_attribute("friction").set_value(fixture->GetFriction());
+			fixturenode.append_attribute("restitution").set_value(fixture->GetRestitution());
 
 
 			fixture = fixture->GetNext();
-			tempfixturecount += 1;
 		}
-		i += 1;
-		bodyname[5] = NULL;
 		bodyList = bodyList->GetNext();
 	}
 
@@ -104,14 +76,55 @@ void Editor::load() {
 
 	pugi::xml_node bodylistnode = doc.child("root").child("bodyList");
 
-	for (pugi::xml_node body = bodylistnode.first_child(); body != NULL; body = body.next_sibling())
-	{
-		std::cout << "body:" << body.name() << std::endl;
+	//pugi::xml_node abody = bodylistnode.first_child();
 
-		std::cout << std::endl;
+	//pugi::xml_node firstchild = abody.first_child();
+
+	for (pugi::xml_node abody = bodylistnode.first_child(); abody; abody = abody.next_sibling())
+	{
+
+		std::cout << abody.name() << std::endl;
+
+		for (pugi::xml_node firstchild = abody.first_child(); firstchild; firstchild = firstchild.next_sibling())
+		{
+			std::cout << "body:";
+			std::cout << bodylistnode.child(abody.name()).child(firstchild.name()).child_value() << std::endl;
+			std::cout << std::endl;
+		}
 	}
-	//std::cout << "Load result: " << doc.child("root").child("bodyList").child_value() << std::endl;
+
+	//std::cout << bodylistnode.name() << std::endl;
+
+	//pugi::xml_node subelementnode = doc.child("mainelement").child("subelement");
+	//std::cout << "Load result: " << doc.child("mainelement").child("subelement").child_value() << std::endl;
 }
+
+//void Editor::save(b2Body* a_bodyList) {
+//
+//	// get a test document
+//	pugi::xml_document doc;
+//	doc.load_string("<mainelement><subelement>derp</subelement></mainelement>");
+//
+//	// tag::code[]
+//	// save document to file
+//	std::cout << "Saving result: " << doc.save_file("save_file.xml") << std::endl;
+//	// end::code[]
+//
+//}
+//
+//void Editor::load() {
+//
+//	// tag::code[]
+//	pugi::xml_document doc;
+//
+//	pugi::xml_parse_result result = doc.load_file("save_file.xml");
+//
+//	pugi::xml_node subelementnode = doc.child("mainelement").child("subelement");
+//
+//	std::cout << "Load result: " << subelementnode.child_value() << std::endl;
+//	// end::code[]
+//}
+
 
 Parameters::Parameters() {
 	std::string m_posX = "";
