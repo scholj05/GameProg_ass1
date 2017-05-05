@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root>
 	<bodyList>
-		<body posX="200" posY="70.4776764" angle="0">
+		<body posX="511.678314" posY="-272.522064" angle="0">
 			<fixture density="2" friction="1" restitution="0.100000001" />
 			<fixture />
 			<fixture />
@@ -13,7 +13,7 @@
 			<fixture />
 			<fixture />
 		</body>
-		<body posX="1000" posY="-658" angle="-0.633333087">
+		<body posX="1000" posY="-658" angle="-0.758332968">
 			<fixture density="1" friction="1" restitution="0">
 				<vertex posX="0.049999997" posY="-2.5" />
 				<vertex posX="0.049999997" posY="2.5" />
@@ -27,7 +27,7 @@
 				<vertex posX="-2.5" posY="-0.049999997" />
 			</fixture>
 		</body>
-		<body posX="400" posY="-512.998596" angle="0">
+		<body posX="400" posY="-437.998291" angle="0">
 			<fixture density="1" friction="1" restitution="0">
 				<vertex posX="0.099999994" posY="-2" />
 				<vertex posX="0.099999994" posY="2" />
@@ -35,7 +35,7 @@
 				<vertex posX="-0.099999994" posY="-2" />
 			</fixture>
 		</body>
-		<body posX="1752.00354" posY="-902.999878" angle="0">
+		<body posX="1770.00391" posY="-902.999878" angle="0">
 			<fixture density="1" friction="1" restitution="0">
 				<vertex posX="2" posY="-0.099999994" />
 				<vertex posX="2" posY="0.099999994" />

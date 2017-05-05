@@ -28,7 +28,6 @@ void Editor::save(b2Body* a_bodyList) {
 		currentnode.append_attribute("posY").set_value(m_convert->box2DXToCanvas(position.y));
 		currentnode.append_attribute("angle").set_value(bodyList->GetAngle());
 
-
 		int tempfixturecount = 0;
 
 		while (fixture != NULL)
@@ -57,7 +56,6 @@ void Editor::save(b2Body* a_bodyList) {
 			fixturenode.append_attribute("friction").set_value(fixture->GetFriction());
 			fixturenode.append_attribute("restitution").set_value(fixture->GetRestitution());
 
-
 			fixture = fixture->GetNext();
 		}
 		bodyList = bodyList->GetNext();
@@ -76,20 +74,26 @@ void Editor::load() {
 
 	pugi::xml_node bodylistnode = doc.child("root").child("bodyList");
 
-	//pugi::xml_node abody = bodylistnode.first_child();
-
-	//pugi::xml_node firstchild = abody.first_child();
-
-	for (pugi::xml_node abody = bodylistnode.first_child(); abody; abody = abody.next_sibling())
+	for (pugi::xml_node bodynode = bodylistnode.first_child(); bodynode; bodynode = bodynode.next_sibling())
 	{
 
-		std::cout << abody.name() << std::endl;
+		std::cout << "posx of this body = " << bodynode.attribute("posX").value() << std::endl;
+		std::cout << "posY of this body = " << bodynode.attribute("posY").value() << std::endl;
+		std::cout << "angle of this body = " << bodynode.attribute("angle").value() << std::endl;
 
-		for (pugi::xml_node firstchild = abody.first_child(); firstchild; firstchild = firstchild.next_sibling())
+		for (pugi::xml_node fixturenode = bodynode.first_child(); fixturenode; fixturenode = fixturenode.next_sibling())
 		{
-			std::cout << "body:";
-			std::cout << bodylistnode.child(abody.name()).child(firstchild.name()).child_value() << std::endl;
-			std::cout << std::endl;
+
+			std::cout << "density of this fixture = " << fixturenode.attribute("density").value() << std::endl;
+			std::cout << "friction of this fixture = " << fixturenode.attribute("friction").value() << std::endl;
+			std::cout << "restitution of this fixture = " << fixturenode.attribute("restitution").value() << std::endl;
+
+				for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling())
+				{
+					std::cout << "posX of this vertex = " << vertexnode.attribute("posX").value() << std::endl;
+					std::cout << "posY of this vertex = " << vertexnode.attribute("posY").value() << std::endl;
+				}
+			
 		}
 	}
 
