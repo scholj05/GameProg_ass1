@@ -13,9 +13,10 @@ private:
 	CreateShape * m_shape;
 	b2World * m_world;
 	sf::RenderWindow * m_window;
-
+	int alpha = 0;
+	bool powerBarUp = true;
 	sf::Font m_font;
-	sf::RectangleShape m_UIBox, m_PowerBarBackground, m_PowerBarLevel, m_designerUIBox;
+	sf::RectangleShape m_UIBox, m_PowerBarLevel, m_designerUIBox;
 	sf::Text m_FPSTitle, m_FPSValue, m_BallPositionTitle, m_BallPositionTitleX, 
 		m_BallPositionTitleY, m_BallPositionValueX, m_BallPositionValueY, m_StateTitle, m_StateValue,
 		m_designerUITitle, m_designerBoxTitle, m_designerBarTitle, m_designerRampTitle;
@@ -59,6 +60,8 @@ public:
 
 	///updates the location of the shape
 	void UpdateDesignerShape(float posX, float posY);
+
+	void UpdatePowerBar();
 	
 	///for drawing the UI elements (separate of update to allow for less update calls, thus less per game loop)
 	void UI::Draw(sf::RenderWindow &window);

@@ -332,6 +332,12 @@ int main()
 			(*it)->Draw(window);
 		}*/
 
+		//power level stuff
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+		{
+			gameUI.UpdatePowerBar();
+		}
+
 		myBall->Update();
 		myBall->Draw(window);
 

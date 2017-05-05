@@ -8,7 +8,6 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_shape = shape;
 	m_world = world;
 	m_window = &window;
-	std::cout << "tst" << std::endl;
 	if (!m_font.loadFromFile("../resources/arial.ttf"))
 	{
 		std::cout << "Could not load arial.ttf font" << std::endl;
@@ -82,15 +81,12 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_StateValue.setString(sf::String(""));
 	m_StateValue.setFont(m_font);
 
-	m_PowerBarBackground.setSize(sf::Vector2f(m_UIBox.getSize().x / 2, m_UIBox.getSize().y / 2));
-	m_PowerBarBackground.setOrigin(m_PowerBarBackground.getSize().x / 2, m_PowerBarBackground.getSize().y / 2);
-	m_PowerBarBackground.setPosition(500, 500);//m_UIBox.getPosition().x, m_UIBox.getPosition().y + m_UIBox.getSize().y / 4);
-	m_PowerBarBackground.setFillColor(sf::Color::White);
-	m_PowerBarBackground.setOutlineThickness(3);
-	m_PowerBarBackground.setOutlineColor(sf::Color::Black);
-	std::cout << m_PowerBarBackground.getPosition().x << ", " << m_PowerBarBackground.getPosition().y << std::endl;
-
-
+	m_PowerBarLevel.setSize(sf::Vector2f(m_UIBox.getSize().x / 2, m_UIBox.getSize().y / 3));
+	m_PowerBarLevel.setOrigin(m_PowerBarLevel.getSize().x / 2, m_PowerBarLevel.getSize().y / 2);
+	m_PowerBarLevel.setPosition(m_UIBox.getPosition().x, m_UIBox.getPosition().y + m_UIBox.getSize().y / 4 - padding);
+	m_PowerBarLevel.setFillColor(sf::Color(255, 0, 0, 0));
+	m_PowerBarLevel.setOutlineThickness(3);
+	m_PowerBarLevel.setOutlineColor(sf::Color::Black);
 
 
 	m_designerUIBox.setSize(sf::Vector2f(float(window.getSize().x / 10), float(window.getSize().y)));
@@ -303,6 +299,19 @@ void UI::UpdateDesignerShape(float posX, float posY)
 	}
 }
 
+void UI::UpdatePowerBar()
+{
+	if (alpha >= 250)
+		powerBarUp = false;
+	else if (alpha <= 0)
+		powerBarUp = true;
+	if (powerBarUp)
+		alpha += 5;
+	else
+		alpha -= 5;
+	m_PowerBarLevel.setFillColor(sf::Color(255, 0, 0, alpha));
+}
+
 void UI::Draw(sf::RenderWindow & window)
 {
 	if (m_drawDesignerUI)
@@ -324,7 +333,7 @@ void UI::Draw(sf::RenderWindow & window)
 	window.draw(m_BallPositionValueY);
 	window.draw(m_StateTitle);
 	window.draw(m_StateValue);
-	window.draw(m_PowerBarBackground);
+	window.draw(m_PowerBarLevel);
 }
 
 
