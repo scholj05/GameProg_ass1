@@ -312,6 +312,14 @@ void UI::UpdatePowerBar()
 	m_PowerBarLevel.setFillColor(sf::Color(255, 0, 0, alpha));
 }
 
+int UI::ResetPowerBar()
+{
+	int getAlpha = alpha;
+	alpha = 0;
+	m_PowerBarLevel.setFillColor(sf::Color(255, 0, 0, alpha));
+	return getAlpha;
+}
+
 void UI::Draw(sf::RenderWindow & window)
 {
 	if (m_drawDesignerUI)

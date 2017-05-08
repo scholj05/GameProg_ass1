@@ -62,6 +62,9 @@ public:
 	void UpdateDesignerShape(float posX, float posY);
 
 	void UpdatePowerBar();
+
+	///Resets the alpha level of the power bar to zero and returns the value previous to reset.
+	int ResetPowerBar();
 	
 	///for drawing the UI elements (separate of update to allow for less update calls, thus less per game loop)
 	void UI::Draw(sf::RenderWindow &window);

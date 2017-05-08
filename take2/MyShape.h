@@ -40,6 +40,7 @@ public:
 //	b2FixtureDef GetFixtureDef() { return m_b2fixtureDef; };
 	
 	void Update();
+	b2Body * GetBody();
 	void Draw(sf::RenderWindow & window);
 	b2Vec2 GetBodyPosition();
 	~MyShape();

@@ -236,6 +236,10 @@ int main()
 					editor.load();
 				}
 			}
+			if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+			{
+				myBall->Putt(gameUI.ResetPowerBar()/50);
+			}
 
 			if (event.type == sf::Event::MouseWheelScrolled)
 			{
@@ -276,8 +280,7 @@ int main()
 
 		
 
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		//	m_shape.testMethod(world);
+		
 
 		
 		b2Body *body = world->GetBodyList();
@@ -335,8 +338,16 @@ int main()
 		//power level stuff
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 		{
-			gameUI.UpdatePowerBar();
+			if (!myBall->isMoving())//only hit ball when ball isn't moving
+				gameUI.UpdatePowerBar();
 		}
+		/*/
+		b2ContactEdge * ballContactList =  myBall->GetBody()->GetContactList();
+		while (ballContactList != NULL)
+		{
+			ballContactList->contact->SetFriction(100);
+			ballContactList = ballContactList->next;
+		}*/
 
 		myBall->Update();
 		myBall->Draw(window);

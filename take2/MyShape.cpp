@@ -26,10 +26,11 @@ MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Colo
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.shape = &circleShape;
 	myFixtureDef.density = 2;
-	myFixtureDef.friction = 1;
+	myFixtureDef.friction = 0.01;
 	myFixtureDef.restitution = 0.1;
 	//myFixtureDef.
 	m_b2body->CreateFixture(&myFixtureDef);
+	m_b2body->SetFixedRotation(true);
 
 	//set up sf circle to match the box2d circleShape
 	m_sfcircleShape.setPosition(m_posX, m_posY);
@@ -102,6 +103,11 @@ void MyShape::Update()
 	//std::cout << "ball pos: " << sfBallPos.x << ", " << sfBallPos.y << std::endl;
 	
 	m_sfcircleShape.setRotation(m_convert->radiansToDegrees(m_b2body->GetAngle()));
+}
+
+b2Body * MyShape::GetBody()
+{
+	return m_b2body;
 }
 
 void MyShape::Draw(sf::RenderWindow & window)
