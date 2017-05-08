@@ -62,25 +62,25 @@ void checkView(sf::RenderWindow &window, sf::Vector2i mousePos)
 	int movementPadding = 10;
 
 	if (mousePos.x > window.getSize().x + window.getPosition().x - movementPadding
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		int amount = int(viewSize.x / 100 * scale);
 		view.move(amount, 0.0f);
 	}
 	if (mousePos.x <  window.getPosition().x + movementPadding
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		int amount = int(viewSize.x / 100 * scale);
 		view.move(-amount, 0.0f);
 	}
 	if (mousePos.y > window.getSize().y + window.getPosition().y - movementPadding
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		int amount = int(viewSize.y / 100 * scale);
 		view.move(0.0f, amount);
 	}
 	if (mousePos.y < window.getPosition().y + movementPadding
-		|| sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		int amount = int(viewSize.y / 100 * scale);
 		view.move(0.0f, -amount);
@@ -119,7 +119,7 @@ sf::Text CreateUIText(std::string text, sf::Font font, float posX, float posY, i
 int main()
 {
 	GameState game_state = GameState::play;
-
+	bool hitLeft = false;
 	///timers and timer-related variables
 	sf::Clock fpsClock, updateUIClock;
 	float lastTime = 0;
@@ -193,7 +193,10 @@ int main()
 				}
 				else if (game_state == GameState::play)
 				{
-					myBall->Putt(1);
+					if (hitLeft)
+						myBall->Putt(-1);
+					else
+						myBall->Putt(1);
 				}
 			}
 
@@ -236,9 +239,21 @@ int main()
 					editor.load();
 				}
 			}
-			if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
+			if (event.type == sf::Event::KeyReleased)
 			{
-				myBall->Putt(gameUI.ResetPowerBar()/50);
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					if (hitLeft)
+						myBall->Putt(gameUI.ResetPowerBar() / 50 * -1);
+					else
+						myBall->Putt(gameUI.ResetPowerBar() / 50);
+
+				}
+				if (event.key.code == sf::Keyboard::D)
+				{
+					hitLeft = !hitLeft;
+					gameUI.setBallDirection(hitLeft);
+				}
 			}
 
 			if (event.type == sf::Event::MouseWheelScrolled)
@@ -278,11 +293,7 @@ int main()
 		///clear bodies scheduled for deletion
 		Cleanup();
 
-		
 
-		
-
-		
 		b2Body *body = world->GetBodyList();
 		int bodyCount = 0;
 		while (body != NULL)
@@ -302,9 +313,7 @@ int main()
 					if (body->GetType() == b2BodyType::b2_staticBody || body->GetType() == b2BodyType::b2_kinematicBody)
 					{
 						sf::ConvexShape convex;
-						//convex.setOutlineColor(sf::Color::White);
 						convex.setFillColor(sf::Color::Green);
-						//convex.setOutlineThickness(1.0f);
 						convex.setPointCount(poly->GetVertexCount());
 
 						for (int32 i = 0; i < poly->GetVertexCount(); i++)

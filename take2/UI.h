@@ -19,8 +19,10 @@ private:
 	sf::RectangleShape m_UIBox, m_PowerBarLevel, m_designerUIBox;
 	sf::Text m_FPSTitle, m_FPSValue, m_BallPositionTitle, m_BallPositionTitleX, 
 		m_BallPositionTitleY, m_BallPositionValueX, m_BallPositionValueY, m_StateTitle, m_StateValue,
+		m_arrowDirectionTitle, m_powerBarTitle,
 		m_designerUITitle, m_designerBoxTitle, m_designerBarTitle, m_designerRampTitle;
-	sf::Texture m_DirectionArrow;
+	bool m_arrowLeft = false;
+	sf::Texture m_leftArrowTexture, m_rightArrowTexture;
 	sf::Sprite m_ArrowSprite;
 
 	sf::RectangleShape m_designerBox, m_designerBar;
@@ -65,6 +67,9 @@ public:
 
 	///Resets the alpha level of the power bar to zero and returns the value previous to reset.
 	int ResetPowerBar();
+
+	///sets whether the arrow for ball direction faces left or not
+	void setBallDirection(bool direction);
 	
 	///for drawing the UI elements (separate of update to allow for less update calls, thus less per game loop)
 	void UI::Draw(sf::RenderWindow &window);

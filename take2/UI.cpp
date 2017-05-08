@@ -13,6 +13,17 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 		std::cout << "Could not load arial.ttf font" << std::endl;
 	}
 
+	if (!m_leftArrowTexture.loadFromFile("../resources/left_arrow.png"))
+	{
+		std::cout << "Could not load left_arrow.png" << std::endl;
+	}
+
+	if (!m_rightArrowTexture.loadFromFile("../resources/right_arrow.png"))
+	{
+		std::cout << "Could not load right_arrow.png" << std::endl;
+	}
+	m_ArrowSprite.setTexture(m_rightArrowTexture);
+
 	int charHeight, padding;
 	m_UIBox.setSize(sf::Vector2f(float(window.getSize().x / 10), float(window.getSize().y)));
 	m_UIBox.setOrigin(m_UIBox.getSize().x / 2, m_UIBox.getSize().y / 2);
@@ -81,12 +92,29 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_StateValue.setString(sf::String(""));
 	m_StateValue.setFont(m_font);
 
+	m_arrowDirectionTitle.setFont(m_font);
+	m_arrowDirectionTitle.setCharacterSize(charHeight);
+	m_arrowDirectionTitle.setOrigin(charHeight * 2, charHeight / 2);
+	m_arrowDirectionTitle.setPosition(m_UIBox.getPosition().x, m_StateValue.getPosition().y + padding + (charHeight * 5));
+	m_arrowDirectionTitle.setString("Direction");
+
+	m_ArrowSprite.setScale(0.1f, 0.1f);
+	m_ArrowSprite.setOrigin(25, 25);
+	m_ArrowSprite.setPosition(m_arrowDirectionTitle.getPosition().x - 50, m_arrowDirectionTitle.getPosition().y + 50);
+	
+
 	m_PowerBarLevel.setSize(sf::Vector2f(m_UIBox.getSize().x / 2, m_UIBox.getSize().y / 3));
 	m_PowerBarLevel.setOrigin(m_PowerBarLevel.getSize().x / 2, m_PowerBarLevel.getSize().y / 2);
 	m_PowerBarLevel.setPosition(m_UIBox.getPosition().x, m_UIBox.getPosition().y + m_UIBox.getSize().y / 4 - padding);
 	m_PowerBarLevel.setFillColor(sf::Color(255, 0, 0, 0));
 	m_PowerBarLevel.setOutlineThickness(3);
 	m_PowerBarLevel.setOutlineColor(sf::Color::Black);
+
+	m_powerBarTitle.setFont(m_font);
+	m_powerBarTitle.setCharacterSize(charHeight);
+	m_powerBarTitle.setOrigin(charHeight * 3, charHeight / 2);
+	m_powerBarTitle.setPosition(m_PowerBarLevel.getPosition().x, m_PowerBarLevel.getPosition().y - m_PowerBarLevel.getSize().y / 2 - charHeight - padding);
+	m_powerBarTitle.setString("Power Meter");
 
 
 	m_designerUIBox.setSize(sf::Vector2f(float(window.getSize().x / 10), float(window.getSize().y)));
@@ -320,6 +348,15 @@ int UI::ResetPowerBar()
 	return getAlpha;
 }
 
+void UI::setBallDirection(bool direction)
+{
+	m_arrowLeft = direction;
+	if (m_arrowLeft)
+		m_ArrowSprite.setTexture(m_leftArrowTexture);
+	else
+		m_ArrowSprite.setTexture(m_rightArrowTexture);
+}
+
 void UI::Draw(sf::RenderWindow & window)
 {
 	if (m_drawDesignerUI)
@@ -341,6 +378,9 @@ void UI::Draw(sf::RenderWindow & window)
 	window.draw(m_BallPositionValueY);
 	window.draw(m_StateTitle);
 	window.draw(m_StateValue);
+	window.draw(m_arrowDirectionTitle);
+	window.draw(m_ArrowSprite);
+	window.draw(m_powerBarTitle);
 	window.draw(m_PowerBarLevel);
 }
 

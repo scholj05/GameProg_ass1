@@ -28,7 +28,6 @@ MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Colo
 	myFixtureDef.density = 2;
 	myFixtureDef.friction = 0.01;
 	myFixtureDef.restitution = 0.1;
-	//myFixtureDef.
 	m_b2body->CreateFixture(&myFixtureDef);
 	m_b2body->SetFixedRotation(true);
 
