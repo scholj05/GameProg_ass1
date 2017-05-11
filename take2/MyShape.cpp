@@ -25,11 +25,12 @@ MyShape::MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Colo
 	circleShape.m_radius = m_convert->scaleNumber(m_radius); //use class variable
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.shape = &circleShape;
-	myFixtureDef.density = 2;
-	myFixtureDef.friction = 0.01;
-	myFixtureDef.restitution = 0.1;
+	myFixtureDef.density = 2.0;
+	myFixtureDef.friction = 1.0;
+	myFixtureDef.restitution = 0.5;
 	m_b2body->CreateFixture(&myFixtureDef);
-	m_b2body->SetFixedRotation(true);
+	//m_b2body->SetFixedRotation(true);
+	m_b2body->SetAngularDamping(5);
 
 	//set up sf circle to match the box2d circleShape
 	m_sfcircleShape.setPosition(m_posX, m_posY);

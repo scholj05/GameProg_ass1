@@ -142,7 +142,7 @@ int main()
 	///SFML window
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1");
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1", sf::Style::Fullscreen);
 
 	///SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
@@ -196,7 +196,7 @@ int main()
 					if (hitLeft)
 						myBall->Putt(-1);
 					else
-						myBall->Putt(1);
+						myBall->Putt(2);
 				}
 			}
 
@@ -241,12 +241,17 @@ int main()
 			}
 			if (event.type == sf::Event::KeyReleased)
 			{
-				if (event.key.code == sf::Keyboard::Space)
+				if (event.key.code == sf::Keyboard::Space && !(myBall->isMoving()))
 				{
-					if (hitLeft)
-						myBall->Putt(gameUI.ResetPowerBar() / 50 * -1);
-					else
-						myBall->Putt(gameUI.ResetPowerBar() / 50);
+					float powerLevel = gameUI.ResetPowerBar();
+					if (powerLevel > 0)
+					{
+						if (hitLeft)
+							myBall->Putt(((powerLevel / 50) + 1) * -1);
+						else
+							myBall->Putt(powerLevel / 50 + 1);
+					}
+					
 
 				}
 				if (event.key.code == sf::Keyboard::D)
@@ -350,13 +355,6 @@ int main()
 			if (!myBall->isMoving())//only hit ball when ball isn't moving
 				gameUI.UpdatePowerBar();
 		}
-		/*/
-		b2ContactEdge * ballContactList =  myBall->GetBody()->GetContactList();
-		while (ballContactList != NULL)
-		{
-			ballContactList->contact->SetFriction(100);
-			ballContactList = ballContactList->next;
-		}*/
 
 		myBall->Update();
 		myBall->Draw(window);

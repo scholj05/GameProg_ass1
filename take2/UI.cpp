@@ -32,11 +32,11 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_UIBox.setOutlineColor(sf::Color::Black);
 	m_UIBox.setOutlineThickness(5.f);
 	
-	charHeight = m_UIBox.getSize().x / 8;
+	charHeight = int(m_UIBox.getSize().x / 8);
 	padding = charHeight / 2;
 
-	int leftAlign = m_UIBox.getPosition().x - m_UIBox.getSize().x / 2 + padding;
-	int rightAlign = m_UIBox.getPosition().x + charHeight + padding;
+	int leftAlign = int(m_UIBox.getPosition().x - m_UIBox.getSize().x / 2 + padding);
+	int rightAlign = int(m_UIBox.getPosition().x + charHeight + padding);
 
 	m_FPSTitle.setCharacterSize(charHeight);
 	m_FPSTitle.setPosition(leftAlign, 
@@ -302,11 +302,21 @@ void UI::ToggleDrawDesignerUI()
 void UI::UpdateDesignerShapeScale(float scale)
 {
 	if (m_selectedShape == CreateShape::ShapeType::Bar)
-		m_designerBar.setScale(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale);
+	{
+		//if the resulting shape is 0,0,0,0 don't allow the scale to happen
+		if (sf::Vector2f(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale) != sf::Vector2f(0, 0))
+			m_designerBar.setScale(m_designerBar.getScale().x + scale, m_designerBar.getScale().y + scale);
+	}
 	if (m_selectedShape == CreateShape::ShapeType::Box)
-		m_designerBox.setScale(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale);
+	{
+		if (sf::Vector2f(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale) != sf::Vector2f(0, 0))
+			m_designerBox.setScale(m_designerBox.getScale().x + scale, m_designerBox.getScale().y + scale);
+	}
 	if (m_selectedShape == CreateShape::ShapeType::Ramp)
-		m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
+	{
+		if (sf::Vector2f(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale) != sf::Vector2f(0, 0))
+			m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
+	}
 }
 
 void UI::UpdateDesignerShape(float posX, float posY)
