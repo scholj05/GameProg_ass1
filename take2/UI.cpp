@@ -39,13 +39,13 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	int rightAlign = int(m_UIBox.getPosition().x + charHeight + padding);
 
 	m_FPSTitle.setCharacterSize(charHeight);
-	m_FPSTitle.setPosition(leftAlign, 
-		m_UIBox.getPosition().y - m_UIBox.getSize().y / 2 + padding);
+	m_FPSTitle.setPosition(float(leftAlign), 
+		m_UIBox.getPosition().y - m_UIBox.getSize().y / 2 + float(padding));
 	m_FPSTitle.setString(sf::String("FPS:"));
 	m_FPSTitle.setFont(m_font);
 
 	m_FPSValue.setCharacterSize(charHeight);
-	m_FPSValue.setPosition(rightAlign,
+	m_FPSValue.setPosition(float(rightAlign),
 		m_FPSTitle.getPosition().y);
 	m_FPSValue.setString(sf::String("00"));
 	m_FPSValue.setFont(m_font);
@@ -317,6 +317,18 @@ void UI::UpdateDesignerShapeScale(float scale)
 		if (sf::Vector2f(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale) != sf::Vector2f(0, 0))
 			m_designerRamp.setScale(m_designerRamp.getScale().x + scale, m_designerRamp.getScale().y + scale);
 	}
+}
+
+void UI::RotateDesignerShape(float rotation)
+{
+	if (m_selectedShape == CreateShape::ShapeType::Bar)
+		m_designerBar.setRotation(m_designerBar.getRotation() + rotation);
+	
+	if (m_selectedShape == CreateShape::ShapeType::Box)
+		m_designerBox.setRotation(m_designerBox.getRotation() + rotation);
+
+	if (m_selectedShape == CreateShape::ShapeType::Ramp)
+		m_designerRamp.setRotation(m_designerRamp.getRotation() + rotation);
 }
 
 void UI::UpdateDesignerShape(float posX, float posY)

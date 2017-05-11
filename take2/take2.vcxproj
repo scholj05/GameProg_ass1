@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="Conversion.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="hole.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MyShape.h" />
     <ClInclude Include="physics.h" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="Conversion.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="hole.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MyShape.cpp" />
     <ClCompile Include="physics.cpp" />

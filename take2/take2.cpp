@@ -14,6 +14,7 @@
 #include "MyShape.h"
 #include "UI.h"
 #include "Editor.h"
+#include "hole.h"
 
 //	Main class runs the game loop and handles events/inputs.
 //
@@ -37,7 +38,6 @@ float scaledHeight;
 
 ///list of bodies to be destroyed at next delete phase
 std::list<b2Body*> graveyard; 
-
 
 
 ///code sourced from: https://github.com/SFML/SFML/wiki/Source%3A-Zoom-View-At-%28specified-pixel%29
@@ -97,24 +97,7 @@ void Cleanup()
 	}
 	graveyard.clear();
 }
-sf::RectangleShape CreateUIElements(sf::RenderWindow &window)
-{
-	sf::RectangleShape topBar(sf::Vector2f(window.getSize().x / 10, window.getSize().y));
-	topBar.setPosition(0.f, 0.f);
-	topBar.setFillColor(sf::Color(150, 150, 150, 150));
-	return topBar;
-}
 
-sf::Text CreateUIText(std::string text, sf::Font font, float posX, float posY, int fontSize)
-{
-	sf::Text tempText;
-	tempText.setFont(font);
-	tempText.setCharacterSize(fontSize);
-	tempText.setPosition(posX, posY);
-	tempText.setString(text);
-
-	return tempText;
-}
 
 int main()
 {
@@ -146,7 +129,7 @@ int main()
 
 	///SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
-	sf::View worldView(sf::Vector2f(1000.f, 1000.f)/*float(window.getSize().x / 2), float(window.getSize().y / 2))*/, screenSize);
+	sf::View worldView(sf::Vector2f(1000.f, 1000.f), screenSize);
 	sf::View UIView(window.getDefaultView());
 	window.setView(worldView);      ///apply the view to the window
 	window.setFramerateLimit(60);   /// control how fast the screen is refreshed (fps)
@@ -166,6 +149,9 @@ int main()
 	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
 	MyShape * myBall = new MyShape(200.f, 200.f, b2BodyType::b2_dynamicBody, 20, sf::Color::Red, world, convert);
 	bool isBallMoving;
+
+	///Create instance of hole class
+
 
 	///Game loop
 	while (window.isOpen())
@@ -270,6 +256,13 @@ int main()
 					else if (event.mouseWheelScroll.delta < 0)
 						gameUI.UpdateDesignerShapeScale(-0.5);
 				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+				{
+					if (event.mouseWheelScroll.delta > 0)
+						gameUI.RotateDesignerShape(22.5f);
+					else if (event.mouseWheelScroll.delta < 0)
+						gameUI.RotateDesignerShape(-22.5f);
+				}
 				else
 				{
 					if (event.mouseWheelScroll.delta > 0)
@@ -277,7 +270,6 @@ int main()
 					else if (event.mouseWheelScroll.delta < 0)
 						zoomViewAt({ event.mouseWheelScroll.x, event.mouseWheelScroll.y }, window, zoomAmount);
 				}
-				
 			}
 		}
 		

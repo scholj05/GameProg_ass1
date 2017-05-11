@@ -48,6 +48,9 @@ public:
 	///updates the scale of the shape
 	void UpdateDesignerShapeScale(float scale);
 
+	///offset current shape rotation by parameter amount (in degrees)
+	void RotateDesignerShape(float rotation);
+
 	///sets if a shape is drawn or not individually
 	void SetVisibleDesignerShape(int shapeNum, bool visible);
 
