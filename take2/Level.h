@@ -26,12 +26,26 @@ private:
 
 	bool leftPusherMoveLeft, rightPusherMoveRight;
 
-	std::list<b2Body*>staticList;
+	std::list<b2Body*>staticList, kinematicList;
 
 public:
 	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY);
 	void Level::CreateWalls(b2World * world, float boundaryX, float boundaryY);
 	void Level::UpdateKinematicObjects();
+	b2Body * Level::GetWall();
+
+	///return the static body list
+	std::list<b2Body*> Level::GetStaticList();
+
+	///add a body to the static body list
+	void PushStaticList(b2Body * body);
+
+	///return the kinematic body list
+	std::list<b2Body*> Level::GetKinematicList();
+
+	///add a body to the kinematic body list
+	void PushKinematicList(b2Body * body);
+
 	sf::FloatRect Level::getworldBoundary() { return level1WorldBoundary; };
 
 };

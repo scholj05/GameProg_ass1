@@ -7,40 +7,8 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 	m_convert = convert;
 	
 	
-	// Boundary Walls
+	/// Boundary Walls
 	CreateWalls(world, boundaryX, boundaryY);
-	
-	/*
-	b2PolygonShape leftRamp;
-	b2Vec2 leftRampArray[] =
-	{
-	b2Vec2(convert->canvasXToBox2D(0), convert->canvasYToBox2D(725)),
-	b2Vec2(convert->canvasXToBox2D(10), convert->canvasYToBox2D(725)),
-	b2Vec2(convert->canvasXToBox2D(250), convert->canvasYToBox2D(925)),
-	b2Vec2(convert->canvasXToBox2D(0), convert->canvasYToBox2D(925)),
-	};
-	leftRamp.Set(leftRampArray, 4);
-	b2FixtureDef leftRampFixture = shape.setFixture(1, 0.5, 0);
-	leftRampFixture.shape = &leftRamp;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
-	wallBody->CreateFixture(&leftRampFixture);
-	b2PolygonShape rightRamp;
-	b2Vec2 rightRampArray[] =
-	{
-	b2Vec2(convert->canvasXToBox2D(990), convert->canvasYToBox2D(725)),
-	b2Vec2(convert->canvasXToBox2D(1000), convert->canvasYToBox2D(725)),
-	b2Vec2(convert->canvasXToBox2D(1000), convert->canvasYToBox2D(925)),
-	b2Vec2(convert->canvasXToBox2D(750), convert->canvasYToBox2D(925)),
-	};
-	rightRamp.Set(rightRampArray, 4);
-	b2FixtureDef rightRampFixture = shape.setFixture(1, 0.5, 0);
-	rightRampFixture.shape = &rightRamp;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
-	wallBody->CreateFixture(&rightRampFixture);
-
-	*/
 
 
 	///pushers
@@ -53,6 +21,7 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 	leftPusherBody = world->CreateBody(&leftPusherBodyDef);
 	leftPusherBody->CreateFixture(&leftPusherFixture);
 	leftPusherMoveLeft = true;
+	kinematicList.push_back(leftPusherBody);
 
 	rightPusher = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(20), convert->scaleNumber(400));
 	b2FixtureDef rightPusherFixture = shape->setFixture(1, 1, 0);
@@ -63,6 +32,7 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 	rightPusherBody = world->CreateBody(&rightPusherBodyDef);
 	rightPusherBody->CreateFixture(&rightPusherFixture);
 	rightPusherMoveRight = true;
+	kinematicList.push_back(rightPusherBody);
 
 	///spinner
 	windmillH = shape->calculateRectangle(b2Vec2(0, 0), convert->scaleNumber(500), convert->scaleNumber(10));
@@ -77,9 +47,9 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 	windmillBody = world->CreateBody(&windmillBodyDef);
 	windmillBody->CreateFixture(&windmillHFixture);
 	windmillBody->CreateFixture(&windmillVFixture);
-
 	windmillBody->SetFixedRotation(true);
 	windmillBody->SetAngularVelocity(-0.5);
+	kinematicList.push_back(windmillBody);
 }
 
 void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
@@ -103,8 +73,6 @@ void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
 			m_convert->scaleNumber(level1WorldBoundary.height));
 	b2FixtureDef leftWallFixture = m_shape->setFixture(1, 1, 0);
 	leftWallFixture.shape = &leftWall;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
 	wallBody->CreateFixture(&leftWallFixture);
 
 	bottomWall = m_shape->calculateRectangle(
@@ -114,8 +82,6 @@ void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
 			m_convert->scaleNumber(borderThickness));
 	b2FixtureDef bottomWallFixture = m_shape->setFixture(1, 1, 0);
 	bottomWallFixture.shape = &bottomWall;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
 	wallBody->CreateFixture(&bottomWallFixture);
 
 	rightWall = m_shape->calculateRectangle(
@@ -125,11 +91,9 @@ void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
 			m_convert->scaleNumber(level1WorldBoundary.height));
 	b2FixtureDef rightWallFixture = m_shape->setFixture(1, 1, 0);
 	rightWallFixture.shape = &rightWall;
-	wallBodyDef.type = b2BodyType::b2_staticBody;
-	wallBody = world->CreateBody(&wallBodyDef);
 	wallBody->CreateFixture(&rightWallFixture);
 
-	staticList.push_back(wallBody);
+	//staticList.push_back(wallBody);
 }
 
 void Level::UpdateKinematicObjects()
@@ -159,4 +123,29 @@ void Level::UpdateKinematicObjects()
 		leftPusherBody->SetTransform(b2Vec2(leftPusherPosition.x + m_convert->scaleNumber(2), leftPusherPosition.y), 0);
 	else
 		leftPusherBody->SetTransform(b2Vec2(leftPusherPosition.x - m_convert->scaleNumber(2), leftPusherPosition.y), 0);
+}
+
+b2Body * Level::GetWall()
+{
+	return wallBody;
+}
+
+std::list<b2Body*> Level::GetStaticList()
+{
+	return staticList;
+}
+
+void Level::PushStaticList(b2Body * body)
+{
+	staticList.push_back(body);
+}
+
+std::list<b2Body*> Level::GetKinematicList()
+{
+	return kinematicList;
+}
+
+void Level::PushKinematicList(b2Body * body)
+{
+	kinematicList.push_back(body);
 }

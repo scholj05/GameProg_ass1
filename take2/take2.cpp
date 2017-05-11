@@ -142,7 +142,7 @@ int main()
 	Conversion convert(scale, scaledWidth, scaledHeight);
 
 	///initialise classes that require info from window and other classes first
-	UI gameUI(window, &convert, &m_shape, world);
+	UI gameUI(window, &convert, &m_shape, world, &level);
 	Editor editor(&convert);
 	
 	///Define shapes and add to b2World
@@ -151,8 +151,8 @@ int main()
 	bool isBallMoving;
 
 	///Create instance of hole class
-
-
+	hole * m_hole = new hole(1800.f, 1935.f, 150, sf::Color(255, 255, 255, 100), world, convert);
+	
 	///Game loop
 	while (window.isOpen())
 	{
@@ -275,6 +275,9 @@ int main()
 		
 		window.clear();
 
+		if (m_hole->IsWinCondition(myBall))
+			std::cout << "You Win!" << std::endl;
+
 		///update view
 		checkView(window, sf::Mouse::getPosition());
 
@@ -291,11 +294,10 @@ int main()
 		Cleanup();
 
 
+		
 		b2Body *body = world->GetBodyList();
-		int bodyCount = 0;
 		while (body != NULL)
 		{
-			bodyCount++;
 			b2Vec2 position = body->GetPosition();
 			b2Fixture *fixture = body->GetFixtureList();
 
@@ -332,14 +334,23 @@ int main()
 			}
 			body = body->GetNext();
 		}
-		//std::cout << "body count: " << bodyCount << std::endl;
-		bodyCount = 0;
+		/*
+		std::list<b2Body*>m_staticList = level.GetStaticList();
+		for (std::list<b2Body*>::iterator it = m_staticList.begin(); it != m_staticList.end(); ++it)
+		{
+			(*it)->
+		}*/
+
+
 		/*
 		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
 		{
 			(*it)->Update();
 			(*it)->Draw(window);
 		}*/
+
+		m_hole->Update();
+		m_hole->Draw(window);
 
 		//power level stuff
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))

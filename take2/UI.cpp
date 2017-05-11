@@ -2,12 +2,13 @@
 
 
 
-UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world)
+UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level)
 {
 	m_convert = convert;
 	m_shape = shape;
 	m_world = world;
 	m_window = &window;
+	m_level = level;
 	if (!m_font.loadFromFile("../resources/arial.ttf"))
 	{
 		std::cout << "Could not load arial.ttf font" << std::endl;
@@ -218,6 +219,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBodyDef.type = b2BodyType::b2_staticBody;
 			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
 			tempBody->CreateFixture(&tempFixDef);
+			m_level->PushStaticList(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Bar);
 
 		}
@@ -240,6 +242,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBodyDef.type = b2BodyType::b2_staticBody;
 			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
 			tempBody->CreateFixture(&tempFixDef);
+			m_level->PushStaticList(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Box);
 		}
 		else if (m_selectedShape == CreateShape::ShapeType::Ramp)
@@ -260,6 +263,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBodyDef.type = b2BodyType::b2_staticBody;
 			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
 			tempBody->CreateFixture(&tempFixDef);
+			m_level->PushStaticList(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Ramp);
 		}
 	}

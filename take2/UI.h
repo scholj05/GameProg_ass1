@@ -3,6 +3,7 @@
 #include "Box2D\Box2D.h"
 #include "Conversion.h"
 #include "physics.h"
+#include "Level.h"
 #include <iostream>
 #include <sstream>
 
@@ -13,8 +14,11 @@ private:
 	CreateShape * m_shape;
 	b2World * m_world;
 	sf::RenderWindow * m_window;
+	Level * m_level;
+
 	int alpha = 0;
 	bool powerBarUp = true;
+
 	sf::Font m_font;
 	sf::RectangleShape m_UIBox, m_PowerBarLevel, m_designerUIBox;
 	sf::Text m_FPSTitle, m_FPSValue, m_BallPositionTitle, m_BallPositionTitleX, 
@@ -34,7 +38,7 @@ private:
 
 public:
 	///constructor with references to other classes initialised by main
-	UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world);
+	UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level);
 
 	///for updating values based on changing numbers (fps, ball position, ball state, etc)
 	void UI::Update(b2Vec2 position, bool isMoving, int FPS);

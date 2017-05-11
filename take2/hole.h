@@ -23,7 +23,7 @@ private:
 
 	b2Vec2 m_previousPosition;
 
-	sf::RectangleShape m_sfRectShape;
+	sf::RectangleShape m_sfRectShape, m_sfFlagPole, m_sfFlag;
 
 public:
 	hole(float posX, float posY, int size, sf::Color colour, b2World * m_world, Conversion &convert);
