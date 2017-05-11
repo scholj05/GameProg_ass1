@@ -97,10 +97,27 @@ void Editor::load() {
 		}
 	}
 
-	//std::cout << bodylistnode.name() << std::endl;
+	//from void UI::DeselectUIShape(bool createShape)
 
-	//pugi::xml_node subelementnode = doc.child("mainelement").child("subelement");
-	//std::cout << "Load result: " << doc.child("mainelement").child("subelement").child_value() << std::endl;
+	//b2PolygonShape tempShape;
+	//b2Vec2 * barPoints = new b2Vec2[m_designerBar.getPointCount()];
+	//sf::Transform tempTransform = m_designerBar.getTransform();
+	//for (int i = 0; i < m_designerBar.getPointCount(); i++)
+	//{
+	//	sf::Vector2f tempVec = m_window->mapPixelToCoords(sf::Vector2i(tempTransform.transformPoint(m_designerBar.getPoint(i))));
+	//	barPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
+	//		m_convert->canvasYToBox2D(tempVec.y));
+	//}
+	//tempShape.Set(barPoints, 4);
+	//b2FixtureDef tempFixDef = m_shape->setFixture(1, 1, 0);
+	//tempFixDef.shape = &tempShape;
+	//b2BodyDef tempBodyDef;
+	//tempBodyDef.type = b2BodyType::b2_staticBody;
+	//b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
+	//tempBody->CreateFixture(&tempFixDef);
+	//ResetShapePos(CreateShape::ShapeType::Bar);
+
+
 }
 
 //void Editor::save(b2Body* a_bodyList) {
