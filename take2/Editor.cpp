@@ -75,8 +75,6 @@ void Editor::save(std::list<b2Body*> a_bodyList) {
 
 void Editor::load() {
 
-	//m_level->staticList.clear();
-
 	pugi::xml_document doc;
 
 	pugi::xml_parse_result result = doc.load_file("save_file.xml");
@@ -85,17 +83,8 @@ void Editor::load() {
 
 	for (pugi::xml_node bodynode = bodylistnode.first_child(); bodynode; bodynode = bodynode.next_sibling())
 	{
-
-		//std::cout << "posx of this body = " << bodynode.attribute("posX").value() << std::endl;
-		//std::cout << "posY of this body = " << bodynode.attribute("posY").value() << std::endl;
-		//std::cout << "angle of this body = " << bodynode.attribute("angle").value() << std::endl;
-
 		for (pugi::xml_node fixturenode = bodynode.first_child(); fixturenode; fixturenode = fixturenode.next_sibling())
 		{
-
-			//std::cout << "density of this fixture = " << fixturenode.attribute("density").value() << std::endl;
-			//std::cout << "friction of this fixture = " << fixturenode.attribute("friction").value() << std::endl;
-			//std::cout << "restitution of this fixture = " << fixturenode.attribute("restitution").value() << std::endl;
 
 			int vertexcount = 0;
 
@@ -124,37 +113,6 @@ void Editor::load() {
 				tempBody->CreateFixture(&tempFixDef);
 				m_level->PushStaticList(tempBody);
 			}
-
-				//for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling()){
-				//	vertexcount += 1;
-					//std::cout << "posX of this vertex = " << vertexnode.attribute("posX").value() << std::endl;
-					//std::cout << "posY of this vertex = " << vertexnode.attribute("posY").value() << std::endl;
-				//}
-			
 		}
 	}
-
-}
-
-Parameters::Parameters() {
-	std::string m_posX = "";
-	std::string m_posY = "";
-	std::string m_width = "";
-	std::string m_height = "";
-	std::string m_density = "";
-	std::string m_friction = "";
-	std::string m_restitution = "";
-	std::string m_angle = "";
-}
-
-Parameters::Parameters(std::string posX, std::string posY, std::string width, std::string height,
-	std::string density, std::string friction, std::string restitution, std::string angle) {
-	std::string m_posX = posX;
-	std::string m_posY = posY;
-	std::string m_width = width;
-	std::string m_height = height;
-	std::string m_density = density;
-	std::string m_friction = friction;
-	std::string m_restitution = restitution;
-	std::string m_angle = angle;
 }
