@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 
+//for use in loading objects to world
 Editor::Editor(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level) {
 	m_convert = convert;
 	m_shape = shape;
@@ -21,6 +22,8 @@ void Editor::save(std::list<b2Body*> a_bodyList) {
 
 	std::list<b2Body*> bodyList = a_bodyList;
 
+	//iterates through list of static objects in the world and then appends this data to the respective node to go
+	//into the XML document
 	for (std::list<b2Body*>::iterator it = bodyList.begin(); it != bodyList.end(); ++it)
 	{
 		
@@ -74,6 +77,9 @@ void Editor::save(std::list<b2Body*> a_bodyList) {
 }
 
 void Editor::load() {
+
+	//Load file, then iterate once through list to get a vertex count for each fixture,
+	//then checks validity and if valid uses this data to spawn shapes.
 
 	pugi::xml_document doc;
 
