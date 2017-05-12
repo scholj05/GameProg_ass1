@@ -35,7 +35,8 @@ b2PolygonShape CreateShape::calculateShape(b2Vec2 position, float radius, int ve
 		float tempY = position.y + radius * sin(m_angle);
 
 		verticeArray[i] = b2Vec2(tempX, tempY);
-
+		//if (m_debug)
+		//std::cout << verticeArray[i].x << ", " << verticeArray[i].y << std::endl;///debug
 	}
 	/// set the empty shape to the array of vertices and return it.
 	tempShape.Set(verticeArray, m_verticeCount);
@@ -52,6 +53,12 @@ b2PolygonShape CreateShape::calculateRectangle(b2Vec2 position, float width, flo
 		b2Vec2(position.x - width / 2, position.y + height / 2),
 		b2Vec2(position.x + width / 2, position.y + height / 2),
 	};
+	/*if (m_debug)
+	std::cout << "Debug:calculateRectangle(): " << std::endl <<
+	"(" << tempArray[0].x << ", " << tempArray[0].y << ")," << std::endl <<
+	"(" << tempArray[1].x << ", " << tempArray[1].y << ")," << std::endl <<
+	"(" << tempArray[2].x << ", " << tempArray[2].y << ")," << std::endl <<
+	"(" << tempArray[3].x << ", " << tempArray[3].y << ")," << std::endl;*/
 
 	tempShape.Set(tempArray, 4);
 	return tempShape;
@@ -70,11 +77,6 @@ b2PolygonShape CreateShape::calculateRandomShape(b2Vec2 position)
 	return tempShape;
 }
 
-b2PolygonShape CreateShape::calculatePreDefinedShape(ShapeType shapetype, int size, float x, float y, float angle)
-{
-	b2PolygonShape tempShape;
-	return tempShape;
-}
 
 /// returns a b2Vec2 array of length equal to input parameter.
 b2Vec2 * CreateShape::getb2Vec2(int length)

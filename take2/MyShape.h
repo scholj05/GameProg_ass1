@@ -26,18 +26,30 @@ private:
 	sf::CircleShape m_sfcircleShape;
 
 public:
+	///constructor
 	MyShape(float posX, float posY, b2BodyType bodyType, int size, sf::Color colour, b2World * m_world, Conversion &convert);
 
+	///apply impulse on X axis
 	void Putt(int force);
 
+	///apply impulse on Y axis
 	void Jump(int force);
-
+	
+	///Check if position is the same as last tick
 	bool isMoving();
 	
+	///update sf shape to match box2d shape
 	void Update();
+
+	///return the b2body of the ball
 	b2Body * GetBody();
+
+	///draw the sf ball
 	void Draw(sf::RenderWindow & window);
+
+	///return b2 shape's position
 	b2Vec2 GetBodyPosition();
+
 	~MyShape();
 };
 

@@ -78,6 +78,7 @@ public:
 	///updates the location of the shape
 	void UpdateDesignerShape(float posX, float posY);
 
+	///update the alpha value of powerbar colour
 	void UpdatePowerBar();
 
 	///Resets the alpha level of the power bar to zero and returns the value previous to reset.

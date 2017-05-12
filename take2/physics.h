@@ -52,9 +52,8 @@ public:
 	///Currently takes canvas inputs rather than converted inputs due to calculations needing to be done before conversion
 	b2PolygonShape calculateRectangle(b2Vec2 position, float width, float height);
 
+	///gets random number for size and number of vertices and creates the shape
 	b2PolygonShape calculateRandomShape(b2Vec2 position);
-
-	b2PolygonShape calculatePreDefinedShape(ShapeType shapetype, int size, float x, float y, float angle);
 
 	///returns the correct predefined-length array
 	b2Vec2 * getb2Vec2(int length);
@@ -65,6 +64,7 @@ public:
 	///for debug printout toggle
 	void setDebug(bool debug);
 
+	///check if things are working
 	void testMethod(b2World * world);
 
 

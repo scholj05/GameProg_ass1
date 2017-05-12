@@ -27,13 +27,24 @@ private:
 	sf::Sprite m_flag;
 
 public:
+	///constructor that sets position, size and colour, and saves pointers to objects/classes for later use
 	hole(float posX, float posY, int size, sf::Color colour, b2World * m_world, Conversion &convert);
 
+	///updates the SFML shape to match the box2d body in-case of a change of transform
 	void Update();
+
+	///check if the ball is in the hole
 	bool IsWinCondition(MyShape * shape);
+
+	///return the body pointer
 	b2Body * GetBody();
+
+	///draw the sfml part of the hole
 	void Draw(sf::RenderWindow & window);
+
+	///return hole position in box2d vec
 	b2Vec2 GetPosition();
+
 	~hole();
 };
 

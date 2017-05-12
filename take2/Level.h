@@ -29,11 +29,19 @@ private:
 	
 
 public:
+	///public lists for use from whole game
 	std::list<b2Body*>staticList, kinematicList, graveyard, tempDelete;
 
+	///constructor
 	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY);
+
+	///method for creating the boundaries of the world
 	void Level::CreateWalls(b2World * world, float boundaryX, float boundaryY);
+
+	///moves kinematic objects within defined movement
 	void Level::UpdateKinematicObjects();
+
+	///return the boundary
 	b2Body * Level::GetWall();
 
 	///return the static body list
@@ -54,6 +62,10 @@ public:
 	///Add body to the graveyard
 	void Level::Destroy(b2Body* body);
 
+	///Clears all user-made objects from the world
+	void ClearWorld();
+
+	///returns world boundary float rect for contains check
 	sf::FloatRect Level::getworldBoundary() { return level1WorldBoundary; };
 
 };

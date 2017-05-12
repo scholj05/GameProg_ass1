@@ -117,7 +117,7 @@ int main()
 	///SFML window
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode(1366, 768), "Take 2: more successful than take 1", sf::Style::Default);
 
 	///SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
@@ -251,6 +251,9 @@ int main()
 						gameUI.DeleteLast();
 					}
 				}
+
+				if (event.key.code == sf::Keyboard::Delete)
+					level.ClearWorld();
 
 
 			}

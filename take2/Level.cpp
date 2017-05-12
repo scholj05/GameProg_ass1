@@ -6,7 +6,6 @@ void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, f
 {
 	m_convert = convert;
 	
-	
 	/// Boundary Walls
 	CreateWalls(world, boundaryX, boundaryY);
 
@@ -161,4 +160,13 @@ void Level::Cleanup()
 void Level::Destroy(b2Body * body)
 {
 	graveyard.push_back(body);
+}
+
+void Level::ClearWorld()
+{
+	while (staticList.size() > 0)
+	{
+		Destroy(staticList.front());
+		staticList.pop_front();
+	}
 }
