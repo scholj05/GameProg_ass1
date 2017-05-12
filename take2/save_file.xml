@@ -11,6 +11,8 @@
 			<fixture />
 			<fixture />
 			<fixture />
+			<fixture />
+			<fixture />
 		</body>
 		<body posX="683" posY="683" angle="0">
 			<fixture density="1" friction="1" restitution="0">
@@ -26,6 +28,20 @@
 				<vertex posX="5.45681763" posY="-5.75853825" />
 				<vertex posX="2.9295826" posY="-5.75853825" />
 				<vertex posX="2.9295826" posY="-8.28577328" />
+			</fixture>
+		</body>
+		<body posX="683" posY="683" angle="0">
+			<fixture density="1" friction="1" restitution="0">
+				<vertex posX="25.3706493" posY="-1.8305223" />
+				<vertex posX="17.6427383" posY="-5.00523186" />
+				<vertex posX="20.8174515" posY="-12.7331429" />
+			</fixture>
+		</body>
+		<body posX="683" posY="683" angle="0">
+			<fixture density="1" friction="1" restitution="0">
+				<vertex posX="29.5539646" posY="-14.2326717" />
+				<vertex posX="29.5539646" posY="-8.48895359" />
+				<vertex posX="23.8102493" posY="-14.2326717" />
 			</fixture>
 		</body>
 	</bodyList>
