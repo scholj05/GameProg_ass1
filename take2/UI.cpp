@@ -237,6 +237,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBody->CreateFixture(&tempFixDef);
 			m_level->staticList.push_back(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Bar);
+			m_shapesThisSession++;
 
 		}
 		else if (m_selectedShape == CreateShape::ShapeType::Box)
@@ -260,6 +261,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBody->CreateFixture(&tempFixDef);
 			m_level->PushStaticList(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Box);
+			m_shapesThisSession++;
 		}
 		else if (m_selectedShape == CreateShape::ShapeType::Ramp)
 		{
@@ -281,6 +283,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBody->CreateFixture(&tempFixDef);
 			m_level->PushStaticList(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Ramp);
+			m_shapesThisSession++;
 		}
 	}
 	m_selectedShape = CreateShape::ShapeType::None;
@@ -402,6 +405,16 @@ void UI::setBallDirection(bool direction)
 		m_ArrowSprite.setTexture(m_leftArrowTexture);
 	else
 		m_ArrowSprite.setTexture(m_rightArrowTexture);
+}
+
+void UI::DeleteLast()
+{
+	if (m_shapesThisSession > 0)
+	{	
+		m_level->Destroy(m_level->staticList.back());
+		m_level->staticList.pop_back();
+		m_shapesThisSession--;
+	}
 }
 
 void UI::Draw(sf::RenderWindow & window)

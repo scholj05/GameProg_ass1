@@ -149,3 +149,17 @@ void Level::PushKinematicList(b2Body * body)
 {
 	kinematicList.push_back(body);
 }
+
+void Level::Cleanup()
+{
+	for (std::list<b2Body*>::iterator it = graveyard.begin(); it != graveyard.end(); ++it)
+	{
+		(*it)->GetWorld()->DestroyBody(*it);
+	}
+	graveyard.clear();
+}
+
+void Level::Destroy(b2Body * body)
+{
+	graveyard.push_back(body);
+}

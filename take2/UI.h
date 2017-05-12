@@ -35,6 +35,7 @@ private:
 
 	bool m_drawDesignerUI = false, m_drawBox = false, m_drawBar = false, m_drawRamp = false;
 	CreateShape::ShapeType m_selectedShape;
+	int m_shapesThisSession = 0;
 
 public:
 	///constructor with references to other classes initialised by main
@@ -80,6 +81,9 @@ public:
 
 	///sets whether the arrow for ball direction faces left or not
 	void setBallDirection(bool direction);
+
+	///checks if any shapes were drawn this session to delete, then deletes it
+	void DeleteLast();
 	
 	///for drawing the UI elements (separate of update to allow for less update calls, thus less per game loop)
 	void UI::Draw(sf::RenderWindow &window);

@@ -29,7 +29,7 @@ private:
 	
 
 public:
-	std::list<b2Body*>staticList, kinematicList;
+	std::list<b2Body*>staticList, kinematicList, graveyard, tempDelete;
 
 	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY);
 	void Level::CreateWalls(b2World * world, float boundaryX, float boundaryY);
@@ -47,6 +47,12 @@ public:
 
 	///add a body to the kinematic body list
 	void PushKinematicList(b2Body * body);
+
+	///remove objects from the world at the correct time
+	void Level::Cleanup();
+
+	///Add body to the graveyard
+	void Level::Destroy(b2Body* body);
 
 	sf::FloatRect Level::getworldBoundary() { return level1WorldBoundary; };
 

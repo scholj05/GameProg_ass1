@@ -112,7 +112,7 @@ void Editor::load() {
 				i++;
 			}
 
-			tempShape.Set(shapePoints, 4);
+			tempShape.Set(shapePoints, vertexcount);
 			b2FixtureDef tempFixDef = m_shape->setFixture(fixturenode.attribute("density").as_float(), fixturenode.attribute("friction").as_float(), fixturenode.attribute("restitution").as_float());
 			tempFixDef.shape = &tempShape;
 			b2BodyDef tempBodyDef;

@@ -36,8 +36,7 @@ float scale = 0.01f;
 float scaledWidth;
 float scaledHeight;
 
-///list of bodies to be destroyed at next delete phase
-std::list<b2Body*> graveyard; 
+
 
 
 ///code sourced from: https://github.com/SFML/SFML/wiki/Source%3A-Zoom-View-At-%28specified-pixel%29
@@ -89,14 +88,7 @@ void checkView(sf::RenderWindow &window, sf::Vector2i mousePos)
 	window.setView(view);
 }
 
-void Cleanup()
-{
-	for (std::list<b2Body*>::iterator it = graveyard.begin(); it != graveyard.end(); ++it)
-	{
-		(*it)->GetWorld()->DestroyBody(*it);
-	}
-	graveyard.clear();
-}
+
 
 
 int main()
@@ -249,6 +241,14 @@ int main()
 
 				if (event.key.code == sf::Keyboard::F1)
 					gameUI.ToggleHelp();
+				if (event.key.code == sf::Keyboard::Z && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
+				{
+					if (game_state == GameState::design)
+					{
+						gameUI.DeleteLast();
+					}
+				}
+
 
 			}
 
@@ -296,10 +296,8 @@ int main()
 		world->Step(TIMESTEP, VELOCITY, POSITION);
 
 		///clear bodies scheduled for deletion
-		Cleanup();
+		level.Cleanup();
 
-
-		
 		b2Body *body = world->GetBodyList();
 		while (body != NULL)
 		{
