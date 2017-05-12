@@ -75,6 +75,8 @@ void Editor::save(std::list<b2Body*> a_bodyList) {
 
 void Editor::load() {
 
+	//m_level->staticList.clear();
+
 	pugi::xml_document doc;
 
 	pugi::xml_parse_result result = doc.load_file("save_file.xml");
@@ -95,21 +97,22 @@ void Editor::load() {
 			//std::cout << "friction of this fixture = " << fixturenode.attribute("friction").value() << std::endl;
 			//std::cout << "restitution of this fixture = " << fixturenode.attribute("restitution").value() << std::endl;
 			int vertexcount = 0;
+
 			for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling()){
 				vertexcount += 1;
 			}
 
 			b2PolygonShape tempShape;
 			b2Vec2 * shapePoints = new b2Vec2[vertexcount];
-
 			int i = 0;
+
 			for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling())
 			{
-				shapePoints[i] = b2Vec2(vertexnode.attribute("posX").as_float(), vertexnode.attribute("posX").as_float());
+				shapePoints[i] = b2Vec2(vertexnode.attribute("posX").as_float(), vertexnode.attribute("posY").as_float());
 				i++;
 			}
 
-			tempShape.Set(shapePoints, vertexcount);
+			tempShape.Set(shapePoints, 4);
 			b2FixtureDef tempFixDef = m_shape->setFixture(fixturenode.attribute("density").as_float(), fixturenode.attribute("friction").as_float(), fixturenode.attribute("restitution").as_float());
 			tempFixDef.shape = &tempShape;
 			b2BodyDef tempBodyDef;
