@@ -219,8 +219,9 @@ int main()
 					//run save here
 					editor.save(level.GetStaticList());
 				}
-				if (event.key.code == sf::Keyboard::F12)
+				if (event.key.code == sf::Keyboard::F10)
 				{
+					int i = 0;
 					//run load here
 					editor.load();
 				}

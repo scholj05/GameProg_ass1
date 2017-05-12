@@ -102,10 +102,11 @@ void Editor::load() {
 			b2PolygonShape tempShape;
 			b2Vec2 * shapePoints = new b2Vec2[vertexcount];
 
+			int i = 0;
 			for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling())
 			{
-				int i = 0;
 				shapePoints[i] = b2Vec2(vertexnode.attribute("posX").as_float(), vertexnode.attribute("posX").as_float());
+				i++;
 			}
 
 			tempShape.Set(shapePoints, vertexcount);

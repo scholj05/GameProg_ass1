@@ -21,7 +21,7 @@ private:
 
 	sf::Font m_font;
 	sf::RectangleShape m_UIBox, m_PowerBarLevel, m_designerUIBox;
-	sf::Text m_FPSTitle, m_FPSValue, m_BallPositionTitle, m_BallPositionTitleX, 
+	sf::Text m_HelpTitle, m_FPSTitle, m_FPSValue, m_BallPositionTitle, m_BallPositionTitleX, 
 		m_BallPositionTitleY, m_BallPositionValueX, m_BallPositionValueY, m_StateTitle, m_StateValue,
 		m_arrowDirectionTitle, m_powerBarTitle,
 		m_designerUITitle, m_designerBoxTitle, m_designerBarTitle, m_designerRampTitle;
