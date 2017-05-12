@@ -7,7 +7,7 @@ Editor::Editor(Conversion * convert) {
 	m_convert = convert;
 }
 
-void Editor::save(b2Body* a_bodyList) {
+void Editor::save(std::list<b2Body*> a_bodyList) {
 
 	// get a base document
 	pugi::xml_document doc;
@@ -15,18 +15,19 @@ void Editor::save(b2Body* a_bodyList) {
 	char bodyname[32] = "body";
 	int i = 0;
 
-	b2Body *bodyList = a_bodyList;
+	std::list<b2Body*> bodyList = a_bodyList;
 
-	while (bodyList != NULL)
+	for (std::list<b2Body*>::iterator it = bodyList.begin(); it != bodyList.end(); ++it)
 	{
-		b2Vec2 position = bodyList->GetPosition();
-		b2Fixture *fixture = bodyList->GetFixtureList();
+		
+		b2Vec2 position = (*it)->GetPosition();
+		b2Fixture *fixture = (*it)->GetFixtureList();
 
 		pugi::xml_node currentnode = doc.child("root").child("bodyList").append_child(bodyname);
 
 		currentnode.append_attribute("posX").set_value(m_convert->box2DXToCanvas(position.x));
 		currentnode.append_attribute("posY").set_value(m_convert->box2DXToCanvas(position.y));
-		currentnode.append_attribute("angle").set_value(bodyList->GetAngle());
+		currentnode.append_attribute("angle").set_value((*it)->GetAngle());
 
 		int tempfixturecount = 0;
 
@@ -58,7 +59,6 @@ void Editor::save(b2Body* a_bodyList) {
 
 			fixture = fixture->GetNext();
 		}
-		bodyList = bodyList->GetNext();
 	}
 
 	// save document to file

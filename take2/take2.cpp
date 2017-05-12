@@ -146,7 +146,7 @@ int main()
 	Editor editor(&convert);
 	
 	///Define shapes and add to b2World
-	level.Level1(world, &convert, &m_shape, 2000.f, 2000.f);
+	level.Level1(world, &convert, &m_shape, 4000.f, 2000.f);
 	MyShape * myBall = new MyShape(200.f, 200.f, b2BodyType::b2_dynamicBody, 20, sf::Color::Red, world, convert);
 	bool isBallMoving;
 
@@ -217,7 +217,7 @@ int main()
 				if (event.key.code == sf::Keyboard::F11)
 				{
 					//run save here
-					editor.save(world->GetBodyList());
+					editor.save(level.GetStaticList());
 				}
 				if (event.key.code == sf::Keyboard::F12)
 				{

@@ -19,7 +19,7 @@ class Editor{
 	public:
 		Editor(Conversion * convert);
 		pugi::xml_document m_doc;
-		void save(b2Body* bodyList);
+		void save(std::list<b2Body*> bodyList);
 		void load();
 
 };
