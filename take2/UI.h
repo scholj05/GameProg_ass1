@@ -37,6 +37,8 @@ private:
 	CreateShape::ShapeType m_selectedShape;
 	int m_shapesThisSession = 0;
 
+	
+
 public:
 	///constructor with references to other classes initialised by main
 	UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level);

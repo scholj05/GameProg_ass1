@@ -206,12 +206,12 @@ int main()
 					}
 						
 				}
-				if (event.key.code == sf::Keyboard::F11)
+				if (event.key.code == sf::Keyboard::F5)
 				{
 					//run save here
 					editor.save(level.GetStaticList());
 				}
-				if (event.key.code == sf::Keyboard::F10)
+				if (event.key.code == sf::Keyboard::F6)
 				{
 					int i = 0;
 					//run load here
