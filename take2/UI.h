@@ -10,6 +10,8 @@
 class UI
 {
 private:
+	sf::Clock m_clock;
+
 	Conversion * m_convert;
 	CreateShape * m_shape;
 	b2World * m_world;
@@ -25,9 +27,9 @@ private:
 		m_BallPositionTitleY, m_BallPositionValueX, m_BallPositionValueY, m_StateTitle, m_StateValue,
 		m_arrowDirectionTitle, m_powerBarTitle,
 		m_designerUITitle, m_designerBoxTitle, m_designerBarTitle, m_designerRampTitle;
-	bool m_arrowLeft = false, m_drawHelp = false;
-	sf::Texture m_leftArrowTexture, m_rightArrowTexture, m_instructionsTexture;
-	sf::Sprite m_ArrowSprite, m_instructions;
+	bool m_arrowLeft = false, m_drawHelp = false, m_drawWin = false;
+	sf::Texture m_leftArrowTexture, m_rightArrowTexture, m_instructionsTexture, m_win1, m_win2;
+	sf::Sprite m_ArrowSprite, m_instructions, m_win;
 
 	sf::RectangleShape m_designerBox, m_designerBar;
 	sf::ConvexShape m_designerRamp;
@@ -86,6 +88,12 @@ public:
 
 	///checks if any shapes were drawn this session to delete, then deletes it
 	void DeleteLast();
+
+	///set draw state of win screen
+	void Win(bool isWin);
+
+	///check when to switch the win texture
+	void textureCheck();
 	
 	///for drawing the UI elements (separate of update to allow for less update calls, thus less per game loop)
 	void UI::Draw(sf::RenderWindow &window);

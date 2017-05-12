@@ -3,158 +3,18 @@
 	<bodyList>
 		<body posX="959.999939" posY="959.999939" angle="0">
 			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="2.27250099" posY="-3.93892932" />
-				<vertex posX="2.27250099" posY="-1.41169381" />
-				<vertex posX="-0.254734516" posY="-1.41169381" />
-				<vertex posX="-0.254734516" posY="-3.93892932" />
+				<vertex posX="18.2013779" posY="-13.5656013" />
+				<vertex posX="18.2013779" posY="-4.13380861" />
+				<vertex posX="8.76958752" posY="-13.5656013" />
 			</fixture>
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
-			<fixture />
 			<fixture />
 			<fixture />
 		</body>
 		<body posX="959.999939" posY="959.999939" angle="0">
 			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="11.6738205" posY="-6.2134409" />
-				<vertex posX="11.6738205" posY="-3.6862061" />
-				<vertex posX="9.14658165" posY="-3.6862061" />
-				<vertex posX="9.14658165" posY="-6.2134409" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="5.45681763" posY="-8.28577328" />
-				<vertex posX="5.45681763" posY="-5.75853825" />
-				<vertex posX="2.9295826" posY="-5.75853825" />
-				<vertex posX="2.9295826" posY="-8.28577328" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="25.3706493" posY="-1.8305223" />
-				<vertex posX="17.6427383" posY="-5.00523186" />
-				<vertex posX="20.8174515" posY="-12.7331429" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="29.5539646" posY="-14.2326717" />
-				<vertex posX="29.5539646" posY="-8.48895359" />
-				<vertex posX="23.8102493" posY="-14.2326717" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="2.27250099" posY="-3.93892932" />
-				<vertex posX="2.27250099" posY="-1.41169381" />
-				<vertex posX="-0.254734516" posY="-1.41169381" />
-				<vertex posX="-0.254734516" posY="-3.93892932" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="11.6738205" posY="-6.2134409" />
-				<vertex posX="11.6738205" posY="-3.6862061" />
-				<vertex posX="9.14658165" posY="-3.6862061" />
-				<vertex posX="9.14658165" posY="-6.2134409" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="5.45681763" posY="-8.28577328" />
-				<vertex posX="5.45681763" posY="-5.75853825" />
-				<vertex posX="2.9295826" posY="-5.75853825" />
-				<vertex posX="2.9295826" posY="-8.28577328" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="25.3706493" posY="-1.8305223" />
-				<vertex posX="17.6427383" posY="-5.00523186" />
-				<vertex posX="20.8174515" posY="-12.7331429" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="29.5539646" posY="-14.2326717" />
-				<vertex posX="29.5539646" posY="-8.48895359" />
-				<vertex posX="23.8102493" posY="-14.2326717" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="3.19059467" posY="-5.96730661" />
-				<vertex posX="2.24018097" posY="-3.67805147" />
-				<vertex posX="2.00877571" posY="-3.77722502" />
-				<vertex posX="2.95918941" posY="-6.06648016" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="24.0710793" posY="1.75302458" />
-				<vertex posX="23.4862671" posY="3.13151622" />
-				<vertex posX="9.99375248" posY="-2.46599627" />
-				<vertex posX="10.5785685" posY="-3.84448862" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="2.27250099" posY="-3.93892932" />
-				<vertex posX="2.27250099" posY="-1.41169381" />
-				<vertex posX="-0.254734516" posY="-1.41169381" />
-				<vertex posX="-0.254734516" posY="-3.93892932" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="11.6738205" posY="-6.2134409" />
-				<vertex posX="11.6738205" posY="-3.6862061" />
-				<vertex posX="9.14658165" posY="-3.6862061" />
-				<vertex posX="9.14658165" posY="-6.2134409" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="5.45681763" posY="-8.28577328" />
-				<vertex posX="5.45681763" posY="-5.75853825" />
-				<vertex posX="2.9295826" posY="-5.75853825" />
-				<vertex posX="2.9295826" posY="-8.28577328" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="25.3706493" posY="-1.8305223" />
-				<vertex posX="17.6427383" posY="-5.00523186" />
-				<vertex posX="20.8174515" posY="-12.7331429" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="29.5539646" posY="-14.2326717" />
-				<vertex posX="29.5539646" posY="-8.48895359" />
-				<vertex posX="23.8102493" posY="-14.2326717" />
-			</fixture>
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="3.19059467" posY="-5.96730661" />
-				<vertex posX="2.24018097" posY="-3.67805147" />
-				<vertex posX="2.00877571" posY="-3.77722502" />
-				<vertex posX="2.95918941" posY="-6.06648016" />
+				<vertex posX="8.0150423" posY="-13.6363392" />
+				<vertex posX="3.29914665" posY="-8.92044067" />
+				<vertex posX="3.29914665" posY="-13.6363392" />
 			</fixture>
 		</body>
 	</bodyList>

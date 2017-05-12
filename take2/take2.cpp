@@ -281,7 +281,7 @@ int main()
 		window.clear();
 
 		if (m_hole->IsWinCondition(myBall))
-			std::cout << "You Win!" << std::endl;
+			gameUI.Win(true);
 
 		///update view
 		checkView(window, sf::Mouse::getPosition());

@@ -43,15 +43,13 @@ hole::hole(float posX, float posY, int size, sf::Color colour, b2World * world, 
 	m_sfRectShape.setFillColor(m_colour);
 	m_sfRectShape.setOrigin(size / 2, size / 4);
 
-	m_sfFlagPole.setSize(sf::Vector2f(10, 350));
-	m_sfFlagPole.setPosition(m_convert->box2DXToCanvas(m_b2body->GetPosition().x), m_convert->box2DYToCanvas(m_b2body->GetPosition().y) - m_sfFlagPole.getSize().y / 2);
-	m_sfFlagPole.setFillColor(sf::Color::White);
-	m_sfFlagPole.setOrigin(m_sfFlagPole.getSize().x / 2, m_sfFlagPole.getSize().y / 2);
-
-	m_sfFlag.setSize(sf::Vector2f(50, 30));
-	m_sfFlag.setPosition(m_sfFlagPole.getPosition().x - m_sfFlagPole.getSize().x * 2 - m_sfFlag.getSize().x / 2 , m_sfFlagPole.getPosition().y);// -m_sfFlagPole.getSize().y / 2);
-	m_sfFlag.setFillColor(sf::Color::Red);
-	m_sfFlag.setOrigin(m_sfFlagPole.getSize().x / 2, m_sfFlagPole.getSize().y / 2);
+	if (!m_flagTexture.loadFromFile("../resources/flag.png"))
+	{
+		std::cout << "Could not load flag.png" << std::endl;
+	}
+	m_flag.setTexture(m_flagTexture);
+	m_flag.setOrigin(m_flagTexture.getSize().x / 2, m_flagTexture.getSize().y / 2);
+	m_flag.setPosition(m_convert->box2DXToCanvas(m_b2body->GetPosition().x), m_convert->box2DYToCanvas(m_b2body->GetPosition().y));
 }
 
 void hole::Update()
@@ -85,8 +83,7 @@ b2Vec2 hole::GetPosition()
 void hole::Draw(sf::RenderWindow &window)
 {
 	window.draw(m_sfRectShape);
-	window.draw(m_sfFlagPole);
-	window.draw(m_sfFlag);
+	window.draw(m_flag);
 }
 
 hole::~hole()
