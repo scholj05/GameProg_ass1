@@ -93,7 +93,6 @@ void Level::CreateWalls(b2World *world, float boundaryX, float boundaryY)
 	rightWallFixture.shape = &rightWall;
 	wallBody->CreateFixture(&rightWallFixture);
 
-	//staticList.push_back(wallBody);
 }
 
 void Level::UpdateKinematicObjects()

@@ -169,9 +169,9 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 
 	m_designerRamp.setPosition(m_designerBar.getPosition().x, m_designerBar.getPosition().y + m_designerUIBox.getSize().y / 3);//not a used value yet
 	m_designerRamp.setPointCount(3);
-	m_designerRamp.setPoint(0, sf::Vector2f(25, -25));// m_designerRamp.getPosition().x + 25, m_designerRamp.getPosition().y - 25));
-	m_designerRamp.setPoint(1, sf::Vector2f(25, 25));// m_designerRamp.getPosition().x + 25, m_designerRamp.getPosition().y + 25));
-	m_designerRamp.setPoint(2, sf::Vector2f(-25, 25));// m_designerRamp.getPosition().x - 25, m_designerRamp.getPosition().y + 25));
+	m_designerRamp.setPoint(0, sf::Vector2f(25, -25));
+	m_designerRamp.setPoint(1, sf::Vector2f(25, 25));
+	m_designerRamp.setPoint(2, sf::Vector2f(-25, 25));
 	m_designerRamp.setFillColor(sf::Color(0, 255, 0, 100));
 	m_designerRampDefaultPosition = m_designerRamp.getPosition();
 }

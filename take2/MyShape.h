@@ -15,7 +15,6 @@ private:
 	CreateShape m_createShape;
 	Conversion * m_convert;
 
-	//b2World * m_world;
 	b2Body * m_b2body;
 	b2BodyDef * m_b2bodyDef;
 	b2FixtureDef m_b2fixtureDef;
@@ -34,10 +33,6 @@ public:
 	void Jump(int force);
 
 	bool isMoving();
-	
-//	b2Body GetBody() { return *m_b2body; };
-//	b2BodyDef GetBodyDef() { return *m_b2bodyDef; };
-//	b2FixtureDef GetFixtureDef() { return m_b2fixtureDef; };
 	
 	void Update();
 	b2Body * GetBody();

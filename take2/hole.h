@@ -8,7 +8,6 @@
 class hole
 {
 private:
-	//b2BodyType m_bodyType;
 	float m_posX, m_posY;
 	sf::Color m_colour;
 

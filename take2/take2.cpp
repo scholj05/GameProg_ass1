@@ -347,14 +347,6 @@ int main()
 			b2Vec2 tempVec = (*it)->GetPosition();
 		}
 
-
-		/*
-		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
-		{
-			(*it)->Update();
-			(*it)->Draw(window);
-		}*/
-
 		m_hole->Update();
 		m_hole->Draw(window);
 
