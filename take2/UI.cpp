@@ -25,6 +25,16 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	}
 	m_ArrowSprite.setTexture(m_rightArrowTexture);
 
+	if (!m_instructionsTexture.loadFromFile("../resources/instructions.png"))
+	{
+		std::cout << "Could not load instructions.png" << std::endl;
+	}
+	m_instructions.setTexture(m_instructionsTexture);
+	m_instructions.setOrigin(m_instructionsTexture.getSize().x / 2, m_instructionsTexture.getSize().y / 2);
+	m_instructions.setPosition(m_window->getSize().x / 2, m_window->getSize().y / 2);
+
+
+
 	int charHeight, padding;
 	m_UIBox.setSize(sf::Vector2f(float(window.getSize().x / 10), float(window.getSize().y)));
 	m_UIBox.setOrigin(m_UIBox.getSize().x / 2, m_UIBox.getSize().y / 2);
@@ -219,7 +229,7 @@ void UI::DeselectUIShape(bool createShape)
 			tempBodyDef.type = b2BodyType::b2_staticBody;
 			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
 			tempBody->CreateFixture(&tempFixDef);
-			m_level->PushStaticList(tempBody);
+			m_level->staticList.push_back(tempBody);
 			ResetShapePos(CreateShape::ShapeType::Bar);
 
 		}
@@ -301,6 +311,11 @@ void UI::ToggleDrawDesignerUI()
 	m_drawBox = m_drawDesignerUI;
 	m_drawBar = m_drawDesignerUI;
 	m_drawRamp = m_drawDesignerUI;
+}
+
+void UI::ToggleHelp()
+{
+	m_drawHelp = !m_drawHelp;
 }
 
 void UI::UpdateDesignerShapeScale(float scale)
@@ -385,6 +400,8 @@ void UI::setBallDirection(bool direction)
 
 void UI::Draw(sf::RenderWindow & window)
 {
+	if (m_drawHelp)
+		window.draw(m_instructions);
 	if (m_drawDesignerUI)
 		window.draw(m_designerUIBox);
 	if (m_drawBox)

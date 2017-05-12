@@ -125,7 +125,7 @@ int main()
 	///SFML window
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Take 2: more successful than take 1", sf::Style::Default);
 
 	///SFML Views
 	sf::Vector2f screenSize(sf::Vector2i(window.getSize().x, window.getSize().y));
@@ -245,6 +245,10 @@ int main()
 					hitLeft = !hitLeft;
 					gameUI.setBallDirection(hitLeft);
 				}
+
+				if (event.key.code == sf::Keyboard::F1)
+					gameUI.ToggleHelp();
+
 			}
 
 			if (event.type == sf::Event::MouseWheelScrolled)
@@ -334,12 +338,12 @@ int main()
 			}
 			body = body->GetNext();
 		}
-		/*
+		
 		std::list<b2Body*>m_staticList = level.GetStaticList();
 		for (std::list<b2Body*>::iterator it = m_staticList.begin(); it != m_staticList.end(); ++it)
 		{
-			(*it)->
-		}*/
+			b2Vec2 tempVec = (*it)->GetPosition();
+		}
 
 
 		/*

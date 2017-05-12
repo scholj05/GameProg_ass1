@@ -20,7 +20,8 @@ void Editor::save(std::list<b2Body*> a_bodyList) {
 	for (std::list<b2Body*>::iterator it = bodyList.begin(); it != bodyList.end(); ++it)
 	{
 		
-		b2Vec2 position = (*it)->GetPosition();
+		b2Vec2 position = (*it)->GetWorldPoint((*it)->GetPosition());
+		std::cout << "pos: " << position.x << ", " << position.y << std::endl;
 		b2Fixture *fixture = (*it)->GetFixtureList();
 
 		pugi::xml_node currentnode = doc.child("root").child("bodyList").append_child(bodyname);

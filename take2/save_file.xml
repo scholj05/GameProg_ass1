@@ -1,22 +1,4 @@
 <?xml version="1.0"?>
 <root>
-	<bodyList>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="4.51941681" posY="-8.73584747" />
-				<vertex posX="-3.75462437" posY="-0.461809635" />
-				<vertex posX="-4.58462238" posY="-1.29180622" />
-				<vertex posX="3.68941689" posY="-9.5658474" />
-			</fixture>
-			<fixture />
-			<fixture />
-		</body>
-		<body posX="959.999939" posY="959.999939" angle="0">
-			<fixture density="1" friction="1" restitution="0">
-				<vertex posX="-8.00836277" posY="5.11473656" />
-				<vertex posX="-9.305233" posY="5.11473656" />
-				<vertex posX="-9.305233" posY="3.81786585" />
-			</fixture>
-		</body>
-	</bodyList>
+	<bodyList />
 </root>

@@ -25,9 +25,9 @@ private:
 		m_BallPositionTitleY, m_BallPositionValueX, m_BallPositionValueY, m_StateTitle, m_StateValue,
 		m_arrowDirectionTitle, m_powerBarTitle,
 		m_designerUITitle, m_designerBoxTitle, m_designerBarTitle, m_designerRampTitle;
-	bool m_arrowLeft = false;
-	sf::Texture m_leftArrowTexture, m_rightArrowTexture;
-	sf::Sprite m_ArrowSprite;
+	bool m_arrowLeft = false, m_drawHelp = false;
+	sf::Texture m_leftArrowTexture, m_rightArrowTexture, m_instructionsTexture;
+	sf::Sprite m_ArrowSprite, m_instructions;
 
 	sf::RectangleShape m_designerBox, m_designerBar;
 	sf::ConvexShape m_designerRamp;
@@ -48,6 +48,9 @@ public:
 
 	///toggle the designer UI being drawn
 	void ToggleDrawDesignerUI();
+
+	///toggle drawing the help overlay
+	void ToggleHelp();
 
 	///updates the scale of the shape
 	void UpdateDesignerShapeScale(float scale);

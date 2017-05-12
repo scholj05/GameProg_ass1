@@ -26,9 +26,11 @@ private:
 
 	bool leftPusherMoveLeft, rightPusherMoveRight;
 
-	std::list<b2Body*>staticList, kinematicList;
+	
 
 public:
+	std::list<b2Body*>staticList, kinematicList;
+
 	void Level::Level1(b2World * world, Conversion * convert, CreateShape * shape, float boundaryX, float boundaryY);
 	void Level::CreateWalls(b2World * world, float boundaryX, float boundaryY);
 	void Level::UpdateKinematicObjects();
