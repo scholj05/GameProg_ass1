@@ -48,8 +48,9 @@ hole::hole(float posX, float posY, int size, sf::Color colour, b2World * world, 
 		std::cout << "Could not load flag.png" << std::endl;
 	}
 	m_flag.setTexture(m_flagTexture);
-	m_flag.setOrigin(m_flagTexture.getSize().x / 2, m_flagTexture.getSize().y / 2);
-	m_flag.setPosition(m_convert->box2DXToCanvas(m_b2body->GetPosition().x), m_convert->box2DYToCanvas(m_b2body->GetPosition().y));
+	m_flag.setOrigin(m_flagTexture.getSize().x / 2, m_flagTexture.getSize().y);
+	m_flag.setPosition(m_sfRectShape.getPosition().x, m_sfRectShape.getPosition().y + m_sfRectShape.getSize().y / 2);
+	m_flag.setScale(0.2, 0.2);
 }
 
 void hole::Update()
