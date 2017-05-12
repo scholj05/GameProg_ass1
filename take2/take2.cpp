@@ -144,6 +144,9 @@ int main()
 
 	///Create instance of hole class
 	hole * m_hole = new hole(1800.f, 1940.f, 150, sf::Color(255, 255, 255, 100), world, convert);
+
+	///load the saved level
+	editor.load();
 	
 	///Game loop
 	while (window.isOpen())
