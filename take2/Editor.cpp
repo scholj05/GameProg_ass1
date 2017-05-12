@@ -96,6 +96,7 @@ void Editor::load() {
 			//std::cout << "density of this fixture = " << fixturenode.attribute("density").value() << std::endl;
 			//std::cout << "friction of this fixture = " << fixturenode.attribute("friction").value() << std::endl;
 			//std::cout << "restitution of this fixture = " << fixturenode.attribute("restitution").value() << std::endl;
+
 			int vertexcount = 0;
 
 			for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling()){
@@ -112,14 +113,17 @@ void Editor::load() {
 				i++;
 			}
 
-			tempShape.Set(shapePoints, vertexcount);
-			b2FixtureDef tempFixDef = m_shape->setFixture(fixturenode.attribute("density").as_float(), fixturenode.attribute("friction").as_float(), fixturenode.attribute("restitution").as_float());
-			tempFixDef.shape = &tempShape;
-			b2BodyDef tempBodyDef;
-			tempBodyDef.type = b2BodyType::b2_staticBody;
-			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
-			tempBody->CreateFixture(&tempFixDef);
-			m_level->PushStaticList(tempBody);
+			if (vertexcount > 2 && vertexcount < 9)
+			{
+				tempShape.Set(shapePoints, vertexcount);
+				b2FixtureDef tempFixDef = m_shape->setFixture(fixturenode.attribute("density").as_float(), fixturenode.attribute("friction").as_float(), fixturenode.attribute("restitution").as_float());
+				tempFixDef.shape = &tempShape;
+				b2BodyDef tempBodyDef;
+				tempBodyDef.type = b2BodyType::b2_staticBody;
+				b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
+				tempBody->CreateFixture(&tempFixDef);
+				m_level->PushStaticList(tempBody);
+			}
 
 				//for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling()){
 				//	vertexcount += 1;
