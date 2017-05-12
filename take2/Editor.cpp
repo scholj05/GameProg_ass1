@@ -3,8 +3,12 @@
 #include <iostream>
 #include <sstream>
 
-Editor::Editor(Conversion * convert) {
+Editor::Editor(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level) {
 	m_convert = convert;
+	m_shape = shape;
+	m_world = world;
+	m_window = &window;
+	m_level = level;
 }
 
 void Editor::save(std::list<b2Body*> a_bodyList) {
@@ -20,8 +24,10 @@ void Editor::save(std::list<b2Body*> a_bodyList) {
 	for (std::list<b2Body*>::iterator it = bodyList.begin(); it != bodyList.end(); ++it)
 	{
 		
-		b2Vec2 position = (*it)->GetWorldPoint((*it)->GetPosition());
-		std::cout << "pos: " << position.x << ", " << position.y << std::endl;
+		b2Vec2 position = (*it)->GetPosition();
+
+		//std::cout << position.x << "," << position.y << std::endl;
+
 		b2Fixture *fixture = (*it)->GetFixtureList();
 
 		pugi::xml_node currentnode = doc.child("root").child("bodyList").append_child(bodyname);
@@ -78,75 +84,49 @@ void Editor::load() {
 	for (pugi::xml_node bodynode = bodylistnode.first_child(); bodynode; bodynode = bodynode.next_sibling())
 	{
 
-		std::cout << "posx of this body = " << bodynode.attribute("posX").value() << std::endl;
-		std::cout << "posY of this body = " << bodynode.attribute("posY").value() << std::endl;
-		std::cout << "angle of this body = " << bodynode.attribute("angle").value() << std::endl;
+		//std::cout << "posx of this body = " << bodynode.attribute("posX").value() << std::endl;
+		//std::cout << "posY of this body = " << bodynode.attribute("posY").value() << std::endl;
+		//std::cout << "angle of this body = " << bodynode.attribute("angle").value() << std::endl;
 
 		for (pugi::xml_node fixturenode = bodynode.first_child(); fixturenode; fixturenode = fixturenode.next_sibling())
 		{
 
-			std::cout << "density of this fixture = " << fixturenode.attribute("density").value() << std::endl;
-			std::cout << "friction of this fixture = " << fixturenode.attribute("friction").value() << std::endl;
-			std::cout << "restitution of this fixture = " << fixturenode.attribute("restitution").value() << std::endl;
+			//std::cout << "density of this fixture = " << fixturenode.attribute("density").value() << std::endl;
+			//std::cout << "friction of this fixture = " << fixturenode.attribute("friction").value() << std::endl;
+			//std::cout << "restitution of this fixture = " << fixturenode.attribute("restitution").value() << std::endl;
+			int vertexcount = 0;
+			for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling()){
+				vertexcount += 1;
+			}
 
-				for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling())
-				{
-					std::cout << "posX of this vertex = " << vertexnode.attribute("posX").value() << std::endl;
-					std::cout << "posY of this vertex = " << vertexnode.attribute("posY").value() << std::endl;
-				}
+			b2PolygonShape tempShape;
+			b2Vec2 * shapePoints = new b2Vec2[vertexcount];
+
+			for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling())
+			{
+				int i = 0;
+				shapePoints[i] = b2Vec2(vertexnode.attribute("posX").as_float(), vertexnode.attribute("posX").as_float());
+			}
+
+			tempShape.Set(shapePoints, vertexcount);
+			b2FixtureDef tempFixDef = m_shape->setFixture(fixturenode.attribute("density").as_float(), fixturenode.attribute("friction").as_float(), fixturenode.attribute("restitution").as_float());
+			tempFixDef.shape = &tempShape;
+			b2BodyDef tempBodyDef;
+			tempBodyDef.type = b2BodyType::b2_staticBody;
+			b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
+			tempBody->CreateFixture(&tempFixDef);
+			m_level->PushStaticList(tempBody);
+
+				//for (pugi::xml_node vertexnode = fixturenode.first_child(); vertexnode; vertexnode = vertexnode.next_sibling()){
+				//	vertexcount += 1;
+					//std::cout << "posX of this vertex = " << vertexnode.attribute("posX").value() << std::endl;
+					//std::cout << "posY of this vertex = " << vertexnode.attribute("posY").value() << std::endl;
+				//}
 			
 		}
 	}
 
-	//from void UI::DeselectUIShape(bool createShape)
-
-	//b2PolygonShape tempShape;
-	//b2Vec2 * barPoints = new b2Vec2[m_designerBar.getPointCount()];
-	//sf::Transform tempTransform = m_designerBar.getTransform();
-	//for (int i = 0; i < m_designerBar.getPointCount(); i++)
-	//{
-	//	sf::Vector2f tempVec = m_window->mapPixelToCoords(sf::Vector2i(tempTransform.transformPoint(m_designerBar.getPoint(i))));
-	//	barPoints[i] = b2Vec2(m_convert->canvasXToBox2D(tempVec.x),
-	//		m_convert->canvasYToBox2D(tempVec.y));
-	//}
-	//tempShape.Set(barPoints, 4);
-	//b2FixtureDef tempFixDef = m_shape->setFixture(1, 1, 0);
-	//tempFixDef.shape = &tempShape;
-	//b2BodyDef tempBodyDef;
-	//tempBodyDef.type = b2BodyType::b2_staticBody;
-	//b2Body * tempBody = m_world->CreateBody(&tempBodyDef);
-	//tempBody->CreateFixture(&tempFixDef);
-	//ResetShapePos(CreateShape::ShapeType::Bar);
-
-
 }
-
-//void Editor::save(b2Body* a_bodyList) {
-//
-//	// get a test document
-//	pugi::xml_document doc;
-//	doc.load_string("<mainelement><subelement>derp</subelement></mainelement>");
-//
-//	// tag::code[]
-//	// save document to file
-//	std::cout << "Saving result: " << doc.save_file("save_file.xml") << std::endl;
-//	// end::code[]
-//
-//}
-//
-//void Editor::load() {
-//
-//	// tag::code[]
-//	pugi::xml_document doc;
-//
-//	pugi::xml_parse_result result = doc.load_file("save_file.xml");
-//
-//	pugi::xml_node subelementnode = doc.child("mainelement").child("subelement");
-//
-//	std::cout << "Load result: " << subelementnode.child_value() << std::endl;
-//	// end::code[]
-//}
-
 
 Parameters::Parameters() {
 	std::string m_posX = "";

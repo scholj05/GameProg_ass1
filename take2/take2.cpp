@@ -143,7 +143,7 @@ int main()
 
 	///initialise classes that require info from window and other classes first
 	UI gameUI(window, &convert, &m_shape, world, &level);
-	Editor editor(&convert);
+	Editor editor(window, &convert, &m_shape, world, &level);
 	
 	///Define shapes and add to b2World
 	level.Level1(world, &convert, &m_shape, 4000.f, 2000.f);

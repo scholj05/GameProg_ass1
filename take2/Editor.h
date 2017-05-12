@@ -15,9 +15,13 @@
 class Editor{
 	private:
 		Conversion * m_convert;
+		CreateShape * m_shape;
+		b2World * m_world;
+		sf::RenderWindow * m_window;
+		Level * m_level;
 
 	public:
-		Editor(Conversion * convert);
+		Editor(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level);
 		pugi::xml_document m_doc;
 		void save(std::list<b2Body*> bodyList);
 		void load();
