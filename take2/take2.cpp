@@ -221,6 +221,7 @@ int main()
 				}
 				if (event.key.code == sf::Keyboard::F10)
 				{
+					int i = 0;
 					//run load here
 					editor.load();
 				}

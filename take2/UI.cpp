@@ -48,10 +48,16 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 
 	int leftAlign = int(m_UIBox.getPosition().x - m_UIBox.getSize().x / 2 + padding);
 	int rightAlign = int(m_UIBox.getPosition().x + charHeight + padding);
+	
+	m_HelpTitle.setCharacterSize(charHeight);
+	m_HelpTitle.setPosition(float(leftAlign),
+		m_UIBox.getPosition().y - m_UIBox.getSize().y / 2);
+	m_HelpTitle.setString(sf::String("F1: Help Menu"));
+	m_HelpTitle.setFont(m_font);
 
 	m_FPSTitle.setCharacterSize(charHeight);
 	m_FPSTitle.setPosition(float(leftAlign), 
-		m_UIBox.getPosition().y - m_UIBox.getSize().y / 2 + float(padding));
+		m_UIBox.getPosition().y - m_UIBox.getSize().y / 2 + float(padding * 2));
 	m_FPSTitle.setString(sf::String("FPS:"));
 	m_FPSTitle.setFont(m_font);
 
@@ -412,6 +418,7 @@ void UI::Draw(sf::RenderWindow & window)
 		window.draw(m_designerRamp);
 
 	window.draw(m_UIBox);
+	window.draw(m_HelpTitle);
 	window.draw(m_FPSTitle);
 	window.draw(m_FPSValue);
 	window.draw(m_BallPositionTitle);
