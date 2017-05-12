@@ -4,6 +4,8 @@
 
 UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2World * world, Level * level)
 {
+	m_clock.restart();
+	
 	m_convert = convert;
 	m_shape = shape;
 	m_world = world;
@@ -33,6 +35,18 @@ UI::UI(sf::RenderWindow &window, Conversion * convert, CreateShape * shape, b2Wo
 	m_instructions.setOrigin(m_instructionsTexture.getSize().x / 2, m_instructionsTexture.getSize().y / 2);
 	m_instructions.setPosition(m_window->getSize().x / 2, m_window->getSize().y / 2);
 
+	if (!m_win1.loadFromFile("../resources/win3.png"))
+	{
+		std::cout << "Could not load win3.png" << std::endl;
+	}
+	m_win.setTexture(m_win1);
+	m_win.setScale(3, 3);
+	m_win.setOrigin(m_win1.getSize().x / 2, m_win1.getSize().y / 2);
+	m_win.setPosition(m_window->getSize().x / 2, m_window->getSize().y / 2);
+	if (!m_win2.loadFromFile("../resources/win4.png"))
+	{
+		std::cout << "Could not load win4.png" << std::endl;
+	}
 
 
 	int charHeight, padding;
@@ -417,6 +431,24 @@ void UI::DeleteLast()
 	}
 }
 
+void UI::Win(bool isWin)
+{
+	m_drawWin = isWin;
+}
+
+void UI::textureCheck()
+{
+	if (m_clock.getElapsedTime().asMilliseconds() > 100)
+	{
+		m_clock.restart();
+		if (m_win.getTexture() == &m_win1)
+			m_win.setTexture(m_win2);
+		else
+			m_win.setTexture(m_win1);
+	}
+		
+}
+
 void UI::Draw(sf::RenderWindow & window)
 {
 	if (m_drawHelp)
@@ -429,6 +461,11 @@ void UI::Draw(sf::RenderWindow & window)
 		window.draw(m_designerBar);
 	if (m_drawRamp)
 		window.draw(m_designerRamp);
+	if (m_drawWin)
+	{
+		window.draw(m_win);
+		textureCheck();
+	}
 
 	window.draw(m_UIBox);
 	window.draw(m_HelpTitle);
