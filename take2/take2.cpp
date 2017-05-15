@@ -172,14 +172,7 @@ int main()
 				if (game_state == GameState::design)
 				{
 					gameUI.SelectUIShape(sf::Mouse::getPosition(window));
-				}/*
-				else if (game_state == GameState::play)
-				{
-					if (hitLeft)
-						myBall->Putt(-1);
-					else
-						myBall->Putt(2);
-				}*/
+				}
 			}
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
@@ -364,7 +357,7 @@ int main()
 		myBall->Update();
 		myBall->Draw(window);
 
-		gameUI.UpdateDesignerShape(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+		gameUI.UpdateDesignerShape(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 
 		float currentTime = fpsClock.restart().asSeconds();
 		int fps = 1.f / currentTime;
