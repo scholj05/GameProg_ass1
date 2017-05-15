@@ -168,17 +168,18 @@ int main()
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+				///if you want override ball movement when stopped, use this
 				if (game_state == GameState::design)
 				{
 					gameUI.SelectUIShape(sf::Mouse::getPosition(window));
-				}
+				}/*
 				else if (game_state == GameState::play)
 				{
 					if (hitLeft)
 						myBall->Putt(-1);
 					else
 						myBall->Putt(2);
-				}
+				}*/
 			}
 
 			if (event.type == event.MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
@@ -350,14 +351,6 @@ int main()
 			b2Vec2 tempVec = (*it)->GetPosition();
 		}
 
-
-		/*
-		for (std::list<MyShape*>::iterator it = shapeList.begin(); it != shapeList.end(); ++it)
-		{
-			(*it)->Update();
-			(*it)->Draw(window);
-		}*/
-
 		m_hole->Update();
 		m_hole->Draw(window);
 
@@ -388,7 +381,6 @@ int main()
 		window.setView(UIView);
 
 		///draw UI elements
-		//window.draw(fpsText);
 		
 		gameUI.Draw(window);
 		///switch back to the world view and display the draws
