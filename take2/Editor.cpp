@@ -1,3 +1,7 @@
+/*
+*	@author		Aquila Halpe
+*/
+
 #include "Editor.h"
 #include "Conversion.h"
 #include <iostream>
